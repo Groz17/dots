@@ -2,6 +2,7 @@
 accounts.conf
 * aerc
 aerc.conf
+address-book-cmd='notmuch address "%s"'
 * binds
 binds.conf
 <Enter> = :view<Enter>
