@@ -7,5 +7,7 @@ address-book-cmd='notmuch address "%s"'
 binds.conf
 <Enter> = :view<Enter>
 l = :view<Enter>
+[messages]
+md = :modify-labels +deleted<Enter>
 * personal
 personal.qmap
