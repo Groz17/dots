@@ -314,10 +314,20 @@ bindkey '^[^]' vi-find-prev-char
 # C-] - search next char (vi)
 bindkey '^]' vi-find-next-char
 
+# TODO: fix M-y
 backward-kill-blank-word() {
+  # Save current position and buffer state
+  local old_lbuffer="$LBUFFER"
+  
   # Remove trailing spaces, then kill the last word
   LBUFFER="${LBUFFER%${LBUFFER##*[![:space:]]}}"
   [[ $LBUFFER =~ '^(.*[[:space:]])[^[:space:]]+$' ]] && LBUFFER="${match[1]}" || LBUFFER=
+  
+  # Add killed text to cutbuffer for yanking
+  local killed="${old_lbuffer#$LBUFFER}"
+  if [[ -n "$killed" ]]; then
+    CUTBUFFER="$killed"
+  fi
 }
 zle -N backward-kill-blank-word
 bindkey -M emacs '^W' backward-kill-blank-word
