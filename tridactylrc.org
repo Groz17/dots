@@ -271,8 +271,6 @@ bind <space>go composite get_current_url | shellescape | js -p tri.excmds.exclai
 bind --mode=visual <a-w> composite js -s ~/.config/tridactyl/scripts/selection_html.js ; exclaim_quiet  ~/.config/tridactyl/scripts/to-markdown
 bind >2 composite get_current_url | exclaim ~/scripts/browser/2pdf
 
-bind yn composite js document.location.href.replace(/https?:\/\//,"git@").replace("/",":").replace(/$/,".git") | clipboard yank
-
 " Git{Hub,Lab} git clone via SSH yank
 " magari metti in bindurl
 bind yg composite js "git clone " + document.location.href.replace(/https?:\/\//,"git@").replace("/",":").replace(/$/,".git") | clipboard yank
