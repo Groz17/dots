@@ -61,7 +61,7 @@ export ELECTRON_OZONE_PLATFORM_HINT=auto
 export PATH="${CARGO_HOME}/bin:$PATH"
 export PATH="${XDG_DATA_HOME}/nvim/mason/bin:$PATH"
 export PATH="$HOME/node_modules/.bin:$PATH"
-export PATH="$HOME/scripts:$PATH"
+export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="${XDG_DATA_HOME}/npm/bin:$PATH"
 #+end_src
