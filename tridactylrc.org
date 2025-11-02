@@ -735,7 +735,7 @@ bind --mode=ex <c-g> ex.hide_and_clear
 
 bind --mode=ex <c-j> ex.next_completion
 bind --mode=ex <c-k> ex.prev_completion
-bind --mode=ex <C-Enter> ex.execute_ex_on_completion
+"bind --mode=ex <C-Enter> ex.execute_ex_on_completion
 ": string = ""
 "unbind --mode=ex <Tab>
 "unbind --mode=ex <c-a>
@@ -864,9 +864,11 @@ bind yF composite hint -qpipe a href | join | yank
 ** URL redirects
 #+begin_src tridactyl
 " autocmd DocStart reddit\.com/.*tl=it urlmodify -Q tl
-autocmd DocStart reddit\.com/.*tl=* urlmodify -Q tl
+" autocmd DocStart reddit\.com/.*tl=* urlmodify -Q tl
+autocmd BeforeRequest ^https?://(www\.)?reddit\.com/ urlmodify -Q tl
 
 autocmd DocStart github\.com/.*?tab=readme-ov-file urlmodify -Q tab
+" autocmd DocStart ^https?://github\.com/.*\?tab=readme-ov-file urlmodify -Q tab
 
 " autocmd BeforeRequest *tl=it (u) => ({redirectUrl: e.url.replace("tl=it","")}).
 " autocmd BeforeRequest *://*.reddit.com/* (u) => ({if(u.url.match("[?|&]tl=it")) {redirectUrl: u.url.replace("tl=it","")}}).
@@ -933,8 +935,8 @@ quickmark a https://www.artstation.com/
 " quickmark g https://github.com/tanath/dotfiles
 quickmark h https://news.ycombinator.com/
 quickmark i https://www.inoreader.com/all_articles
-quickmark n https://news.google.com/foryou
-quickmark N https://news.google.com/
+" quickmark n https://news.google.com/foryou
+" quickmark N https://news.google.com/
 
 quickmark m https://www.minuteinbox.com/
 
