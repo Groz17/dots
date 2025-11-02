@@ -1,11 +1,7 @@
 * Mail Sync
 
 ** Service
-:PROPERTIES:
-:header-args: :tangle ~/.config/systemd/user/mail-sync.service
-:END:
-
-#+begin_src conf
+#+begin_src conf :tangle ~/.config/systemd/user/mail-sync.service
 [Unit]
 Description=Mail Sync Service
 After=network-online.target
@@ -19,11 +15,7 @@ WantedBy=default.target
 #+end_src
 
 ** Timer
-:PROPERTIES:
-:header-args: :tangle ~/.config/systemd/user/mail-sync.timer
-:END:
-
-#+begin_src conf
+#+begin_src conf :tangle ~/.config/systemd/user/mail-sync.timer
 [Unit]
 Description=Mail Sync Timer
 
@@ -34,4 +26,19 @@ Persistent=true
 
 [Install]
 WantedBy=timers.target
+#+end_src
+
+** Oauth2
+#+begin_src conf :tangle ~/.config/systemd/user/pizauth.service
+[Unit]
+Description=Pizauth OAuth2 token manager
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/pizauth server -vvvv -d
+ExecReload=/usr/local/bin/pizauth reload
+ExecStop=/usr/local/bin/pizauth shutdown
+
+[Install]
+WantedBy=default.target
 #+end_src
