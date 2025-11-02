@@ -1,0 +1,37 @@
+* Mail Sync
+
+** Service
+:PROPERTIES:
+:header-args: :tangle ~/.config/systemd/user/mail-sync.service
+:END:
+
+#+begin_src conf
+[Unit]
+Description=Mail Sync Service
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/scripts/%p.sh
+
+[Install]
+WantedBy=default.target
+#+end_src
+
+** Timer
+:PROPERTIES:
+:header-args: :tangle ~/.config/systemd/user/mail-sync.timer
+:END:
+
+#+begin_src conf
+[Unit]
+Description=Mail Sync Timer
+
+[Timer]
+OnBootSec=2m
+OnUnitActiveSec=2m
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+#+end_src
