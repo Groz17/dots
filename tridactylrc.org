@@ -276,6 +276,7 @@ bind >2 composite get_current_url | exclaim ~/scripts/browser/2pdf
 bind yg composite js "git clone " + document.location.href.replace(/https?:\/\//,"git@").replace("/",":").replace(/$/,".git") | clipboard yank
 
 " usa exclaim_quiet per non avere output nella command line
+" usa <f12><c-{s,w}>?
 bind <space>d composite get_current_url | exclaim_quiet ~/.config/tridactyl/scripts/download
 "bind <space><space> composite get_current_url | yank ; exclaim_quiet hyprctl dispatch exec '[float\;size 30% 30%] ghostty -e nvim -c "norm 1 Qd"'
 " bug mozilla newtab bind <space><space> jsb tri.native.run(`echo '${document.location.href}' | wl-copy && hyprctl dispatch exec '[float;size 30% 30%] ghostty -e nvim -c "norm 1 Qd"'`)
