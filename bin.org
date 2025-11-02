@@ -1,5 +1,7 @@
 * Mail Sync
 
+Taken from: =https://man.sr.ht/~rjarry/aerc/integrations/notmuch.md=
+
 #+begin_src sh :tangle ~/bin/mail-sync.sh :shebang "#!/bin/sh"
 MBSYNC=$(pgrep mbsync)
 NOTMUCH=$(pgrep notmuch)
