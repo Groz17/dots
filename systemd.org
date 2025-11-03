@@ -48,16 +48,21 @@ WantedBy=timers.target
 #+end_src
 
 ** Oauth2
-#+begin_src conf :tangle ~/.config/systemd/user/pizauth.service
+#+begin_src conf :tangle ~/.config/systemd/user/pizauth.service :noweb yes
 [Unit]
 Description=Pizauth OAuth2 token manager
 
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/pizauth server -vvvv -d
-ExecReload=/usr/local/bin/pizauth reload
-ExecStop=/usr/local/bin/pizauth shutdown
+ExecStart=/usr<<PATH()>>bin/pizauth server -vvvv -d
+ExecReload=/usr<<PATH()>>bin/pizauth reload
+ExecStop=/usr<<PATH()>>bin/pizauth shutdown
 
 [Install]
 WantedBy=default.target
+#+end_src
+
+#+name: PATH
+#+begin_src bash :tangle no :noweb yes
+[[ <<chassis()>> = "desktop" ]] && echo '/local/' || echo '/'
 #+end_src
