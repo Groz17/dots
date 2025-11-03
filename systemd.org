@@ -16,7 +16,7 @@ WantedBy=default.target
 #+end_src
 
 *** Script
-#+begin_src sh :tangle ~/bin/mail-sync.sh :shebang "#!/bin/sh"
+#+begin_src sh :tangle ~/.config/notmuch/mail-sync.sh :shebang "#!/bin/sh"
 MBSYNC=$(pgrep mbsync)
 NOTMUCH=$(pgrep notmuch)
 
