@@ -9,7 +9,7 @@ After=network-online.target
 
 [Service]
 Type=oneshot
-ExecStart=%h/bin/%p.sh
+ExecStart=%h/.config/notmuch/%p.sh
 
 [Install]
 WantedBy=default.target
