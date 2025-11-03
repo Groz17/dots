@@ -118,7 +118,7 @@ invert = true
 
 history_filter = [
   "^cd( |$)",
-  "^mkdir ",
+  # "^mkdir ",
   "^ls?( |$)",
   "^n?v(im?)?( |$)",
   "^\\.\\."
