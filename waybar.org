@@ -257,9 +257,8 @@ Can you reference which modules are on the left/center/right here/
 #+begin_src css
 ,* {
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     min-height: 0;
-    /* font-family: "Fira Code","Font Awesome 6 Free", sans-serif; */
     font-family: "Fira Code";
     font-weight: 500;
     font-size: 14px;
@@ -267,8 +266,13 @@ Can you reference which modules are on the left/center/right here/
 }
 
 window#waybar {
-    background: #4b2a5e;
-    border: 2px solid #6b3a8a;
+    background: rgba(75, 42, 94, 0.85);
+    border: none;
+    border-bottom: 3px solid transparent;
+    background-image: linear-gradient(rgba(75, 42, 94, 0.85), rgba(75, 42, 94, 0.85)),
+                      linear-gradient(90deg, #d35dae 0%, #8b5aa8 50%, #5a3a7e 100%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
 }
 
 tooltip {
@@ -297,28 +301,33 @@ tooltip {
 }
 
 #workspaces {
-    background-color: #5a3a7e;
+    background: linear-gradient(135deg, #6a4a9e 0%, #5a3a7e 50%, #4a2a6e 100%);
     margin: 6px 12px 6px 6px;
-    border: 2px solid #7a4a9e;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
+    border: 2px solid rgba(122, 74, 158, 0.6);
+    box-shadow: 0 4px 16px rgba(106, 74, 158, 0.5), inset 0 1px rgba(255, 255, 255, 0.1);
+    padding: 2px;
 }
 
 #workspaces button {
     all: initial;
     min-width: 0;
-    box-shadow: inset 0 -3px transparent;
-    padding: 2px 4px;
+    padding: 4px 8px;
+    margin: 2px 3px;
+    border-radius: 6px;
     color: #e1c3f0;
+    background: rgba(240, 209, 255, 0.05);
 }
 
 #workspaces button.focused {
-    color: #f0d1ff;
-    border-bottom: 3px solid #d35dae;
+    color: #ffffff;
+    background: linear-gradient(135deg, #e06dbe 0%, #d35dae 100%);
+    box-shadow: 0 2px 8px rgba(211, 93, 174, 0.6), inset 0 1px rgba(255, 255, 255, 0.2);
 }
 
 #workspaces button.active {
     color: #f0d1ff;
-    background-color: rgba(106, 74, 158, 0.5);
+    background: rgba(211, 93, 174, 0.3);
+    box-shadow: inset 0 0 8px rgba(211, 93, 174, 0.4);
 }
 
 #workspaces button.urgent {
@@ -326,21 +335,23 @@ tooltip {
 }
 
 #workspaces button:hover {
-    background-color: #6a4a9e;
+    background: rgba(211, 93, 174, 0.2);
+    color: #f5e1ff;
 }
 
 #clock {
-    background-color: #5a3a7e;
-    border: 2px solid #7a4a9e;
-    color: #f0d1ff;
-    font-weight: 600;
+    background: linear-gradient(135deg, #6a4a9e 0%, #5a3a7e 100%);
+    border: 2px solid rgba(122, 74, 158, 0.6);
+    color: #ffffff;
+    font-weight: 700;
     margin: 6px 0px 6px 12px;
     padding: 2px 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 3px 10px rgba(106, 74, 158, 0.4), inset 0 1px rgba(255, 255, 255, 0.1);
+    letter-spacing: 0.5px;
 }
 
 #privacy {
-    background-color: #5a3a7e;
+    background: linear-gradient(135deg, #5a3a7e 0%, #4a2a6e 100%);
     border: 2px solid #7a4a9e;
     color: #f0d1ff;
     margin: 6px 12px 6px 0px;
@@ -350,7 +361,7 @@ tooltip {
 
 #mpris,
 #custom-mpv-repeat {
-    background-color: #5a3a7e;
+    background: linear-gradient(135deg, #5a3a7e 0%, #4a2a6e 100%);
     border: 2px solid #7a4a9e;
     color: #f0d1ff;
     margin: 6px 6px 6px 0px;
@@ -358,8 +369,20 @@ tooltip {
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
 }
 
+#network {
+    border-left: 3px solid #8b5aa8;
+}
+
 #mpris {
     margin-left: 6px;
+}
+
+#cpu {
+    border-left: 3px solid #d35dae;
+}
+
+#memory {
+    border-left: 3px solid #c84aae;
 }
 
 #custom-mpv-repeat {
@@ -367,14 +390,15 @@ tooltip {
 }
 
 #tray {
-    background-color: #f0d1ff;
+    background: linear-gradient(135deg, #f5e1ff 0%, #f0d1ff 100%);
     border: 2px solid #e1c3f0;
 }
 
 #battery {
-    background-color: #d35dae;
-    border: 2px solid #e87fb8;
-    color: #ffffff;
+    border: 2px solid rgba(232, 127, 184, 0.8);
+    color: #4b2a5e;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(211, 93, 174, 0.5), inset 0 1px rgba(255, 255, 255, 0.2);
 }
 
 #bluetooth,
@@ -382,9 +406,10 @@ tooltip {
 #memory,
 #network,
 #pulseaudio {
-    background-color: #f0d1ff;
-    border: 2px solid #e1c3f0;
+    background: linear-gradient(135deg, #ffffff 0%, #f5e1ff 50%, #f0d1ff 100%);
+    border: 2px solid rgba(225, 195, 240, 0.8);
     color: #4b2a5e;
+    box-shadow: 0 2px 8px rgba(240, 209, 255, 0.3), inset 0 1px rgba(255, 255, 255, 0.5);
 }
 
 #tray:hover,
@@ -396,6 +421,7 @@ tooltip {
 #custom-email {
   background-color: #ffbbbb;
   border: 2px solid #ffaaaa;
+  box-shadow: 0 4px 10px rgba(255, 170, 170, 0.4);
 }
 
 #cpu.critical,
