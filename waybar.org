@@ -290,6 +290,10 @@ tooltip {
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
 }
 
+#custom-email {
+    margin-left: 12px;
+}
+
 #workspaces {
     background-color: #5a3a7e;
     margin: 6px 0px 6px 6px;
@@ -307,6 +311,7 @@ tooltip {
 
 #workspaces button.focused {
     color: #f0d1ff;
+    border-bottom: 3px solid #d35dae;
 }
 
 #workspaces button.urgent {
@@ -321,6 +326,17 @@ tooltip {
     background-color: #5a3a7e;
     border: 2px solid #7a4a9e;
     color: #f0d1ff;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+#privacy {
+    background-color: #5a3a7e;
+    border: 2px solid #7a4a9e;
+    color: #f0d1ff;
+    margin: 6px 12px 6px 0px;
+    padding: 2px 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 #mpris,
@@ -329,6 +345,7 @@ tooltip {
     border: 2px solid #7a4a9e;
     color: #f0d1ff;
     margin: 6px 0px 6px 6px;
+    padding: 2px 8px;
     border: 2px solid #7a4a9e;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
 }
@@ -369,6 +386,7 @@ tooltip {
     background-color: #f0d1ff;
     border: 2px solid #e1c3f0;
     color: #d35dae;
+    font-weight: 700;
 }
 
 #battery.warning,
@@ -377,5 +395,6 @@ tooltip {
     background-color: #f0d1ff;
     border: 2px solid #e1c3f0;
     color: #d35dae;
+    font-weight: 700;
 }
 #+end_src
