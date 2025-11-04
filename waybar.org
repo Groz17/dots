@@ -257,7 +257,7 @@ Can you reference which modules are on the left/center/right here/
 #+begin_src css
 ,* {
     border: none;
-    border-radius: 0;
+    border-radius: 6px;
     min-height: 0;
     /* font-family: "Fira Code","Font Awesome 6 Free", sans-serif; */
     font-family: "Fira Code";
