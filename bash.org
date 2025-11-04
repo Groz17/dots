@@ -14,8 +14,8 @@ shopt -s cdspell
 
 * Keymaps
 #+begin_src bash
-bind -x '"\ew": printf %s "$READLINE_LINE" | wl-copy'
-bind -x '"\C-xp": "printf %s \"${PWD/#$HOME/\~}\" | wl-copy"'
+bind -x '"\ew": printf "\033]52;c;%s" "$(base64<<<"$READLINE_LINE")"'
+bind -x '"\C-xp": printf "\033]52;c;%s" "$(base64<<<"${PWD/#$HOME/\~}")"'
 # ^ like in Vim
 bind -x '"\C-x^": exec zsh'
 #+end_src

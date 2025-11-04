@@ -384,10 +384,10 @@ bindkey -s '^Xd' ' "$(fd -td . 2>/dev/null | fzf)"\n'
 # Alt+X - command search with preview
 # bindkey -s '\ex' 'print -l ${(k)commands} | sort -u | grep -v ^_ | fzf --preview='\''man {} 2>/dev/null||echo "No preview available"'\'')'
 
-zle -N copy-line-to-clipboard; copy-line-to-clipboard() { print -n -- "$BUFFER" | wl-copy }
+zle -N copy-line-to-clipboard; copy-line-to-clipboard() { print -n -- "\e]52;c;$(print -n -- "$BUFFER" | base64)\a" }
 bindkey '\ew' copy-line-to-clipboard
 
-zle -N copy-pwd-to-clipboard; copy-pwd-to-clipboard() { print -n -- "${PWD/#$HOME/\~}" | wl-copy }
+zle -N copy-pwd-to-clipboard; copy-pwd-to-clipboard() { print -n -- "\e]52;c;$(print -n -- "${PWD/#$HOME/\~}" | base64)\a" }
 bindkey '^Xp' copy-pwd-to-clipboard
 
 zle -N exec-bash; exec-bash() { BUFFER='exec bash'; zle accept-line }
