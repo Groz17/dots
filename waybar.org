@@ -287,12 +287,14 @@ tooltip {
 #custom-email {
     margin: 6px 6px 6px 0px;
     padding: 2px 8px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
 }
 
 #workspaces {
     background-color: #5a3a7e;
     margin: 6px 0px 6px 6px;
     border: 2px solid #7a4a9e;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
 }
 
 #workspaces button {
