@@ -59,6 +59,9 @@ alias py="python"
 alias s="sioyek"
 alias a="apy"
 alias h="himalaya"
+alias stui="systemctl-tui"
+alias sctl="systemctl"
+alias jctl="journactl"
 
 alias f="fd"
 #+end_src
