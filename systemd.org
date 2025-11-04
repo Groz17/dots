@@ -17,6 +17,7 @@ WantedBy=default.target
 
 *** Script
 #+begin_src sh :tangle ~/.config/notmuch/mail-sync.sh :shebang "#!/bin/sh"
+set -eo pipefail
 MBSYNC=$(pgrep mbsync)
 NOTMUCH=$(pgrep notmuch)
 
