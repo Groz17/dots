@@ -29,6 +29,7 @@ window-padding-y = 0
 # theme=Belafonte Night
 # theme=Sugarplum
 # theme=Dracula+
+# transition? ef-themes?
 theme=light:Rose Pine Dawn,dark:Rose Pine
 
  # TODO: finche non fixo deferred-clipboard in emacs
