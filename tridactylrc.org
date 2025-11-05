@@ -256,12 +256,12 @@ bind --mode=ex     <C-g> composite text.beginning_of_line ; text.forward_word ; 
 
 #+begin_src tridactyl
 bind --mode=normal <space>a composite get_current_url | shellescape | exclaim_quiet ~/.config/tridactyl/append
-bind --mode=normal <space>A composite get_current_url | shellescape | exclaim_quiet ~/.config/tridactyl/append NO_SPACE
+bind --mode=normal <space>A composite get_current_url | shellescape | exclaim_quiet ~/.config/tridactyl/append NO_NL
 #+end_src
 
 #+begin_src bash :shebang "#!/usr/bin/env bash" :tangle ~/.config/tridactyl/append
-[ $# = 0 ] && echo >> ~/vimwiki/Personal/diary/$(date +%F).md
-echo "$1" >> ~/vimwiki/Personal/diary/$(date +%F).md
+[ $# -eq 1 ] && echo >> ~/vimwiki/Personal/diary/$(date +%F).md
+echo "${@: -1}" >> ~/vimwiki/Personal/diary/$(date +%F).md
 # dunstify -a "$(xdg-settings get default-web-browser|cut -f1 -d.)" "URL saved in diary" "$1"
 dunstify -a "Browser" "URL saved in diary" "$1"
 #+end_src
