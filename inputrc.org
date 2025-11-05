@@ -133,7 +133,7 @@ There's also M-w in .bashrc
 
 # Like helm show commands
 # "\ex":"$(compgen -ac | fzf)\C-j"
-"\ex":"$(compgen -c | sort -u | grep -v ^_ | fzf --preview='man {} 2>/dev/null||help {} 2>/dev/null||echo \"No preview available\"')\C-j"
+"\ex":"$(compgen -c | sort -u | grep -v ^_ | fzf --preview='man {} 2>/dev/null||help {} 2>/dev/null||type {} 2>/dev/null||echo \"No preview available\"')\C-j"
 
 # Show all available binds
 # "\C-xh":"bind -p|fzf\C-j"
