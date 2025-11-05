@@ -22,14 +22,14 @@ font-family = Aporetic Sans Mono
 window-padding-x = 0
 window-padding-y = 0
 # theme=Kanagawa Dragon
-# theme=light:rose-pine-dawn,dark:rose-pine
 # theme = dark:catppuccin-frappe,light:catppuccin-latte
 # https://usgraphics.com/products/berkeley-mono
 # theme=purplepeter
 # theme=vesper
 # theme=Belafonte Night
 # theme=Sugarplum
-theme=Dracula+
+# theme=Dracula+
+theme=light:Rose Pine Dawn,dark:Rose Pine
 
  # TODO: finche non fixo deferred-clipboard in emacs
 clipboard-read=allow

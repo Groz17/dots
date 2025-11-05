@@ -65,3 +65,52 @@ WantedBy=default.target
 #+begin_src bash :tangle no :noweb yes
 [[ <<chassis()>> = "desktop" ]] && echo '/local/' || echo '/'
 #+end_src
+
+* Theme
+** Light
+*** Service
+#+begin_src conf :tangle ~/.config/systemd/user/theme-light.service
+[Unit]
+Description=Switch to light theme
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/gsettings set org.gnome.desktop.interface color-scheme 'prefer-light'
+#+end_src
+
+*** Timer
+#+begin_src conf :tangle ~/.config/systemd/user/theme-light.timer
+[Unit]
+Description=Switch to light theme at sunrise
+
+[Timer]
+OnCalendar=*-*-* 07:30:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+#+end_src
+
+** Dark
+*** Service
+#+begin_src conf :tangle ~/.config/systemd/user/theme-dark.service
+[Unit]
+Description=Switch to dark theme
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+#+end_src
+
+*** Timer
+#+begin_src conf :tangle ~/.config/systemd/user/theme-dark.timer
+[Unit]
+Description=Switch to dark theme at sunset
+
+[Timer]
+OnCalendar=*-*-* 21:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+#+end_src
