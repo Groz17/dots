@@ -60,7 +60,7 @@ Dirty hack
 #+end_src
 
 #+begin_src conf
-# non funge?
+# TODO: non funge con ssh
 window-inherit-working-directory=true
 # split-divider-color=yellow
 #+end_src
