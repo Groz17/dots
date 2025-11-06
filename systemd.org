@@ -10,9 +10,6 @@ After=network-online.target
 [Service]
 Type=oneshot
 ExecStart=%h/.config/notmuch/%p.sh
-
-[Install]
-WantedBy=default.target
 #+end_src
 
 *** Script
@@ -64,6 +61,32 @@ WantedBy=default.target
 #+name: PATH
 #+begin_src bash :tangle no :noweb yes
 [[ <<chassis()>> = "desktop" ]] && echo '/local/' || echo '/'
+#+end_src
+
+* Archive
+** Service
+#+begin_src conf :tangle ~/.config/systemd/user/archive.service
+[Unit]
+Description=Archive temporary files
+ConditionPathIsDirectory=%h/tmp
+ConditionPathIsDirectory=%h/tmp/.archive
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/find %h/tmp -mindepth 1 -maxdepth 1 -path %h/tmp/.archive -prune -o -exec mv -t %h/tmp/.archive {} +
+#+end_src
+
+** Timer
+#+begin_src conf :tangle ~/.config/systemd/user/archive.timer
+[Unit]
+Description=Archive temporary files daily
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+
+[Install]
+WantedBy=timers.target
 #+end_src
 
 * Theme

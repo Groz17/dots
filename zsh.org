@@ -239,18 +239,19 @@ zstyle ':completion:*:*:docker-*:*' option-stacking yes
 
 ** [[https://www.reddit.com/r/zsh/comments/1iyajgx/i_added_bottom_padding_to_my_zsh_terminal_so/][Bottom padding]]
 #+begin_src zsh
-# # Add padding only at initial prompt, not during editing
-# function _bottom_padding_precmd() {
-#   # Only add padding when not in history or other widgets
-#   if [[ -z $WIDGET ]]; then
-#     local padding=$((LINES/2))
-#     for ((i=0; i<padding; i++)); do echo; done
-#     echo -ne "\033[${padding}A"
-#   fi
-# }
-# # Add to precmd functions but make sure it runs only once
-# autoload -Uz add-zsh-hook
-# add-zsh-hook precmd _bottom_padding_precmd
+# Add padding only at initial prompt, not during editing
+function _bottom_padding_precmd() {
+  # Only add padding when not in history or other widgets
+  if [[ -z $WIDGET ]]; then
+    # local padding=$((LINES/2))
+    local padding=10
+    for ((i=0; i<padding; i++)); do echo; done
+    echo -ne "\033[${padding}A"
+  fi
+}
+# Add to precmd functions but make sure it runs only once
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd _bottom_padding_precmd
 #+end_src
 
 ** ZLE
