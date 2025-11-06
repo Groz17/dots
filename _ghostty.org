@@ -30,7 +30,9 @@ window-padding-y = 0
 # theme=Sugarplum
 # theme=Dracula+
 # transition? ef-themes?
-theme=light:Rose Pine Dawn,dark:Rose Pine
+# theme=light:Rose Pine Dawn,dark:Rose Pine
+# https://github.com/anhsirk0/ghostty-themes
+theme = light:ef-summer,dark:ef-cherie
 
  # TODO: finche non fixo deferred-clipboard in emacs
 clipboard-read=allow

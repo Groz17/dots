@@ -451,6 +451,19 @@ sleep 5
 dunstctl close-all
 #+end_src
 
+*** Theme
+#+begin_src hyprlang
+bind = $mainMod SHIFT, c, exec, ~/.config/hypr/scripts/theme
+#+end_src
+
+#+begin_src bash :tangle ~/.config/hypr/scripts/theme :shebang "#!/usr/bin/env bash"
+case $(gsettings get org.gnome.desktop.interface color-scheme) in
+  "'prefer-dark'") scheme="prefer-light" ;;
+  *)               scheme="prefer-dark"  ;;
+esac
+gsettings set org.gnome.desktop.interface color-scheme "$scheme"
+#+end_src
+
 *** Bluetooth
 # TODO: fai check/toggle/notify/etc...
 #+begin_src hyprlang
