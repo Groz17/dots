@@ -1,7 +1,7 @@
 # AGENTS.md - Dotfiles Repository Guidelines
 
 ## Build/Lint/Test Commands
-- Tangle Org files to generate configs: `./tangle` or `nvim -Resc 'argdo exe "norm \<C-c>\<C-v>\<C-t>"' -- *.org`
+- Tangle Org files to generate configs: `./tangle "$@"`
 - No specific lint commands; ensure Org syntax is valid
 - No tests; validate configs manually by sourcing/applying them
 
