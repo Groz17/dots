@@ -999,17 +999,17 @@ alias jsep js -p 'use strict'; function $all(q, root=document) { return Array.fr
 #+begin_src tridactyl
 set video_seek 5
 " seek forward/backward seconds defined in video_seek
-set videomaps.l jsep $ex('video_with').then(video => {const count = Number(JS_ARG) || 1; const tic = Number(get('video_seek')); video.currentTime += tic * count }); 1;
-set videomaps.h jsep $ex('video_with').then(video => {const count = Number(JS_ARG) || 1; const tic = Number(get('video_seek')); video.currentTime -= tic * count }); 1;
+set videomaps.l jsep $ex('video_with').then(video => {if (!video) return; const count = Number(JS_ARG) || 1; const tic = Number(get('video_seek')); video.currentTime += tic * count }); 1;
+set videomaps.h jsep $ex('video_with').then(video => {if (!video) return; const count = Number(JS_ARG) || 1; const tic = Number(get('video_seek')); video.currentTime -= tic * count }); 1;
 
 set video_seek_op 120
-set videomaps.L jsep $ex('video_with').then(video => {const count = Number(JS_ARG) || 1; const tic = Number(get('video_seek_op')); video.currentTime += tic * count }); 1;
-set videomaps.H jsep $ex('video_with').then(video => {const count = Number(JS_ARG) || 1; const tic = Number(get('video_seek_op')); video.currentTime -= tic * count }); 1;
+set videomaps.L jsep $ex('video_with').then(video => {if (!video) return; const count = Number(JS_ARG) || 1; const tic = Number(get('video_seek_op')); video.currentTime += tic * count }); 1;
+set videomaps.H jsep $ex('video_with').then(video => {if (!video) return; const count = Number(JS_ARG) || 1; const tic = Number(get('video_seek_op')); video.currentTime -= tic * count }); 1;
 
 seturl ^https://www.youtube.com/watch\?v=116OjLa1DwY video_seek_op 42
 " set videomaps.C video_with video.currentTime = Number(get('video_seek_op'))
-set videomaps.gg video_with video.currentTime = 0
-set videomaps.G video_with video.currentTime = video.duration
+set videomaps.gg jsep $ex('video_with').then(video => {if (video) video.currentTime = 0}); 1;
+set videomaps.G jsep $ex('video_with').then(video => {if (video) video.currentTime = video.duration}); 1;
 #+end_src
 
 Although I do not know who will seek to the end or the beginning, I
@@ -1061,10 +1061,10 @@ set videomaps.ge video_mark_empty
 set videomaps.E video_mark_goby +1
 set videomaps.e video_mark_goby -1
 set video_mark_tollorance 1
-alias video_mark_add jsep void $ex('video_with').then(video => { const mark = JS_ARG; tri.videoMark.addMark(mark, video.currentTime); $ex('video_mode') })
+alias video_mark_add jsep void $ex('video_with').then(video => { if (!video) return; const mark = JS_ARG; tri.videoMark.addMark(mark, video.currentTime); $ex('video_mode') })
 alias video_mark_empty js const vm = tri.videoMark; vm.historyStore = Object.values(vm.mark).sort((a,b) => a-b);
-alias video_mark_goby jsep void $ex('video_with').then(video => { const current = video.currentTime; const n = Number(JS_ARG); const time = tri.videoMark.goby(current, n); video.currentTime = time; $ex('video_mode'); })
-alias video_mark_goto jsep void $ex('video_with').then(video => { const mark = JS_ARG; tri.videoMark.addBlur(video.currentTime); const time = tri.videoMark.mark[mark]; if (typeof time == 'number') video.currentTime = time; $ex('video_mode') })
+alias video_mark_goby jsep void $ex('video_with').then(video => { if (!video) return; const current = video.currentTime; const n = Number(JS_ARG); const time = tri.videoMark.goby(current, n); video.currentTime = time; $ex('video_mode'); })
+alias video_mark_goto jsep void $ex('video_with').then(video => { if (!video) return; const mark = JS_ARG; tri.videoMark.addBlur(video.currentTime); const time = tri.videoMark.mark[mark]; if (typeof time == 'number') video.currentTime = time; $ex('video_mode') })
 
 alias video_mark_init jse if(!tri.videoMark){tri.videoMark={historyStore:[],mark:{},goby(current,n){const index=this.historyStore.findIndex(t=>{if(t>current)return true});const move=n<0?n:n-1;let time;if(~index)time=this.historyStore.at(index+move);else time=this.historyStore.at(move);if(Math.abs(time-current)>this.tollorance)return time;else return this.goby(current,n>0?n+1:n-1)},add(time){this.historyStore.push(time);this.historyStore.sort((a,b)=>a-b)},addBlur(time){const exist=this.historyStore.some(t=>Math.abs(t-time)<this.tollorance);if(!exist)this.add(time);return!exist},addMark(mark,time){this.mark[mark]=time;const index=this.historyStore.findIndex(t=>Math.abs(t-time)<this.tollorance);if(~index)this.historyStore[index]=time;else this.add(time)},tollorance:Number(get('video_mark_tollorance')) || 1,markEventHandler(videoEvent){const video=videoEvent.target;const time=video.currentTime;this.addBlur(time);const previousTime=this.getTimerTime();this.addBlur(previousTime)},timerEventHandler(event){const video=event.target;this.videoTimer={epoch:Date.now(),video:video.currentTime,rate:video.playbackRate}},videoTimer:null,getTimerTime(){const now=Date.now();const t=this.videoTimer;if(t)return(now-t.epoch)/1e3*t.rate+t.video}};void async function(){const vm=tri.videoMark;while(true){await sleep(800);const video=await $ex("video_with");if(video){const handler=tri.videoMark.markEventHandler.bind(tri.videoMark);video.addEventListener("seeked",handler);video.addEventListener("pause",handler);const timer=vm.timerEventHandler.bind(vm);video.addEventListener("playing",timer);video.addEventListener("ratechange",timer);timer({target:video});break}}}()}
 #+end_src
