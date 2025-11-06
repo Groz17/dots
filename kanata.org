@@ -636,23 +636,19 @@ In the future use picker like on phone?
 (italian) accents (chords bcs vim digraphs kinda work like that)
 
 #+begin_src kbd
-(a caps)  (unicode à) 100 first-release ()
-(a ')  (unicode á) 100 first-release ()
+(a caps)  (cmd wtype à) 100 first-release ()
+(a ')  (cmd wtype á) 100 first-release ()
 
-;;(e `)  è 100 first-release ()
-;;(e ')  é 100 first-release ()
-;;(e `)  (unicode è) 100 first-release ()
-;; caps doesn't get translated otherwise (is there a function that translates?)
-(e caps)  (unicode è) 100 first-release ()
-(e ')  (unicode é) 100 first-release ()
+(e caps)  (cmd wtype è) 200 first-release ()
+(e ')  (cmd wtype é) 100 first-release ()
 
-(i caps)  (unicode ì) 100 first-release ()
-(i ')  (unicode í) 100 first-release ()
+(i caps)  (cmd wtype ì) 100 first-release ()
+(i ')  (cmd wtype í) 100 first-release ()
 
-(o caps)  (unicode ò) 100 first-release ()
-(o ')  (unicode ó) 100 first-release ()
+(o caps)  (cmd wtype ò) 100 first-release ()
+(o ')  (cmd wtype ó) 100 first-release ()
 
-(u caps)  (unicode ù) 100 first-release ()
-(u ')  (unicode ú) 100 first-release ()
+(u caps)  (cmd wtype ù) 100 first-release ()
+(u ')  (cmd wtype ú) 100 first-release ()
 )
 #+end_src
