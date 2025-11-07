@@ -372,7 +372,7 @@ bindkey -s '^X3' ' 2>&1 '
 #+end_src
 
 **** Emacs-Inspired Navigation
-#+begin_src zsh
+#+begin_src zsh :noweb yes
 # Ctrl+X Ctrl+F - find file with fzf
 bindkey -s '^X^F' ' "$(fd -tf . 2>/dev/null | fzf)"\n'
 
@@ -393,6 +393,9 @@ bindkey '^Xp' copy-pwd-to-clipboard
 
 zle -N exec-bash; exec-bash() { BUFFER='exec bash'; zle accept-line }
 bindkey '^X^' exec-bash
+
+zle -N ssh-<<alternate()>>; ssh-<<alternate()>>() { BUFFER='ssh <<alternate()>>'; zle accept-line }
+bindkey '^Xs' ssh-<<alternate()>>
 
 bindkey -s '\e[24~' '^X'
 
@@ -422,6 +425,7 @@ bindkey '^[[109;5u' accept-line
 #+end_src
 
 ** Aliases
+Crea alias per subcommands? tipo n s per notmuch search (o PR ambiguita)
 #+begin_src zsh :noweb yes
 <<sh|.org:aliases()>>
 
@@ -441,6 +445,7 @@ There's also =https://github.com/momo-lab/zsh-abbrev-alias=
 alias -g ...='../..'
 alias -g ....='../../..'
 
+alias -g A="| awk"
 alias -g F="| fzf"
 alias -g H="| head"
 alias -g T="| tail"

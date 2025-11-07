@@ -13,11 +13,12 @@ shopt -s cdspell
 #+end_src
 
 * Keymaps
-#+begin_src bash
+#+begin_src bash :noweb yes
 bind -x '"\ew": printf "\033]52;c;%s" "$(base64<<<"$READLINE_LINE")"'
 bind -x '"\C-xp": printf "\033]52;c;%s" "$(base64<<<"${PWD/#$HOME/\~}")"'
 # ^ like in Vim
 bind -x '"\C-x^": exec zsh'
+bind -x '"\C-xs": ssh <<alternate()>>'
 #+end_src
 
 ** TODO Toggle shopts

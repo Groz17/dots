@@ -7,3 +7,9 @@ hostnamectl chassis
 #+begin_src bash :results raw
 hostnamectl -j | jq -r '.OperatingSystemReleaseData | map(select(startswith("ID")))[-1] | split("=")[1]'
 #+end_src
+
+#+name: alternate
+#+begin_src bash :noweb yes
+[[ <<chassis()>> = "desktop" ]] && echo 'arch' || echo 'fedora'
+#+end_src
+
