@@ -29,17 +29,17 @@ start in plam mode?
 #+end_src
 
 * Keybinds
+// "session_share": "<leader>ctrl+s",
+// "app_help": "f18o",
+// "session_list": "C-x C-b",
+// "input_paste": "ctrl+y",
 #+begin_src jsonc :prologue "\"keybinds\":{" :epilogue "}}" :padline no
 "leader": "f12",
 "app_exit": "ctrl+c,<leader>ctrl+c",
 "session_share": "none",
-// "session_share": "<leader>ctrl+s",
-// "app_help": "f18o",
 "messages_page_up": "alt+v",
 "messages_page_down": "ctrl+v",
-// "session_list": "C-x C-b",
 "messages_copy": "alt+w",
-// "input_paste": "ctrl+y",
 "input_paste": "ctrl+shift+v",
 "messages_first": "alt+<",
 "messages_last": "alt+>",
