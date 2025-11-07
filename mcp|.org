@@ -22,9 +22,9 @@ yt-dlp:
 fetch:
   type: local
   command: [ "uvx", " mcp-server-fetch" ]
-pdf-reader-mcp:
-  type: local
-  command: [ npx, '@sylphlab/pdf-reader-mcp']
+# pdf-reader-mcp:
+#   type: local
+#   command: [ npx, '@sylphlab/pdf-reader-mcp']
 freecad:
   type: local
   command: [ uvx, freecad-mcp]
