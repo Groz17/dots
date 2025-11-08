@@ -307,6 +307,7 @@ bind <space>go composite get_current_url | shellescape | js -p tri.excmds.exclai
 " add another mapping that prepends the url (source)
 " would be cool to send the selection to todo and the title (with # prefixed) + selection to tips
 bind --mode=visual <a-w> composite js -s ~/.config/tridactyl/scripts/selection_html.js ; exclaim_quiet  ~/.config/tridactyl/scripts/to-markdown
+bind --mode=insert <a-w> composite js -s ~/.config/tridactyl/scripts/selection_html.js ; exclaim_quiet  ~/.config/tridactyl/scripts/to-markdown
 bind >2 composite get_current_url | exclaim ~/scripts/browser/2pdf
 
 " Git{Hub,Lab} git clone via SSH yank
