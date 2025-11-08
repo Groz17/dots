@@ -24,7 +24,8 @@ personal.qmap
 <C-z> = :suspend<Enter>
 
 [messages]
-q = :prompt 'Quit?' quit<Enter>
+# q = :prompt 'Quit?' quit<Enter>
+q = :quit<Enter>
 
 j = :next<Enter>
 <C-d> = :next 50%<Enter>
