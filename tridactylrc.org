@@ -253,6 +253,7 @@ bind --mode=ex     <C-g> composite text.beginning_of_line ; text.forward_word ; 
 
 
 ** PERSONAL SCRIPTS
+Sposta in bindurl? a-w per info rilevanti per quella webpage
 #+begin_src js
 bind <A-w> js navigator.clipboard.writeText( \
   [...document.querySelectorAll('a')] \
