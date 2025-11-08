@@ -636,19 +636,19 @@ In the future use picker like on phone?
 (italian) accents (chords bcs vim digraphs kinda work like that)
 
 #+begin_src kbd
-(a caps)  (cmd wtype à) 100 first-release ()
-(a ')  (cmd wtype á) 100 first-release ()
+(a caps)  (cmd bash -c "WAYLAND_DISPLAY=$WAYLAND_DISPLAY; wtype à") 100 first-release ()
+(a ')  (cmd bash -c "WAYLAND_DISPLAY=$WAYLAND_DISPLAY; wtype á") 100 first-release ()
 
-(e caps)  (cmd wtype è) 200 first-release ()
-(e ')  (cmd wtype é) 100 first-release ()
+(e caps)  (cmd bash -c "WAYLAND_DISPLAY=$WAYLAND_DISPLAY; wtype è") 200 first-release ()
+(e ')  (cmd bash -c "WAYLAND_DISPLAY=$WAYLAND_DISPLAY; wtype é") 100 first-release ()
 
-(i caps)  (cmd wtype ì) 100 first-release ()
-(i ')  (cmd wtype í) 100 first-release ()
+(i caps)  (cmd bash -c "WAYLAND_DISPLAY=$WAYLAND_DISPLAY; wtype ì") 100 first-release ()
+(i ')  (cmd bash -c "WAYLAND_DISPLAY=$WAYLAND_DISPLAY; wtype í") 100 first-release ()
 
-(o caps)  (cmd wtype ò) 100 first-release ()
-(o ')  (cmd wtype ó) 100 first-release ()
+(o caps)  (cmd bash -c "WAYLAND_DISPLAY=$WAYLAND_DISPLAY; wtype ò") 100 first-release ()
+(o ')  (cmd bash -c "WAYLAND_DISPLAY=$WAYLAND_DISPLAY; wtype ó") 100 first-release ()
 
-(u caps)  (cmd wtype ù) 100 first-release ()
-(u ')  (cmd wtype ú) 100 first-release ()
+(u caps)  (cmd bash -c "WAYLAND_DISPLAY=$WAYLAND_DISPLAY; wtype ù") 100 first-release ()
+(u ')  (cmd bash -c "WAYLAND_DISPLAY=$WAYLAND_DISPLAY; wtype ú") 100 first-release ()
 )
 #+end_src
