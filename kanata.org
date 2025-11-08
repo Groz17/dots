@@ -537,17 +537,17 @@ also use shift-arrow for orgs emacs
 ** Mouse
 #+begin_src kbd
 (defalias
-;; Basic mouse movements (interval=1ms, distance=1px)
-msu (movemouse-up 1 1)
-msd (movemouse-down 1 1)
-msl (movemouse-left 1 1)
-msr (movemouse-right 1 1)
+;; Basic mouse movements (interval=5ms, distance=1px)
+msu (movemouse-up 5 1)
+msd (movemouse-down 5 1)
+msl (movemouse-left 5 1)
+msr (movemouse-right 5 1)
 
-;; Accelerated mouse movements (interval=1ms, accel-time=1000ms, min=1px, max=5px)
-mau (movemouse-accel-up 1 1000 1 5)
-mad (movemouse-accel-down 1 1000 1 5)
-mal (movemouse-accel-left 1 1000 1 5)
-mar (movemouse-accel-right 1 1000 1 5)
+;; Accelerated mouse movements (interval=5ms, accel-time=2000ms, min=1px, max=10px)
+mau (movemouse-accel-up 5 2000 1 10)
+mad (movemouse-accel-down 5 2000 1 10)
+mal (movemouse-accel-left 5 2000 1 10)
+mar (movemouse-accel-right 5 2000 1 10)
 
 ;; Mouse wheel scrolling (interval=50ms, distance=120)
 mwu (mwheel-up 50 120)
@@ -560,7 +560,7 @@ mwr (mwheel-right 50 120)
 _
 _ _ _ _     _ _ _ _    _    _  _    _ _ _
 _ _ _ _     _ _ _ _    _    _  @mwu _
-_ _ _ _     _ _ _ @msl @msd @msu @msr _ _ _ _
+_ _ _ _     _ _ _ @mal @mad @mau @mar _ _ _ _
 _ _ _ _     _ _ _ mlft mmid mrgt @mwd _ _
 _ _ _ _     _ _ _ _
 _ _ _
