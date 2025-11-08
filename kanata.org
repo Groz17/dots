@@ -515,8 +515,7 @@ bspc (tap-hold-press-timeout 175 175 bspc bspc (macro S-bspc))
 d1 (tap-hold-press-timeout 175 175 1 1 (macro S-1))
 ;; d2 (tap-hold-press-timeout 175 175 2 2 (macro S-2))
 d2 (tap-hold 175 175 2 (tap-hold-press-timeout 0 230 2 (layer-while-held audio) (macro S-2)))
-;; d3 (tap-hold 175 175 3 (tap-hold-press-timeout 0 230 3 (layer-while-held audio) (macro S-3)))
-d3 (tap-hold-press-timeout 175 175 3 3 (macro S-3))
+d3 (tap-hold 175 175 3 (tap-hold-press-timeout 0 230 3 (layer-while-held mouse) (macro S-3)))
 d4 (tap-hold-press-timeout 175 175 4 4 (macro S-4))
 d5 (tap-hold-press-timeout 175 175 5 5 (macro S-5))
 d6 (tap-hold-press-timeout 175 175 6 6 (macro S-6))
@@ -534,6 +533,39 @@ implement vim layer? like gg and stuff
 notify when layer switching?
 magari usalo anche x emacs (fallo simmetrico)
 also use shift-arrow for orgs emacs
+
+** Mouse
+#+begin_src kbd
+(defalias
+;; Basic mouse movements (interval=1ms, distance=1px)
+msu (movemouse-up 1 1)
+msd (movemouse-down 1 1)
+msl (movemouse-left 1 1)
+msr (movemouse-right 1 1)
+
+;; Accelerated mouse movements (interval=1ms, accel-time=1000ms, min=1px, max=5px)
+mau (movemouse-accel-up 1 1000 1 5)
+mad (movemouse-accel-down 1 1000 1 5)
+mal (movemouse-accel-left 1 1000 1 5)
+mar (movemouse-accel-right 1 1000 1 5)
+
+;; Mouse wheel scrolling (interval=50ms, distance=120)
+mwu (mwheel-up 50 120)
+mwd (mwheel-down 50 120)
+mwl (mwheel-left 50 120)
+mwr (mwheel-right 50 120)
+)
+
+(deflayer mouse
+_
+_ _ _ _     _ _ _ _    _    _  _    _ _ _
+_ _ _ _     _ _ _ _    _    _  @mwu _
+_ _ _ _     _ _ _ @msl @msd @msu @msr _ _ _ _
+_ _ _ _     _ _ _ mlft mmid mrgt @mwd _ _
+_ _ _ _     _ _ _ _
+_ _ _
+)
+#+end_src
 
 ** Navigation
 Also toggle layer activation?
