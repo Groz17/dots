@@ -253,6 +253,31 @@ bind --mode=ex     <C-g> composite text.beginning_of_line ; text.forward_word ; 
 
 
 ** PERSONAL SCRIPTS
+#+begin_src js
+bind <A-w> js navigator.clipboard.writeText( \
+  [...document.querySelectorAll('a')] \
+    .map(a => a.href) \
+    .filter(href => \
+      href.startsWith('http') && \
+      !/google\.[a-z]+/i.test(new URL(href).hostname) && \
+      !href.includes('/search?') && \
+      !href.includes('webcache.googleusercontent.com') \
+    ) \
+    .reduce((seen, url) => { \
+      let key = url.split('#')[0]; \
+      if (key.includes('youtube.com/watch')) { \
+        const id = new URL(url).searchParams.get('v'); \
+        key = `youtube:${id}`; \
+      } \
+      if (!seen.keys.has(key)) { \
+        seen.keys.add(key); \
+        seen.result.push(url.split('#')[0]); \
+      } \
+      return seen; \
+    }, { keys: new Set(), result: [] }) \
+    .result \
+    .join('\n')).then(() => tri.excmds.exclaim_quiet('dunstify "URLs copied to clipboard"'))
+#+end_src
 
 #+begin_src tridactyl
 bind --mode=normal <space>a composite get_current_url | shellescape | exclaim_quiet ~/.config/tridactyl/append
