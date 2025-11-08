@@ -502,6 +502,9 @@ bind = $mainMod, B, exec, $browser
 
 bind = $mainMod, period, exec, [float] $fileManager
 
+# bind = SUPER, parenleft, exec, echo '{"ActOnFakeKey": {"name": "stop-macro", "action": "Press"}}' | nc localhost 5829
+# bind = SUPER, parenright, exec, echo '{"ActOnFakeKey": {"name": "play-macro", "action": "Press"}}' | nc localhost 5829
+
 # super shift enter?
 bind = $mainMod, D, exec, $menu
 # bind = $mainMod, D, exec, [float;size 30% 30%] emacsclient -cF "((visibility . nil))" -e "(app-launcher-run-app)"

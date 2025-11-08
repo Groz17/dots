@@ -522,9 +522,20 @@ d6 (tap-hold-press-timeout 175 175 6 6 (macro S-6))
 d7 (tap-hold-press-timeout 175 175 7 7 (macro S-7))
 d8 (tap-hold-press-timeout 175 175 8 8 (macro S-8))
 ;; change hold for 9 and 0 (i use shift for those)
-d9 (tap-hold-press-timeout 175 175 9 9 (unicode “))
-d0 (tap-hold 175 175 0 (tap-hold-press-timeout 0 230 0 (layer-while-held audio) (unicode ”)))
+;; d9 (tap-hold-press-timeout 175 175 9 9 (unicode “))
+;; d0 (tap-hold 175 175 0 (tap-hold-press-timeout 0 230 0 (layer-while-held audio) (unicode ”)))
+d9 (tap-hold-press-timeout 175 175 9 9 (macro S-9))
+d0 (tap-hold 175 175 0 (tap-hold-press-timeout 0 230 0 (layer-while-held audio) (macro S-0)))
 )
+#+end_src
+
+* Fake Keys
+
+#+begin_src kbd
+;; (defvirtualkeys
+;;   play-macro (dynamic-macro-play 0)
+;;   stop-macro dynamic-macro-record-stop
+;; )
 #+end_src
 
 * LAYERS
@@ -535,6 +546,10 @@ magari usalo anche x emacs (fallo simmetrico)
 also use shift-arrow for orgs emacs
 
 ** Mouse
+Could be useful for macros.
+
+Also you could zoom to adjust travel distances.
+
 #+begin_src kbd
 (defalias
 ;; Basic mouse movements (interval=5ms, distance=1px)
