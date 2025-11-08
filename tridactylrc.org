@@ -256,7 +256,7 @@ bind --mode=ex     <C-g> composite text.beginning_of_line ; text.forward_word ; 
 Sposta in bindurl? a-w per info rilevanti per quella webpage
 Magari migliora
 #+begin_src js
-bind <A-w> js navigator.clipboard.writeText( \
+bindurl google\..*/search\? <Space><Space> js navigator.clipboard.writeText( \
   [window.location.href, ...[...document.querySelectorAll('a')] \
     .map(a => a.href) \
     .filter(href => \
@@ -278,7 +278,8 @@ bind <A-w> js navigator.clipboard.writeText( \
       return seen; \
     }, { keys: new Set(), result: [] }) \
     .result] \
-    .join('\n')).then(() => tri.excmds.exclaim_quiet('dunstify "' + window.location.href + '" "URLs copied to clipboard"'))
+    .join('\n')) \
+  .then(() => tri.native.run("hyprctl dispatch exec '[float;size 30% 30%] ghostty -e nvim -c \"norm 1 Qd\"'"))
 #+end_src
 
 #+begin_src tridactyl
