@@ -47,8 +47,8 @@ confirm-close-surface=true
 # resize-overlay-duration = 4s 200ms
 
 window-padding-balance=true
-# background-opacity=0.8
-background-opacity=1
+background-opacity=0.93
+# background-opacity=1
 cursor-style=block
 shell-integration-features=no-cursor,sudo,no-title
 adjust-cell-height=3%
