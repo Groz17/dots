@@ -1,6 +1,27 @@
 * accounts
-accounts.conf
+
+,:PROPERTIES:
+:header-args: :tangle ~/.config/aerc/accounts.conf
+:END:
+#+begin_src conf
+#+end_src
+
 * aerc
+
+,:PROPERTIES:
+:header-args: :tangle ~/.config/aerc/aerc.conf
+:END:
+#+begin_src conf
+[ui]
+index-columns=date<=,name<20,flags>=,subject<*,notmuch>=
+# column-notmuch={{ .Labels }}
+column-notmuch= \
+{{- (map .Labels \
+        (exclude .Folder) \
+        (exclude "replied|passed|attachment|flagged|unread|draft") \
+        | join ",") -}}
+#+end_src
+
 address-book-cmd='notmuch address "%s"'
 * personal
 personal.qmap
