@@ -2,9 +2,9 @@
 
 start in plam mode?
 
+"theme": "aura",
 #+begin_src jsonc :prologue "{"
 "$schema": "https://opencode.ai/config.json",
-"theme": "aura",
 #+end_src
 
 * MCP
