@@ -4,6 +4,7 @@ start in plam mode?
 
 "theme": "aura",
 #+begin_src jsonc :prologue "{"
+"theme": "system",
 "$schema": "https://opencode.ai/config.json",
 #+end_src
 
