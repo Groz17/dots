@@ -35,12 +35,8 @@ notmuch new
 Description=Mail Sync Timer
 
 [Timer]
-OnBootSec=2m
+OnActiveSec=1us
 OnUnitActiveSec=2m
-Persistent=true
-
-[Install]
-WantedBy=timers.target
 #+end_src
 
 ** Oauth2
