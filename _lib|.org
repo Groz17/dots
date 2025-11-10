@@ -16,7 +16,7 @@ hostnamectl -j | jq -r '.OperatingSystemReleaseData | map(select(startswith("ID"
 #+name: theme
 #+begin_src bash :noweb yes :var color_scheme="dark" :results output
 case $color_scheme in
-  light) printf "ef-summer" ;;
+  light) printf "ef-arbutus" ;;
   dark)  printf "ef-owl" ;;
 esac
 #+end_src
