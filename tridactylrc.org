@@ -903,15 +903,9 @@ bind yF composite hint -qpipe a href | join | yank
 * AUTOCMDS
 ** URL redirects
 #+begin_src tridactyl
-" autocmd DocStart reddit\.com/.*tl=it urlmodify -Q tl
-" autocmd DocStart reddit\.com/.*tl=* urlmodify -Q tl
-autocmd BeforeRequest ^https?://(www\.)?reddit\.com/ urlmodify -Q tl
+autocmd DocStart reddit\.com/.*[?&]tl= urlmodify -Q tl
 
-autocmd DocStart github\.com/.*?tab=readme-ov-file urlmodify -Q tab
-" autocmd DocStart ^https?://github\.com/.*\?tab=readme-ov-file urlmodify -Q tab
-
-" autocmd BeforeRequest *tl=it (u) => ({redirectUrl: e.url.replace("tl=it","")}).
-" autocmd BeforeRequest *://*.reddit.com/* (u) => ({if(u.url.match("[?|&]tl=it")) {redirectUrl: u.url.replace("tl=it","")}}).
+autocmd DocStart github\.com/.*[?&]tab=readme-ov-file urlmodify -Q tab
 " autocmd DocStart chatgpt\.com kill initiali popup
 " autocmd DocStart chatgpt.com js document.querySelector("a .cursor-pointer").click()
 " <a href="#" class="mt-5 cursor-pointer text-sm font-semibold text-token-text-secondary underline">Stay logged out</a>

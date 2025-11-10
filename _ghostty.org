@@ -12,7 +12,7 @@
 - [ ] resize?
 
 * Prefs
-#+begin_src conf
+#+begin_src conf :noweb yes
 # font-family = Iosevka
 font-family = Aporetic Sans Mono
 # font-family = Adwaita Mono
@@ -32,7 +32,7 @@ window-padding-y = 0
 # transition? ef-themes?
 # theme=light:Rose Pine Dawn,dark:Rose Pine
 # https://github.com/anhsirk0/ghostty-themes
-theme = light:ef-summer,dark:ef-owl
+theme = light:<<theme(color_scheme="light")>>,dark:<<theme(color_scheme="dark")>>
 
  # TODO: finche non fixo deferred-clipboard in emacs
 clipboard-read=allow
