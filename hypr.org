@@ -374,7 +374,7 @@ bind=super shift ctrl,r,exec, wtype -k Escape
 $mainMod = SUPER # Sets "Windows" key as main modifier
 
 #+end_src
-
+Kanata mouse layer shines here
 *** [[https://www.youtube.com/watch?v=sz6rMLIjSbU][Zoom]]
 #+begin_src hyprlang
 bind = $mainMod, mouse_down, exec, hyprctl -q keyword cursor:zoom_factor $(hyprctl getoption cursor:zoom_factor | awk '/^float.*/ {print $2 * 1.1}')
