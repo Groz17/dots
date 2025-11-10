@@ -65,8 +65,9 @@ EOF
   "interval": 5
 },
 "custom/email": {
-  // show time of next sync? systemctl --user --no-pager status mail-sync.timer | grep -Po 'Trigger: .+; KS+ S+'
-  "format": "📬",
+  "format": "📬 {}",
+  "exec": "systemctl --user --no-pager -o json list-timers mail-sync.timer | jq -re '.[] | (.left / 1000000 - now | strftime(\"%-Mm %Ss\"))'||echo 'sync...'",
+  "interval": 1,
   "on-click": "pizauth show personal 2>&1|awk '{print $NF}'|xargs floorp"
 },
 #+end_src
