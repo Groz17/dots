@@ -20,6 +20,7 @@ column-notmuch= \
         (exclude .Folder) \
         (exclude "replied|passed|attachment|flagged|unread|draft") \
         | join ",") -}}
+pager = nvim +Man!
 #+end_src
 
 address-book-cmd='notmuch address "%s"'
