@@ -68,7 +68,7 @@ EOF
   "format": "📬 {}",
   "exec": "systemctl --user --no-pager -o json list-timers mail-sync.timer | jq -re 'if length == 0 then \"inactive\" elif .[].left != null then (.[].left / 1000000 - now | strftime(\"%-Mm %Ss\")) else \"sync\" end'",
   "interval": 1,
-  "on-click": "if systemctl --user is-active mail-sync.timer >/dev/null; then systemctl --user start mail-sync.service && dunstify -u email 'Mail Sync' 'Syncing completed'; else pizauth show personal 2>&1|awk '{print $NF}'|xargs floorp & systemctl --user start mail-sync.timer; fi"
+  "on-click": "if systemctl --user is-active mail-sync.timer >/dev/null; then systemctl --user start mail-sync.service && dunstify -a email 'Mail Sync' 'Syncing completed'; else pizauth show personal 2>&1|awk '{print $NF}'|xargs floorp & systemctl --user start mail-sync.timer; fi"
 },
 #+end_src
 
