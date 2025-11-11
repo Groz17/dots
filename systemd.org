@@ -158,3 +158,25 @@ Restart=no
 [Install]
 WantedBy=default.target
 #+end_src
+
+* Waybar
+#+begin_src conf :tangle ~/.config/systemd/user/waybar.path
+[Unit]
+Description=Watch waybar config files
+
+[Path]
+PathChanged=%h/.config/waybar/config.jsonc
+PathChanged=%h/.config/waybar/style.css
+
+[Install]
+WantedBy=default.target
+#+end_src
+
+#+begin_src conf :tangle ~/.config/systemd/user/waybar.service
+[Unit]
+Description=Reload waybar
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/pkill -SIGUSR2 waybar
+#+end_src
