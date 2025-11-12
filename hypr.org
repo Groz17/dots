@@ -385,10 +385,57 @@ bind = $mainMod, minus, exec, hyprctl -q keyword cursor:zoom_factor $(hyprctl ge
 bind = $mainMod , mouse:274, exec, hyprctl -q keyword cursor:zoom_factor 1 # middle button
 #+end_src
 
-*** Theme switcher
-Basically select theme from list w/ rofi and tangle dependant files from named theme block
+*** TODO Theme switcher
+- [ ] Hide preview
+- [ ] Tangle dependant files from named theme block
+
+#+begin_src bash :tangle ~/.config/hypr/scripts/theme-picker :shebang "#!/bin/bash"
+colorscheme=$(gsettings get org.gnome.desktop.interface color-scheme)
+# Strip quotes and 'prefer-' prefix
+colorscheme=${colorscheme//\'/}
+colorscheme=${colorscheme#prefer-}
+
+# Create temporary Lua script
+cat > /tmp/theme-picker.lua << EOF
+local theme_list = EfThemes.list.${colorscheme}
+local items = {}
+for _, theme in ipairs(theme_list) do
+  items[#items + 1] = { text = theme }
+end
+
+-- Open picker with ef-themes matching current mode
+Snacks.picker.pick({
+  items = items,
+  source = 'ef_themes_${colorscheme}',
+  format = 'text',
+  preview = 'colorscheme',
+  layout = {fullscreen = true,},
+  on_close = function() vim.schedule(function() vim.cmd'q'end)end,
+  confirm = function(picker, item)
+    picker:close()
+    if item then
+      vim.schedule(function()
+        vim.cmd('colorscheme ' .. item.text)
+        vim.fn.writefile({ vim.g.colors_name }, '/tmp/nvim_theme')
+      end)
+    end
+  end,
+})
+EOF
+
+# Launch nvim and source the script after plugins are loaded
+ghostty -e nvim -c "luafile /tmp/theme-picker.lua"
+
+# Read the selected theme
+if [ -f /tmp/nvim_theme ]; then
+    theme=$(cat /tmp/nvim_theme)
+    echo "Selected theme: $theme"
+    # TODO: Add theme application logic here
+fi
+#+end_src
+
 #+begin_src hyprlang
-bind = $mainMod, i, exec, [float;size 50% 50%] $terminal -e nvim -c 'lua Snacks.picker.colorschemes({layout={fullscreen=true},on_close=function() vim.schedule(function()vim.cmd"q!" end)end})'
+bind = $mainMod, i, exec, [float;size 50% 50%] ~/.config/hypr/scripts/theme-picker
 #+end_src
 
 *** [[https://wiki.hypr.land/Configuring/Binds/#media][Media]]
