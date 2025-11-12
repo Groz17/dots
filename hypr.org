@@ -429,7 +429,7 @@ ghostty -e nvim -c "luafile /tmp/theme-picker.lua"
 # Read the selected theme
 if [ -f /tmp/nvim_theme ]; then
     theme=$(cat /tmp/nvim_theme)
-    echo "Selected theme: $theme"
+    sed -i "/^\s\\+$colorscheme)/s/\"[^\"]\\+/\"$theme/" ~/'dots/_lib|.org'
     # TODO: Add theme application logic here
 fi
 #+end_src
