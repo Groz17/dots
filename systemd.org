@@ -40,6 +40,7 @@ OnUnitActiveSec=2m
 #+end_src
 
 ** Oauth2
+*** Service
 #+begin_src conf :tangle ~/.config/systemd/user/pizauth.service :noweb yes
 [Unit]
 Description=Pizauth OAuth2 token manager
@@ -135,6 +136,7 @@ WantedBy=timers.target
 #+end_src
 
 * Kanata
+** Service
 #+begin_src conf :tangle ~/.config/systemd/user/kanata.service
 [Unit]
 Description=Kanata keyboard remapper
@@ -159,7 +161,9 @@ Restart=no
 WantedBy=default.target
 #+end_src
 
-* Waybar
+* Monitoring
+** Waybar
+*** Path
 #+begin_src conf :tangle ~/.config/systemd/user/waybar.path
 [Unit]
 Description=Watch waybar config files
@@ -172,6 +176,7 @@ PathChanged=%h/.config/waybar/style.css
 WantedBy=default.target
 #+end_src
 
+*** Service
 #+begin_src conf :tangle ~/.config/systemd/user/waybar.service
 [Unit]
 Description=Reload waybar
@@ -179,4 +184,53 @@ Description=Reload waybar
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/pkill -SIGUSR2 waybar
+#+end_src
+
+** Ghostty
+*** Path
+#+begin_src conf :tangle ~/.config/systemd/user/ghostty.path
+[Unit]
+Description=Watch ghostty config file
+
+[Path]
+PathChanged=%h/.config/ghostty/config
+
+[Install]
+WantedBy=default.target
+#+end_src
+
+*** Service
+#+begin_src conf :tangle ~/.config/systemd/user/ghostty.service
+[Unit]
+Description=Reload ghostty
+
+[Service]
+Type=oneshot
+ExecStartPre=/bin/sh -c "/usr/bin/hyprctl activewindow -j | jq -e 'select(.initialClass==\"com.mitchellh.ghostty\")'"
+ExecStartPre=/usr/bin/ghostty +validate-config
+ExecStart=/usr/bin/wtype -M alt -M win r
+#+end_src
+
+** Kanata
+*** Path
+#+begin_src conf :tangle ~/.config/systemd/user/monitor_kanata.path
+[Unit]
+Description=Watch kanata config file
+
+[Path]
+PathChanged=%h/.config/kanata/config.kbd
+
+[Install]
+WantedBy=default.target
+#+end_src
+
+*** Service
+#+begin_src conf :tangle ~/.config/systemd/user/monitor_kanata.service :noweb yes
+[Unit]
+Description=Reload kanata
+
+[Service]
+Type=oneshot
+ExecStartPre=/usr/bin/sh -c '$$(which kanata) --check --cfg $${HOME}/.config/kanata/config.kbd || { dunstify -a Kanata "Config Validation" "Syntax error"; exit 1; }'
+ExecStart=/usr/bin/systemctl --user restart kanata
 #+end_src
