@@ -385,6 +385,39 @@ bind = $mainMod, minus, exec, hyprctl -q keyword cursor:zoom_factor $(hyprctl ge
 bind = $mainMod , mouse:274, exec, hyprctl -q keyword cursor:zoom_factor 1 # middle button
 #+end_src
 
+*** Theme switcher
+Basically select theme from list w/ rofi and tangle dependant files from named theme block
+#+begin_src hyprlang
+bind = $mainMod, i, exec, ~/.config/hypr/scripts/themes
+#+end_src
+
+#+begin_src bash :tangle ~/.config/hypr/scripts/themes :shebang "#!/usr/bin/env bash"
+DIR="$HOME/.config/ghostty/themes/"
+
+
+mapfile -t choices < <(
+perl -MFile::Basename=basename -ne '
+  if(/^background\s*=\s*#([0-9a-fA-F]{6})/) {
+    $bg = "#$1";  # add the # back
+    ($r,$g,$b) = map {hex($_)} ($1 =~ /../g);
+    $lum = 0.299*$r + 0.587*$g + 0.114*$b;
+    $type = ($lum < 128) ? "D" : "L";
+
+    # simple foreground for contrast
+    $fg = ($lum < 128) ? "#ffffff" : "#000000";
+
+    print "<span background=\"$bg\" foreground=\"$fg\">[$type] ", basename($ARGV), "</span>\n";
+  }' "$DIR"/*
+)
+
+[ ${#choices[@]} -eq 0 ] && exit
+
+sel=$(printf '%s\n' "${choices[@]}" | rofi -dmenu -p "Select scheme" -markup-rows) || exit
+scheme=$(echo "$sel" | sed 's/^\[[DL]\] //')
+
+notify-send "Applied color scheme" "$scheme"
+#+end_src
+
 *** [[https://wiki.hypr.land/Configuring/Binds/#media][Media]]
 Source/Software-agnostic keybindings
 #+begin_src hyprlang
