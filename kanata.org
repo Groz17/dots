@@ -417,8 +417,10 @@ i (tap-hold 175 175 i (tap-hold-press-timeout 0 150 i (multi lmet lalt) (macro S
 
 ;; for C-u use macros , v:count like for C-u,C-u,C-u
 
-c (tap-hold 175 200 c (tap-hold-press-timeout 0 200 c f15 (macro S-c)))
-m (tap-hold 175 200 m (tap-hold-press-timeout 0 200 m f15 (macro S-m)))
+;;c (tap-hold 175 200 c (tap-hold-press-timeout 0 200 c f15 (macro S-c)))
+;; m (tap-hold 175 200 m (tap-hold-press-timeout 0 200 m f15 (macro S-m)))
+m (tap-hold 175 175 m (tap-hold-press-timeout 0 230 m (layer-while-held mouse) (macro S-m)))
+c (tap-hold 175 175 c (tap-hold-press-timeout 0 230 c (layer-while-held mouse) (macro S-c)))
 #+end_src
 
 ** Window mappings
@@ -575,8 +577,8 @@ mwr (mwheel-right 50 120)
 _
 _ _ _ _     _ _ _ _    _    _  _    _ _ _
 _ _ _ _     _ _ _ _    _    _  @mwu _
-_ _ _ _     _ _ _ @mal @mad @mau @mar _ _ _ _
-_ _ _ _     _ _ _ mlft mmid mrgt @mwd _ _
+_ _ _ _     mlft _ _ @mal @mad @mau @mar _ _ _ _
+_ _ _ _     _ _ _ _ mlft mmid mrgt @mwd _
 _ _ _ _     _ _ _ _
 _ _ _
 )
