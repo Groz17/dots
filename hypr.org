@@ -388,34 +388,7 @@ bind = $mainMod , mouse:274, exec, hyprctl -q keyword cursor:zoom_factor 1 # mid
 *** Theme switcher
 Basically select theme from list w/ rofi and tangle dependant files from named theme block
 #+begin_src hyprlang
-bind = $mainMod, i, exec, ~/.config/hypr/scripts/themes
-#+end_src
-
-#+begin_src bash :tangle ~/.config/hypr/scripts/themes :shebang "#!/usr/bin/env bash"
-DIR="$HOME/.config/ghostty/themes/"
-
-
-mapfile -t choices < <(
-perl -MFile::Basename=basename -ne '
-  if(/^background\s*=\s*#([0-9a-fA-F]{6})/) {
-    $bg = "#$1";  # add the # back
-    ($r,$g,$b) = map {hex($_)} ($1 =~ /../g);
-    $lum = 0.299*$r + 0.587*$g + 0.114*$b;
-    $type = ($lum < 128) ? "D" : "L";
-
-    # simple foreground for contrast
-    $fg = ($lum < 128) ? "#ffffff" : "#000000";
-
-    print "<span background=\"$bg\" foreground=\"$fg\">[$type] ", basename($ARGV), "</span>\n";
-  }' "$DIR"/*
-)
-
-[ ${#choices[@]} -eq 0 ] && exit
-
-sel=$(printf '%s\n' "${choices[@]}" | rofi -dmenu -p "Select scheme" -markup-rows) || exit
-scheme=$(echo "$sel" | sed 's/^\[[DL]\] //')
-
-notify-send "Applied color scheme" "$scheme"
+bind = $mainMod, i, exec, [float;size 50% 50%] $terminal -e nvim -c 'lua Snacks.picker.colorschemes({layout={fullscreen=true},on_close=function() vim.schedule(function()vim.cmd"q!" end)end})'
 #+end_src
 
 *** [[https://wiki.hypr.land/Configuring/Binds/#media][Media]]
@@ -786,7 +759,7 @@ cliphist list | head -1 | cliphist delete
 
 # TODO: add v:count hyprland
 # metti in kanata?
-bind = $mainMod , n, exec, [float;size 30% 30%] kitty -e nvim -c 'norm 1 Qd'
+bind = $mainMod , n, exec, [float;size 30% 30%] $terminal -e nvim -c 'norm 1 Qd'
 bind = $mainMod shift, n, exec, [float] $terminal -e nvim -c 'let @+=\"## \" ..input(\">\")..\"\n\"..@+|norm 1 Qy'
 # resize terminal for input?
 bind = $mainMod shift, slash, exec, [float;size 30% 30%] $terminal -e nvim -c 'let @+=input(">")|norm 1 Qd'
