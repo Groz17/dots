@@ -1140,10 +1140,12 @@ Even monkeys fall from trees; everyone makes mistakes.
 A frog’s child is a frog; like parent, like child.
 #+end_src
 
-* Hypridle
+* TODO Hypridle
 :PROPERTIES:
 :header-args: :tangle ~/.config/hypr/hypridle.conf
 :END:
+
+Break every 60m or smth
 
 #+begin_src hyprlang
 # hyprctl dispatch dpms on  
@@ -1180,13 +1182,13 @@ listener {
 #     timeout = 1800                                # 30min
 #     on-timeout = systemctl suspend                # suspend pc
 # }
-listener {
-  timeout = 3600
+# listener {
+#   timeout = 3600
   # on-timeout = DISPLAY=:0 dunstify "Take a break"
   # on-timeout = paplay /usr/share/sounds/freedesktop/stereo/message.oga
   # run-once
-  on-timeout =  pgrep zenity || zenity --info --text="Take a break!"
-}
+#   on-timeout =  pgrep zenity || zenity --info --text="Take a break!"
+# }
 #+end_src
 
 * Hyprpaper
