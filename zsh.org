@@ -464,6 +464,7 @@ alias -g TS='| ts "%F %H:%M:%.S"'
 #+begin_src zsh
 alias -s {png,jpg}='feh'
 alias -s {ape,avi,flv,m4a,mkv,mov,mp3,mp4,mpeg,mpg,ogg,ogm,wav,webm}=mpv
+alias -s {org,md}=nvim
 #+end_src
 
 ** Functions
