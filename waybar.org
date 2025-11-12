@@ -303,7 +303,7 @@ tooltip {
 }
 
 #workspaces {
-    background: linear-gradient(135deg, #6a4a9e 0%, #5a3a7e 50%, #4a2a6e 100%);
+    background: linear-gradient(135deg, #6a4a9e 0%, #5a0a7e 50%, #000000 100%);
     margin: 6px 12px 6px 6px;
     border: 2px solid rgba(122, 74, 158, 0.6);
     box-shadow: 0 4px 16px rgba(106, 74, 158, 0.5), inset 0 1px rgba(255, 255, 255, 0.1);
