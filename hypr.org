@@ -397,10 +397,14 @@ colorscheme=${colorscheme#prefer-}
 
 # Create temporary Lua script
 cat > /tmp/theme-picker.lua << EOF
+local current_theme = vim.g.colors_name
 local theme_list = EfThemes.list.${colorscheme}
 local items = {}
+
 for _, theme in ipairs(theme_list) do
-  items[#items + 1] = { text = theme }
+  if theme ~= current_theme then
+    items[#items + 1] = { text = theme }
+  end
 end
 
 -- Open picker with ef-themes matching current mode
