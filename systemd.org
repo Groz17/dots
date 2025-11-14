@@ -27,7 +27,7 @@ emails_to_deleted=$(awk -v RS='\0' 'END{print NR}' < /tmp/tagged_as_deleted)
 if [ $emails_to_deleted -gt 0 ]; then
     zenity --question --title="Email deletion" --text="Delete $emails_to_deleted Emails?" &&
     xargs -0 -a /tmp/tagged_as_deleted rm -v &&
-    dunstify -u critical "Email update" "Deleted $emails_to_deleted Email(s)"
+    dunstify "Email update" "Deleted $emails_to_deleted Email(s)"
 fi
 
 mbsync -Va &&
