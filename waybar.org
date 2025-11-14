@@ -216,6 +216,7 @@ EOF
     "on-scroll-down": "playerctl position 3-"
   },
   // https://man.archlinux.org/man/extra/waybar/waybar-bluetooth.5.en
+      // add click to toggle?
   "bluetooth": {
     // "controller": "controller1", // specify the alias of the controller if there are more than 1 on the system
     "format": " {status}",

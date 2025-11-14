@@ -435,6 +435,7 @@ if [ -f /tmp/nvim_theme ]; then
     theme=$(cat /tmp/nvim_theme)
     sed -i "/^\s\\+$colorscheme)/s/\"[^\"]\\+/\"$theme/" ~/'dots/_lib|.org'
     # TODO: Org files that reference theme block should be tangled
+    # maybe don't modify org files but just the tangled ones
     ~/dots/tangle ~/dots/_ghostty.org
     find $XDG_RUNTIME_DIR -maxdepth 1 -name 'nvim.*.0' -type s -exec nvim -u NONE --headless --server {} --remote-send "<cmd>colo $theme<cr>" \;
 fi
