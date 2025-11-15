@@ -388,7 +388,7 @@ bindkey -s '^Xd' ' "$(fd -td . 2>/dev/null | fzf)"\n'
 zle -N copy-line-to-clipboard; copy-line-to-clipboard() { print -n -- "\e]52;c;$(print -rn -- "$BUFFER" | base64 -w0)\a" }
 bindkey '\ew' copy-line-to-clipboard
 
-zle -N copy-pwd-to-clipboard; copy-pwd-to-clipboard() { print -n -- "\e]52;c;$(print -rn -- "${PWD/#$HOME/\~}" | base64 -w0)\a" }
+zle -N copy-pwd-to-clipboard; copy-pwd-to-clipboard() { print -n -- "\e]52;c;$(print -rn -- "${PWD/#$HOME/~}" | base64 -w0)\a" }
 bindkey '^Xp' copy-pwd-to-clipboard
 
 zle -N exec-bash; exec-bash() { BUFFER='exec bash'; zle accept-line }
