@@ -845,6 +845,8 @@ submap = reset
 # Example windowrule v1
 # windowrule = float, ^(kitty)$
 
+windowrulev2 = pin,class:^zenity$
+
 # Example windowrule v2
 # windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
 
