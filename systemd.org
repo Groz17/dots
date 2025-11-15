@@ -12,7 +12,8 @@ Type=oneshot
 ExecStart=%h/.config/notmuch/%p.sh
 #+end_src
 
-*** Script
+*** TODO Script
+Add new messages notif
 #+begin_src sh :tangle ~/.config/notmuch/mail-sync.sh :shebang "#!/bin/sh"
 MBSYNC=$(pgrep mbsync)
 NOTMUCH=$(pgrep notmuch)
