@@ -249,10 +249,10 @@ EOF
 #+end_src
 
 * Style
+** Dark Theme
 :PROPERTIES:
-:header-args: :tangle ~/.config/waybar/style.css
+:header-args: :tangle ~/.config/waybar/style-dark.css
 :END:
-
 
 Group related info in boxes
 Can you reference which modules are on the left/center/right here/
@@ -444,3 +444,197 @@ tooltip {
     font-weight: 700;
 }
 #+end_src
+
+** Light Theme
+:PROPERTIES:
+:header-args: :tangle ~/.config/waybar/style-light.css
+:END:
+
+#+begin_src css
+,* {
+    border: none;
+    border-radius: 6px;
+    min-height: 0;
+    font-family: "Fira Code";
+    font-weight: 500;
+    font-size: 14px;
+    padding: 0;
+}
+
+window#waybar {
+    background: rgba(245, 240, 250, 0.95);
+    border: none;
+    border-bottom: 3px solid transparent;
+    background-image: linear-gradient(rgba(245, 240, 250, 0.95), rgba(245, 240, 250, 0.95)),
+                      linear-gradient(90deg, #d35dae 0%, #8b5aa8 50%, #5a3a7e 100%);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+}
+
+tooltip {
+    background-color: #f5f0fa;
+    border: 2px solid #8b5aa8;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+#bluetooth,
+#clock,
+#tray,
+#cpu,
+#memory,
+#battery,
+#network,
+#pulseaudio,
+#custom-email {
+    margin: 6px 6px 6px 0px;
+    padding: 2px 8px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+#custom-email {
+    margin-left: 12px;
+}
+
+#workspaces {
+    background: linear-gradient(135deg, #f5e1ff 0%, #e1c3f0 50%, #d0b3e0 100%);
+    margin: 6px 12px 6px 6px;
+    border: 2px solid rgba(122, 74, 158, 0.4);
+    box-shadow: 0 4px 16px rgba(106, 74, 158, 0.2), inset 0 1px rgba(255, 255, 255, 0.8);
+    padding: 2px;
+}
+
+#workspaces button {
+    all: initial;
+    min-width: 0;
+    padding: 4px 8px;
+    margin: 2px 3px;
+    border-radius: 6px;
+    color: #5a3a7e;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+#workspaces button.focused {
+    color: #ffffff;
+    background: linear-gradient(135deg, #e06dbe 0%, #d35dae 100%);
+    box-shadow: 0 2px 8px rgba(211, 93, 174, 0.4), inset 0 1px rgba(255, 255, 255, 0.3);
+}
+
+#workspaces button.active {
+    color: #4a2a6e;
+    background: rgba(211, 93, 174, 0.2);
+    box-shadow: inset 0 0 8px rgba(211, 93, 174, 0.3);
+}
+
+#workspaces button.urgent {
+    background-color: #d35dae;
+}
+
+#workspaces button:hover {
+    background: rgba(211, 93, 174, 0.3);
+    color: #3a2a5e;
+}
+
+#clock {
+    background: linear-gradient(135deg, #f5e1ff 0%, #e1c3f0 100%);
+    border: 2px solid rgba(122, 74, 158, 0.4);
+    color: #3a2a5e;
+    font-weight: 700;
+    margin: 6px 0px 6px 12px;
+    padding: 2px 8px;
+    box-shadow: 0 3px 10px rgba(106, 74, 158, 0.2), inset 0 1px rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.5px;
+}
+
+#privacy {
+    background: linear-gradient(135deg, #f5e1ff 0%, #e1c3f0 100%);
+    border: 2px solid #c0a0d0;
+    color: #4a2a6e;
+    margin: 6px 12px 6px 0px;
+    padding: 2px 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+#mpris,
+#custom-mpv-repeat {
+    background: linear-gradient(135deg, #f5e1ff 0%, #e1c3f0 100%);
+    border: 2px solid #c0a0d0;
+    color: #4a2a6e;
+    margin: 6px 6px 6px 0px;
+    padding: 2px 8px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+#network {
+    border-left: 3px solid #8b5aa8;
+}
+
+#mpris {
+    margin-left: 6px;
+}
+
+#cpu {
+    border-left: 3px solid #d35dae;
+}
+
+#memory {
+    border-left: 3px solid #c84aae;
+}
+
+#custom-mpv-repeat {
+    margin-left: 0px;
+}
+
+#tray {
+    background: linear-gradient(135deg, #ffffff 0%, #f5f0fa 100%);
+    border: 2px solid #d0c0e0;
+}
+
+#battery {
+    border: 2px solid rgba(232, 127, 184, 0.6);
+    color: #3a2a5e;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(211, 93, 174, 0.3), inset 0 1px rgba(255, 255, 255, 0.5);
+}
+
+#bluetooth,
+#cpu,
+#memory,
+#network,
+#pulseaudio {
+    background: linear-gradient(135deg, #ffffff 0%, #f5f0fa 50%, #f0e5ff 100%);
+    border: 2px solid rgba(200, 180, 220, 0.6);
+    color: #3a2a5e;
+    box-shadow: 0 2px 8px rgba(150, 130, 180, 0.2), inset 0 1px rgba(255, 255, 255, 0.7);
+}
+
+#tray:hover,
+#pulseaudio:hover,
+#custom-email:hover {
+    background-color: #e0d0f0;
+}
+
+#custom-email {
+  background-color: #ffdddd;
+  border: 2px solid #ffcccc;
+  box-shadow: 0 4px 10px rgba(255, 200, 200, 0.3);
+}
+
+#cpu.critical,
+#memory.critical {
+    background-color: #ffe0f0;
+    border: 2px solid #ffc0e0;
+    color: #d35dae;
+    font-weight: 700;
+}
+
+#battery.warning,
+#battery.critical,
+#battery.urgent {
+    background-color: #ffe0f0;
+    border: 2px solid #ffc0e0;
+    color: #d35dae;
+    font-weight: 700;
+}
+#+end_src
+
