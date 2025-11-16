@@ -324,6 +324,7 @@ mlft mlft
 #+end_src
 
 ** Macros
+add sleep w/ key -> cmd sleep 2?
 ;; rmet-q(dynamic-macro-record 0)
 ;; rmet-@(dynamic-macro-play   0)
 
