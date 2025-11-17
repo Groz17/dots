@@ -176,7 +176,8 @@ Description=Watch waybar config files
 
 [Path]
 PathChanged=%h/.config/waybar/config.jsonc
-PathChanged=%h/.config/waybar/style.css
+PathChanged=%h/.config/waybar/style-dark.css
+PathChanged=%h/.config/waybar/style-light.css
 
 [Install]
 WantedBy=default.target
