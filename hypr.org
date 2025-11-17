@@ -518,10 +518,17 @@ bind = $mainMod SHIFT, c, exec, ~/.config/hypr/scripts/theme
 
 #+begin_src bash :tangle ~/.config/hypr/scripts/theme :shebang "#!/usr/bin/env bash"
 case $(gsettings get org.gnome.desktop.interface color-scheme) in
-  "'prefer-dark'") scheme="prefer-light" ;;
-  *)               scheme="prefer-dark"  ;;
+  "'prefer-dark'")
+    scheme="prefer-light"
+    wallpaper="$HOME/dots/pics/wallpapers/Mountain.jpg"
+    ;;
+  *)
+    scheme="prefer-dark"
+    wallpaper="$HOME/dots/pics/wallpapers/kanagawa_vaporwave.jpg"
+    ;;
 esac
 gsettings set org.gnome.desktop.interface color-scheme "$scheme"
+hyprctl hyprpaper wallpaper ",$wallpaper"
 #+end_src
 
 *** Bluetooth
@@ -1207,11 +1214,12 @@ listener {
 
 can u use source code (maybe elisp) to pick random image?
 #+begin_src hyprlang
-# preload=/tmp/anki
-# https://wallpapersafari.com/w/izoh9I/download
+# Preload both light and dark wallpapers
 preload=~/dots/pics/wallpapers/kanagawa_vaporwave.jpg
+preload=~/dots/pics/wallpapers/Mountain.jpg
+# Default wallpaper (switched by systemd timers)
 wallpaper=,~/dots/pics/wallpapers/kanagawa_vaporwave.jpg
-# ipc = off
+ipc = on
 #+end_src
 
 * Hyprsunset
