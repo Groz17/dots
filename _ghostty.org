@@ -201,6 +201,8 @@ keybind = super+alt+m=move_tab:+1
 
 * Shaders 
 https://github.com/KroneCorylus/ghostty-shader-playground
+
+Shader picker w/ preview
 #+begin_src conf
 
 # how to reload those?
