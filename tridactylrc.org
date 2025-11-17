@@ -910,9 +910,6 @@ autocmd DocStart github\.com/.*[?&]tab=readme-ov-file urlmodify -Q tab
 " autocmd DocStart chatgpt.com js document.querySelector("a .cursor-pointer").click()
 " <a href="#" class="mt-5 cursor-pointer text-sm font-semibold text-token-text-secondary underline">Stay logged out</a>
 
-"bind <space><space> exclaim ~/bin/screenshoot_firefox
-" bind ,s exclaim ~/bin/screenshoot_firefox
-
 "like in vim
 bind gO fillcmdline goto
 
