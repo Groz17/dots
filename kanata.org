@@ -546,6 +546,7 @@ d0 (tap-hold 175 175 0 (tap-hold-press-timeout 0 230 0 (layer-while-held audio) 
 #+end_src
 
 * LAYERS
+Combinazioni che non hanno senso quando tenute, e.g. as che darebbe luogo a F16 C-x, possono essere sostitutite con altre utili come C-c C-x.
 how to use autoshift w/ a layer? like G to go to end
 implement vim layer? like gg and stuff
 notify when layer switching?
