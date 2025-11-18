@@ -420,8 +420,9 @@ i (tap-hold 175 175 i (tap-hold-press-timeout 0 150 i (multi lmet lalt) (macro S
 
 ;;c (tap-hold 175 200 c (tap-hold-press-timeout 0 200 c f15 (macro S-c)))
 ;; m (tap-hold 175 200 m (tap-hold-press-timeout 0 200 m f15 (macro S-m)))
-m (tap-hold 175 175 m (tap-hold-press-timeout 0 230 m (layer-while-held mouse) (macro S-m)))
-c (tap-hold 175 175 c (tap-hold-press-timeout 0 230 c (layer-while-held mouse) (macro S-c)))
+m (tap-hold 175 175 m (tap-hold-press-timeout 0 230 m m (macro S-m)))
+;; When held with d (ctrl), c should act as a layer that prefixes all keys with C-c
+c (tap-hold 175 175 c (tap-hold-press-timeout 0 230 c (layer-while-held c-c-prefix) (macro S-c)))
 #+end_src
 
 ** Window mappings
@@ -655,6 +656,21 @@ restart (cmd playerctl position 0)
   _ _ _              _              _ _   _ MediaTrackNext   VolumeMute _        _                  _ _
   _ _ _ MediaPlayPause _ _   _ _
   _ _ _             
+)
+#+end_src
+
+** C-c Prefix Layer
+This layer sends C-c before each key when activated by holding c with d (ctrl).
+
+#+begin_src kbd
+(deflayer c-c-prefix
+  _
+  _ _ _ _ _ _ _ _ _ _ _ _ _ _
+  _ (macro C-c q) (macro C-c w) (macro C-c e) (macro C-c r) (macro C-c t) (macro C-c y) (macro C-c u) (macro C-c i) (macro C-c o) (macro C-c p) _ _
+  _ (macro C-c a) (macro C-c s) (macro C-c d) (macro C-c f) (macro C-c g) (macro C-c h) (macro C-c j) (macro C-c k) (macro C-c l) (macro C-c ;) _ _ _
+  _ _ (macro C-c z) (macro C-c x) _ (macro C-c v) (macro C-c b) (macro C-c n) (macro C-c m) _ _ _ _
+  _ _ _ _ _ _ _ _
+  _ _ _
 )
 #+end_src
 
