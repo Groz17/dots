@@ -101,7 +101,7 @@ danger-enable-cmd yes
   ;; block-unmapped-keys yes
   process-unmapped-keys yes
   ;;linux-x11-repeat-delay-rate 300,73
-  log-layer-changes no
+  log-layer-changes yes
   linux-use-trackpoint-property yes
 ;; linux-only-linux-dev-names-onClude
   linux-continue-if-no-devs-found yes
@@ -430,8 +430,10 @@ c (tap-hold 175 175 c (tap-hold-press-timeout 0 230 c (layer-while-held c-c-pref
 #+begin_src kbd
 ;; magari crea f16 when it does this char= getchar; exe <cmd>char..<cr> (basically one letter commands) and maybe double quotes two letters?
 ;; so i can preserve C-\ input in emacs
-a (tap-hold 175 175 a (tap-hold-press-timeout 0 175 a f16 (macro S-a)))
-; (tap-hold 0 150 ; (tap-hold-press-timeout 0 100 ; f16 (macro S-;)))
+;; a held activates a layer where s triggers C-c C-x
+;; ; held activates a layer where l triggers C-c C-x
+a (tap-hold 175 175 a (tap-hold-press-timeout 0 175 a (layer-while-held a-layer) (macro S-a)))
+; (tap-hold 0 150 ; (tap-hold-press-timeout 0 100 ; (layer-while-held semicolon-layer) (macro S-;)))
 #+end_src
 
 #+begin_src kbd
@@ -453,9 +455,10 @@ C-x is also useful for readline
 ;;s (tap-hold 150 175 s (tap-hold-press-timeout 0 230 s (macro C-x) (macro S-s)))
 ;; make it press f12 unless released so which-key buffer pops up...
 ;; make it hyper so u can hold s, sd, etc...
-s (tap-hold 150 175 s (tap-hold-press-timeout 0 230 s f12 (macro S-s)))
+;; s and l now just tap normally so ctrl-layer can intercept them
+s (tap-hold-press-timeout 150 175 s f12 (macro S-s))
 
-l (tap-hold 150 175 l (tap-hold-press-timeout 0 150 l f12 (macro S-l)))
+l (tap-hold-press-timeout 150 175 l f12 (macro S-l))
 #+end_src
 
 #+begin_src elisp
@@ -669,6 +672,85 @@ This layer sends C-c before each key when activated by holding c with d (ctrl).
   _ (macro C-c q) (macro C-c w) (macro C-c e) (macro C-c r) (macro C-c t) (macro C-c y) (macro C-c u) (macro C-c i) (macro C-c o) (macro C-c p) _ _
   _ (macro C-c a) (macro C-c s) (macro C-c d) (macro C-c f) (macro C-c g) (macro C-c h) (macro C-c j) (macro C-c k) (macro C-c l) (macro C-c ;) _ _ _
   _ _ (macro C-c z) (macro C-c x) _ (macro C-c v) (macro C-c b) (macro C-c n) (macro C-c m) _ _ _ _
+  _ _ _ _ _ _ _ _
+  _ _ _
+)
+#+end_src
+
+** C-c C-x Prefix Layer
+This layer sends C-c C-x before each key when activated by pressing s in a-layer or l in semicolon-layer.
+
+#+begin_src kbd
+(deflayer c-c-x-prefix
+  _
+  _ _ _ _ _ _ _ _ _ _ _ _ _ _
+  _ (macro C-c C-x q) (macro C-c C-x w) (macro C-c C-x e) (macro C-c C-x r) (macro C-c C-x t) (macro C-c C-x y) (macro C-c C-x u) (macro C-c C-x i) (macro C-c C-x o) (macro C-c C-x p) _ _
+  _ (macro C-c C-x a) (macro C-c C-x s) (macro C-c C-x d) (macro C-c C-x f) (macro C-c C-x g) (macro C-c C-x h) (macro C-c C-x j) (macro C-c C-x k) (macro C-c C-x l) (macro C-c C-x ;) _ _ _
+  _ _ (macro C-c C-x z) (macro C-c C-x x) (macro C-c C-x c) (macro C-c C-x v) (macro C-c C-x b) (macro C-c C-x n) (macro C-c C-x m) _ _ _ _
+  _ _ _ _ _ _ _ _
+  _ _ _
+)
+#+end_src
+
+** Left Ctrl Layer (d held)
+This layer is activated when d is held. It acts like ctrl for all keys,
+except s which triggers C-c C-x instead of C-s.
+
+#+begin_src kbd
+(deflayer left-ctrl-layer
+  _
+  _ _ _ _ _ _ _ _ _ _ _ _ _ _
+  _ (macro C-q) (macro C-w) (macro C-e) (macro C-r) (macro C-t) (macro C-y) (macro C-u) (macro C-i) (macro C-o) (macro C-p) _ _
+  _ (macro C-a) (macro C-c C-x) (macro C-d) (macro C-f) (macro C-g) (macro C-h) (macro C-j) (macro C-k) (macro C-l) _ _ _ _
+  _ _ (macro C-z) (macro C-x) (layer-while-held c-c-prefix) (macro C-v) (macro C-b) (macro C-n) (macro C-m) _ _ _ _
+  _ _ _ _ _ _ _ _
+  _ _ _
+)
+#+end_src
+
+** Right Ctrl Layer (k held)
+This layer is activated when k is held. It acts like ctrl for all keys,
+except l which triggers C-c C-x instead of C-l.
+
+#+begin_src kbd
+(deflayer right-ctrl-layer
+  _
+  _ _ _ _ _ _ _ _ _ _ _ _ _ _
+  _ (macro C-q) (macro C-w) (macro C-e) (macro C-r) (macro C-t) (macro C-y) (macro C-u) (macro C-i) (macro C-o) (macro C-p) _ _
+  _ (macro C-a) (macro C-s) (macro C-d) (macro C-f) (macro C-g) (macro C-h) (macro C-j) (macro C-k) (macro C-c C-x) _ _ _ _
+  _ _ (macro C-z) (macro C-x) (layer-while-held c-c-prefix) (macro C-v) (macro C-b) (macro C-n) (macro C-m) _ _ _ _
+  _ _ _ _ _ _ _ _
+  _ _ _
+)
+#+end_src
+
+** A Layer (a held)
+This layer is activated when a is held. It sends f16 + key for all keys,
+except s which activates c-c-x-prefix layer, and d/k which pass through to allow ctrl layer activation.
+
+#+begin_src kbd
+(deflayer a-layer
+  _
+  _ _ _ _ _ _ _ _ _ _ _ _ _ _
+  _ (tap-hold-press-timeout 175 175 (macro f16 q) (macro f16 q) (macro f16 S-q)) (tap-hold-press-timeout 175 175 (macro f16 w) (macro f16 w) (macro f16 S-w)) (tap-hold-press-timeout 175 175 (macro f16 e) (macro f16 e) (macro f16 S-e)) (tap-hold-press-timeout 175 175 (macro f16 r) (macro f16 r) (macro f16 S-r)) (tap-hold-press-timeout 175 175 (macro f16 t) (macro f16 t) (macro f16 S-t)) (tap-hold-press-timeout 175 175 (macro f16 y) (macro f16 y) (macro f16 S-y)) (tap-hold-press-timeout 175 175 (macro f16 u) (macro f16 u) (macro f16 S-u)) (tap-hold-press-timeout 175 175 (macro f16 i) (macro f16 i) (macro f16 S-i)) (tap-hold-press-timeout 175 175 (macro f16 o) (macro f16 o) (macro f16 S-o)) (tap-hold-press-timeout 175 175 (macro f16 p) (macro f16 p) (macro f16 S-p)) _ _
+  _ (tap-hold-press-timeout 175 175 (macro f16 a) (macro f16 a) (macro f16 S-a)) (layer-while-held c-c-x-prefix) (tap-hold 175 175 (macro f16 d) (tap-hold-press-timeout 0 230 (macro f16 d) (layer-while-held left-ctrl-layer) (macro f16 S-d))) (tap-hold-press-timeout 175 175 (macro f16 f) (macro f16 f) (macro f16 S-f)) (tap-hold-press-timeout 175 175 (macro f16 g) (macro f16 g) (macro f16 S-g)) (tap-hold-press-timeout 175 175 (macro f16 h) (macro f16 h) (macro f16 S-h)) (tap-hold-press-timeout 175 175 (macro f16 j) (macro f16 j) (macro f16 S-j)) (tap-hold 175 175 (macro f16 k) (tap-hold-press-timeout 0 230 (macro f16 k) (layer-while-held right-ctrl-layer) (macro f16 S-k))) (tap-hold-press-timeout 150 175 (macro f16 l) (macro f16 f12) (macro f16 S-l)) _ _ _ _
+  _ _ (tap-hold-press-timeout 175 175 (macro f16 z) (macro f16 z) (macro f16 S-z)) (tap-hold-press-timeout 175 175 (macro f16 x) (macro f16 x) (macro f16 S-x)) (tap-hold-press-timeout 175 175 (macro f16 c) (macro f16 c) (macro f16 S-c)) (tap-hold-press-timeout 175 175 (macro f16 v) (macro f16 v) (macro f16 S-v)) (tap-hold-press-timeout 175 175 (macro f16 b) (macro f16 b) (macro f16 S-b)) (tap-hold-press-timeout 175 175 (macro f16 n) (macro f16 n) (macro f16 S-n)) (tap-hold-press-timeout 175 175 (macro f16 m) (macro f16 m) (macro f16 S-m)) _ _ _ _
+  _ _ _ _ _ _ _ _
+  _ _ _
+)
+#+end_src
+
+** Semicolon Layer (; held)
+This layer is activated when ; is held. It sends f16 + key for all keys,
+except l which activates c-c-x-prefix layer, and d/k which pass through to allow ctrl layer activation.
+
+#+begin_src kbd
+(deflayer semicolon-layer
+  _
+  _ _ _ _ _ _ _ _ _ _ _ _ _ _
+  _ (tap-hold-press-timeout 175 175 (macro f16 q) (macro f16 q) (macro f16 S-q)) (tap-hold-press-timeout 175 175 (macro f16 w) (macro f16 w) (macro f16 S-w)) (tap-hold-press-timeout 175 175 (macro f16 e) (macro f16 e) (macro f16 S-e)) (tap-hold-press-timeout 175 175 (macro f16 r) (macro f16 r) (macro f16 S-r)) (tap-hold-press-timeout 175 175 (macro f16 t) (macro f16 t) (macro f16 S-t)) (tap-hold-press-timeout 175 175 (macro f16 y) (macro f16 y) (macro f16 S-y)) (tap-hold-press-timeout 175 175 (macro f16 u) (macro f16 u) (macro f16 S-u)) (tap-hold-press-timeout 175 175 (macro f16 i) (macro f16 i) (macro f16 S-i)) (tap-hold-press-timeout 175 175 (macro f16 o) (macro f16 o) (macro f16 S-o)) (tap-hold-press-timeout 175 175 (macro f16 p) (macro f16 p) (macro f16 S-p)) _ _
+  _ (tap-hold-press-timeout 175 175 (macro f16 a) (macro f16 a) (macro f16 S-a)) (tap-hold-press-timeout 150 175 (macro f16 s) (macro f16 f12) (macro f16 S-s)) (tap-hold 175 175 (macro f16 d) (tap-hold-press-timeout 0 230 (macro f16 d) (layer-while-held left-ctrl-layer) (macro f16 S-d))) (tap-hold-press-timeout 175 175 (macro f16 f) (macro f16 f) (macro f16 S-f)) (tap-hold-press-timeout 175 175 (macro f16 g) (macro f16 g) (macro f16 S-g)) (tap-hold-press-timeout 175 175 (macro f16 h) (macro f16 h) (macro f16 S-h)) (tap-hold-press-timeout 175 175 (macro f16 j) (macro f16 j) (macro f16 S-j)) (tap-hold 175 175 (macro f16 k) (tap-hold-press-timeout 0 230 (macro f16 k) (layer-while-held right-ctrl-layer) (macro f16 S-k))) (layer-while-held c-c-x-prefix) _ _ _ _
+  _ _ (tap-hold-press-timeout 175 175 (macro f16 z) (macro f16 z) (macro f16 S-z)) (tap-hold-press-timeout 175 175 (macro f16 x) (macro f16 x) (macro f16 S-x)) (tap-hold-press-timeout 175 175 (macro f16 c) (macro f16 c) (macro f16 S-c)) (tap-hold-press-timeout 175 175 (macro f16 v) (macro f16 v) (macro f16 S-v)) (tap-hold-press-timeout 175 175 (macro f16 b) (macro f16 b) (macro f16 S-b)) (tap-hold-press-timeout 175 175 (macro f16 n) (macro f16 n) (macro f16 S-n)) (tap-hold-press-timeout 175 175 (macro f16 m) (macro f16 m) (macro f16 S-m)) _ _ _ _
   _ _ _ _ _ _ _ _
   _ _ _
 )
