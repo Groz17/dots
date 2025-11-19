@@ -789,12 +789,12 @@ Keys support autoshift: tap=C-c C-x <key>, hold=C-c C-x <key>, long-hold=C-c C-x
   ccx-caps (tap-hold-press-timeout 175 175 (macro C-c C-x caps) (macro C-c C-x caps) (macro C-c C-x S-caps))
   ccx-a (tap-hold-press-timeout 175 175 (macro C-c C-x a) (macro C-c C-x a) (macro C-c C-x S-a))
   ccx-s (tap-hold-press-timeout 175 175 (macro C-c C-x s) (macro C-c C-x s) (macro C-c C-x S-s))
-  ccx-d (tap-hold-press-timeout 175 175 (macro C-c C-x d) (macro C-c C-x d) (macro C-c C-x S-d))
+  ccx-d (tap-hold-press-timeout 175 175 (macro C-c C-x d) (layer-while-held c-c-x-ctrl) (macro C-c C-x S-d))
   ccx-f (tap-hold-press-timeout 175 175 (macro C-c C-x f) (macro C-c C-x f) (macro C-c C-x S-f))
   ccx-g (tap-hold-press-timeout 175 175 (macro C-c C-x g) (macro C-c C-x g) (macro C-c C-x S-g))
   ccx-h (tap-hold-press-timeout 175 175 (macro C-c C-x h) (macro C-c C-x h) (macro C-c C-x S-h))
   ccx-j (tap-hold-press-timeout 175 175 (macro C-c C-x j) (macro C-c C-x j) (macro C-c C-x S-j))
-  ccx-k (tap-hold-press-timeout 175 175 (macro C-c C-x k) (macro C-c C-x k) (macro C-c C-x S-k))
+  ccx-k (tap-hold-press-timeout 175 175 (macro C-c C-x k) (layer-while-held c-c-x-ctrl) (macro C-c C-x S-k))
   ccx-l (tap-hold-press-timeout 175 175 (macro C-c C-x l) (macro C-c C-x l) (macro C-c C-x S-l))
   ccx-; (tap-hold-press-timeout 175 175 (macro C-c C-x ;) (macro C-c C-x ;) (macro C-c C-x S-;))
   ccx-' (tap-hold-press-timeout 175 175 (macro C-c C-x ') (macro C-c C-x ') (macro C-c C-x S-'))
@@ -834,6 +834,18 @@ Keys support autoshift: tap=C-c C-x <key>, hold=C-c C-x <key>, long-hold=C-c C-x
   @ccx-lsft @ccx-< @ccx-z @ccx-x @ccx-c @ccx-v @ccx-b @ccx-n @ccx-m @ccx-, @ccx-. @ccx-/ @ccx-rsft
   @ccx-lctl @ccx-lmet @ccx-lalt @ccx-spc @ccx-ralt @ccx-menu @ccx-prnt @ccx-rctl
   @ccx-mlft @ccx-mmid @ccx-mrgt
+)
+
+;; Layer for C-c C-x C-<key> (activated when k is held in c-c-x-prefix layer)
+;; This layer sends C-c C-x C-<key> for each key press
+(deflayer c-c-x-ctrl
+  _
+  _ _ _ _ _ _ _ _ _ _ _ _ _ _
+  _ (macro C-c C-x C-q) (macro C-c C-x C-w) (macro C-c C-x C-e) (macro C-c C-x C-r) (macro C-c C-x C-t) (macro C-c C-x C-y) (macro C-c C-x C-u) (macro C-c C-x C-i) (macro C-c C-x C-o) (macro C-c C-x C-p) (macro C-c C-x C-[) (macro C-c C-x C-])
+  _ (macro C-c C-x C-a) (macro C-c C-x C-s) (macro C-c C-x C-d) (macro C-c C-x C-f) (macro C-c C-x C-g) (macro C-c C-x C-h) (macro C-c C-x C-j) (macro C-c C-x C-k) (macro C-c C-x C-l) (macro C-c C-x C-;) (macro C-c C-x C-') (macro C-c C-x C-\) _
+  _ _ (macro C-c C-x C-z) (macro C-c C-x C-x) (macro C-c C-x C-c) (macro C-c C-x C-v) (macro C-c C-x C-b) (macro C-c C-x C-n) (macro C-c C-x C-m) (macro C-c C-x C-,) (macro C-c C-x C-.) (macro C-c C-x C-/) _
+  _ _ _ _ _ _ _ _
+  _ _ _
 )
 #+end_src
 
