@@ -665,16 +665,88 @@ restart (cmd playerctl position 0)
 
 ** C-c Prefix Layer
 This layer sends C-c before each key when activated by holding c with d (ctrl).
+Keys support autoshift: tap=C-c <key>, hold=C-c <key>, long-hold=C-c S-<key>
 
 #+begin_src kbd
+;; Aliases for C-c prefix mappings with autoshift support
+;; Pattern: tap=C-c key, hold=C-c key, long-hold=C-c Shift-key
+(defalias
+  cc-esc (tap-hold-press-timeout 175 175 (macro C-c esc) (macro C-c esc) (macro C-c S-esc))
+  cc-grv (tap-hold-press-timeout 175 175 (macro C-c grv) (macro C-c grv) (macro C-c S-grv))
+  cc-1 (tap-hold-press-timeout 175 175 (macro C-c Digit1) (macro C-c Digit1) (macro C-c S-1))
+  cc-2 (tap-hold-press-timeout 175 175 (macro C-c Digit2) (macro C-c Digit2) (macro C-c S-2))
+  cc-3 (tap-hold-press-timeout 175 175 (macro C-c Digit3) (macro C-c Digit3) (macro C-c S-3))
+  cc-4 (tap-hold-press-timeout 175 175 (macro C-c Digit4) (macro C-c Digit4) (macro C-c S-4))
+  cc-5 (tap-hold-press-timeout 175 175 (macro C-c Digit5) (macro C-c Digit5) (macro C-c S-5))
+  cc-6 (tap-hold-press-timeout 175 175 (macro C-c Digit6) (macro C-c Digit6) (macro C-c S-6))
+  cc-7 (tap-hold-press-timeout 175 175 (macro C-c Digit7) (macro C-c Digit7) (macro C-c S-7))
+  cc-8 (tap-hold-press-timeout 175 175 (macro C-c Digit8) (macro C-c Digit8) (macro C-c S-8))
+  cc-9 (tap-hold-press-timeout 175 175 (macro C-c Digit9) (macro C-c Digit9) (macro C-c S-9))
+  cc-0 (tap-hold-press-timeout 175 175 (macro C-c Digit0) (macro C-c Digit0) (macro C-c S-0))
+  cc-- (tap-hold-press-timeout 175 175 (macro C-c -) (macro C-c -) (macro C-c S--))
+  cc-= (tap-hold-press-timeout 175 175 (macro C-c =) (macro C-c =) (macro C-c S-=))
+  cc-bspc (tap-hold-press-timeout 175 175 (macro C-c bspc) (macro C-c bspc) (macro C-c S-bspc))
+  cc-tab (tap-hold-press-timeout 175 175 (macro C-c tab) (macro C-c tab) (macro C-c S-tab))
+  cc-q (tap-hold-press-timeout 175 175 (macro C-c q) (macro C-c q) (macro C-c S-q))
+  cc-w (tap-hold-press-timeout 175 175 (macro C-c w) (macro C-c w) (macro C-c S-w))
+  cc-e (tap-hold-press-timeout 175 175 (macro C-c e) (macro C-c e) (macro C-c S-e))
+  cc-r (tap-hold-press-timeout 175 175 (macro C-c r) (macro C-c r) (macro C-c S-r))
+  cc-t (tap-hold-press-timeout 175 175 (macro C-c t) (macro C-c t) (macro C-c S-t))
+  cc-y (tap-hold-press-timeout 175 175 (macro C-c y) (macro C-c y) (macro C-c S-y))
+  cc-u (tap-hold-press-timeout 175 175 (macro C-c u) (macro C-c u) (macro C-c S-u))
+  cc-i (tap-hold-press-timeout 175 175 (macro C-c i) (macro C-c i) (macro C-c S-i))
+  cc-o (tap-hold-press-timeout 175 175 (macro C-c o) (macro C-c o) (macro C-c S-o))
+  cc-p (tap-hold-press-timeout 175 175 (macro C-c p) (macro C-c p) (macro C-c S-p))
+  cc-[ (tap-hold-press-timeout 175 175 (macro C-c [) (macro C-c [) (macro C-c S-[))
+  cc-] (tap-hold-press-timeout 175 175 (macro C-c ]) (macro C-c ]) (macro C-c S-]))
+  cc-caps (tap-hold-press-timeout 175 175 (macro C-c caps) (macro C-c caps) (macro C-c S-caps))
+  cc-a (tap-hold-press-timeout 175 175 (macro C-c a) (macro C-c a) (macro C-c S-a))
+  cc-s (tap-hold-press-timeout 175 175 (macro C-c s) (macro C-c s) (macro C-c S-s))
+  cc-d (tap-hold-press-timeout 175 175 (macro C-c d) (macro C-c d) (macro C-c S-d))
+  cc-f (tap-hold-press-timeout 175 175 (macro C-c f) (macro C-c f) (macro C-c S-f))
+  cc-g (tap-hold-press-timeout 175 175 (macro C-c g) (macro C-c g) (macro C-c S-g))
+  cc-h (tap-hold-press-timeout 175 175 (macro C-c h) (macro C-c h) (macro C-c S-h))
+  cc-j (tap-hold-press-timeout 175 175 (macro C-c j) (macro C-c j) (macro C-c S-j))
+  cc-k (tap-hold-press-timeout 175 175 (macro C-c k) (macro C-c k) (macro C-c S-k))
+  cc-l (tap-hold-press-timeout 175 175 (macro C-c l) (macro C-c l) (macro C-c S-l))
+  cc-; (tap-hold-press-timeout 175 175 (macro C-c ;) (macro C-c ;) (macro C-c S-;))
+  cc-' (tap-hold-press-timeout 175 175 (macro C-c ') (macro C-c ') (macro C-c S-'))
+  cc-\ (tap-hold-press-timeout 175 175 (macro C-c \) (macro C-c \) (macro C-c S-\))
+  cc-ret (tap-hold-press-timeout 175 175 (macro C-c ret) (macro C-c ret) (macro C-c S-ret))
+  cc-lsft (tap-hold-press-timeout 175 175 (macro C-c lsft) (macro C-c lsft) (macro C-c S-lsft))
+  cc-< (tap-hold-press-timeout 175 175 (macro C-c <) (macro C-c <) (macro C-c S-<))
+  cc-z (tap-hold-press-timeout 175 175 (macro C-c z) (macro C-c z) (macro C-c S-z))
+  cc-x (tap-hold-press-timeout 175 175 (macro C-c x) (macro C-c x) (macro C-c S-x))
+  cc-c (tap-hold-press-timeout 175 175 (macro C-c c) (macro C-c c) (macro C-c S-c))
+  cc-v (tap-hold-press-timeout 175 175 (macro C-c v) (macro C-c v) (macro C-c S-v))
+  cc-b (tap-hold-press-timeout 175 175 (macro C-c b) (macro C-c b) (macro C-c S-b))
+  cc-n (tap-hold-press-timeout 175 175 (macro C-c n) (macro C-c n) (macro C-c S-n))
+  cc-m (tap-hold-press-timeout 175 175 (macro C-c m) (macro C-c m) (macro C-c S-m))
+  cc-, (tap-hold-press-timeout 175 175 (macro C-c ,) (macro C-c ,) (macro C-c S-,))
+  cc-. (tap-hold-press-timeout 175 175 (macro C-c .) (macro C-c .) (macro C-c S-.))
+  cc-/ (tap-hold-press-timeout 175 175 (macro C-c /) (macro C-c /) (macro C-c S-/))
+  cc-rsft (tap-hold-press-timeout 175 175 (macro C-c rsft) (macro C-c rsft) (macro C-c S-rsft))
+  cc-lctl (tap-hold-press-timeout 175 175 (macro C-c lctl) (macro C-c lctl) (macro C-c S-lctl))
+  cc-lmet (tap-hold-press-timeout 175 175 (macro C-c lmet) (macro C-c lmet) (macro C-c S-lmet))
+  cc-lalt (tap-hold-press-timeout 175 175 (macro C-c lalt) (macro C-c lalt) (macro C-c S-lalt))
+  cc-spc (tap-hold-press-timeout 175 175 (macro C-c spc) (macro C-c spc) (macro C-c S-spc))
+  cc-ralt (tap-hold-press-timeout 175 175 (macro C-c ralt) (macro C-c ralt) (macro C-c S-ralt))
+  cc-menu (tap-hold-press-timeout 175 175 (macro C-c menu) (macro C-c menu) (macro C-c S-menu))
+  cc-prnt (tap-hold-press-timeout 175 175 (macro C-c prnt) (macro C-c prnt) (macro C-c S-prnt))
+  cc-rctl (tap-hold-press-timeout 175 175 (macro C-c rctl) (macro C-c rctl) (macro C-c S-rctl))
+  cc-mlft (tap-hold-press-timeout 175 175 (macro C-c mlft) (macro C-c mlft) (macro C-c S-mlft))
+  cc-mmid (tap-hold-press-timeout 175 175 (macro C-c mmid) (macro C-c mmid) (macro C-c S-mmid))
+  cc-mrgt (tap-hold-press-timeout 175 175 (macro C-c mrgt) (macro C-c mrgt) (macro C-c S-mrgt))
+)
+
 (deflayer c-c-prefix
-  _
-  _ _ _ _ _ _ _ _ _ _ _ _ _ _
-  _ (macro C-c q) (macro C-c w) (macro C-c e) (macro C-c r) (macro C-c t) (macro C-c y) (macro C-c u) (macro C-c i) (macro C-c o) (macro C-c p) (macro C-c [) (macro C-c ])
-  _ (macro C-c a) (macro C-c s) (macro C-c d) (macro C-c f) (macro C-c g) (macro C-c h) (macro C-c j) (macro C-c k) (macro C-c l) (macro C-c ;) (macro C-c ') (macro C-c \) _
-  _ _ (macro C-c z) (macro C-c x) _ (macro C-c v) (macro C-c b) (macro C-c n) (macro C-c m) (macro C-c ,) (macro C-c .) (macro C-c /) _
-  _ _ _ _ _ _ _ _
-  _ _ _
+  @cc-esc
+  @cc-grv @cc-1 @cc-2 @cc-3 @cc-4 @cc-5 @cc-6 @cc-7 @cc-8 @cc-9 @cc-0 @cc-- @cc-= @cc-bspc
+  @cc-tab @cc-q @cc-w @cc-e @cc-r @cc-t @cc-y @cc-u @cc-i @cc-o @cc-p @cc-[ @cc-]
+  @cc-caps @cc-a @cc-s @cc-d @cc-f @cc-g @cc-h @cc-j @cc-k @cc-l @cc-; @cc-' @cc-\ @cc-ret
+  @cc-lsft @cc-< @cc-z @cc-x @cc-c @cc-v @cc-b @cc-n @cc-m @cc-, @cc-. @cc-/ @cc-rsft
+  @cc-lctl @cc-lmet @cc-lalt @cc-spc @cc-ralt @cc-menu @cc-prnt @cc-rctl
+  @cc-mlft @cc-mmid @cc-mrgt
 )
 #+end_src
 
@@ -686,6 +758,22 @@ Keys support autoshift: tap=C-c C-x <key>, hold=C-c C-x <key>, long-hold=C-c C-x
 ;; Aliases for C-c C-x prefix mappings with autoshift support
 ;; Pattern: tap=C-c C-x key, hold=C-c C-x key, long-hold=C-c C-x Shift-key
 (defalias
+  ccx-esc (tap-hold-press-timeout 175 175 (macro C-c C-x esc) (macro C-c C-x esc) (macro C-c C-x S-esc))
+  ccx-grv (tap-hold-press-timeout 175 175 (macro C-c C-x grv) (macro C-c C-x grv) (macro C-c C-x S-grv))
+  ccx-1 (tap-hold-press-timeout 175 175 (macro C-c C-x Digit1) (macro C-c C-x Digit1) (macro C-c C-x S-1))
+  ccx-2 (tap-hold-press-timeout 175 175 (macro C-c C-x Digit2) (macro C-c C-x Digit2) (macro C-c C-x S-2))
+  ccx-3 (tap-hold-press-timeout 175 175 (macro C-c C-x Digit3) (macro C-c C-x Digit3) (macro C-c C-x S-3))
+  ccx-4 (tap-hold-press-timeout 175 175 (macro C-c C-x Digit4) (macro C-c C-x Digit4) (macro C-c C-x S-4))
+  ccx-5 (tap-hold-press-timeout 175 175 (macro C-c C-x Digit5) (macro C-c C-x Digit5) (macro C-c C-x S-5))
+  ccx-6 (tap-hold-press-timeout 175 175 (macro C-c C-x Digit6) (macro C-c C-x Digit6) (macro C-c C-x S-6))
+  ccx-7 (tap-hold-press-timeout 175 175 (macro C-c C-x Digit7) (macro C-c C-x Digit7) (macro C-c C-x S-7))
+  ccx-8 (tap-hold-press-timeout 175 175 (macro C-c C-x Digit8) (macro C-c C-x Digit8) (macro C-c C-x S-8))
+  ccx-9 (tap-hold-press-timeout 175 175 (macro C-c C-x Digit9) (macro C-c C-x Digit9) (macro C-c C-x S-9))
+  ccx-0 (tap-hold-press-timeout 175 175 (macro C-c C-x Digit0) (macro C-c C-x Digit0) (macro C-c C-x S-0))
+  ccx-- (tap-hold-press-timeout 175 175 (macro C-c C-x -) (macro C-c C-x -) (macro C-c C-x S--))
+  ccx-= (tap-hold-press-timeout 175 175 (macro C-c C-x =) (macro C-c C-x =) (macro C-c C-x S-=))
+  ccx-bspc (tap-hold-press-timeout 175 175 (macro C-c C-x bspc) (macro C-c C-x bspc) (macro C-c C-x S-bspc))
+  ccx-tab (tap-hold-press-timeout 175 175 (macro C-c C-x tab) (macro C-c C-x tab) (macro C-c C-x S-tab))
   ccx-q (tap-hold-press-timeout 175 175 (macro C-c C-x q) (macro C-c C-x q) (macro C-c C-x S-q))
   ccx-w (tap-hold-press-timeout 175 175 (macro C-c C-x w) (macro C-c C-x w) (macro C-c C-x S-w))
   ccx-e (tap-hold-press-timeout 175 175 (macro C-c C-x e) (macro C-c C-x e) (macro C-c C-x S-e))
@@ -696,6 +784,9 @@ Keys support autoshift: tap=C-c C-x <key>, hold=C-c C-x <key>, long-hold=C-c C-x
   ccx-i (tap-hold-press-timeout 175 175 (macro C-c C-x i) (macro C-c C-x i) (macro C-c C-x S-i))
   ccx-o (tap-hold-press-timeout 175 175 (macro C-c C-x o) (macro C-c C-x o) (macro C-c C-x S-o))
   ccx-p (tap-hold-press-timeout 175 175 (macro C-c C-x p) (macro C-c C-x p) (macro C-c C-x S-p))
+  ccx-[ (tap-hold-press-timeout 175 175 (macro C-c C-x [) (macro C-c C-x [) (macro C-c C-x S-[))
+  ccx-] (tap-hold-press-timeout 175 175 (macro C-c C-x ]) (macro C-c C-x ]) (macro C-c C-x S-]))
+  ccx-caps (tap-hold-press-timeout 175 175 (macro C-c C-x caps) (macro C-c C-x caps) (macro C-c C-x S-caps))
   ccx-a (tap-hold-press-timeout 175 175 (macro C-c C-x a) (macro C-c C-x a) (macro C-c C-x S-a))
   ccx-s (tap-hold-press-timeout 175 175 (macro C-c C-x s) (macro C-c C-x s) (macro C-c C-x S-s))
   ccx-d (tap-hold-press-timeout 175 175 (macro C-c C-x d) (macro C-c C-x d) (macro C-c C-x S-d))
@@ -706,6 +797,11 @@ Keys support autoshift: tap=C-c C-x <key>, hold=C-c C-x <key>, long-hold=C-c C-x
   ccx-k (tap-hold-press-timeout 175 175 (macro C-c C-x k) (macro C-c C-x k) (macro C-c C-x S-k))
   ccx-l (tap-hold-press-timeout 175 175 (macro C-c C-x l) (macro C-c C-x l) (macro C-c C-x S-l))
   ccx-; (tap-hold-press-timeout 175 175 (macro C-c C-x ;) (macro C-c C-x ;) (macro C-c C-x S-;))
+  ccx-' (tap-hold-press-timeout 175 175 (macro C-c C-x ') (macro C-c C-x ') (macro C-c C-x S-'))
+  ccx-\ (tap-hold-press-timeout 175 175 (macro C-c C-x \) (macro C-c C-x \) (macro C-c C-x S-\))
+  ccx-ret (tap-hold-press-timeout 175 175 (macro C-c C-x ret) (macro C-c C-x ret) (macro C-c C-x S-ret))
+  ccx-lsft (tap-hold-press-timeout 175 175 (macro C-c C-x lsft) (macro C-c C-x lsft) (macro C-c C-x S-lsft))
+  ccx-< (tap-hold-press-timeout 175 175 (macro C-c C-x <) (macro C-c C-x <) (macro C-c C-x S-<))
   ccx-z (tap-hold-press-timeout 175 175 (macro C-c C-x z) (macro C-c C-x z) (macro C-c C-x S-z))
   ccx-x (tap-hold-press-timeout 175 175 (macro C-c C-x x) (macro C-c C-x x) (macro C-c C-x S-x))
   ccx-c (tap-hold-press-timeout 175 175 (macro C-c C-x c) (macro C-c C-x c) (macro C-c C-x S-c))
@@ -713,16 +809,31 @@ Keys support autoshift: tap=C-c C-x <key>, hold=C-c C-x <key>, long-hold=C-c C-x
   ccx-b (tap-hold-press-timeout 175 175 (macro C-c C-x b) (macro C-c C-x b) (macro C-c C-x S-b))
   ccx-n (tap-hold-press-timeout 175 175 (macro C-c C-x n) (macro C-c C-x n) (macro C-c C-x S-n))
   ccx-m (tap-hold-press-timeout 175 175 (macro C-c C-x m) (macro C-c C-x m) (macro C-c C-x S-m))
+  ccx-, (tap-hold-press-timeout 175 175 (macro C-c C-x ,) (macro C-c C-x ,) (macro C-c C-x S-,))
+  ccx-. (tap-hold-press-timeout 175 175 (macro C-c C-x .) (macro C-c C-x .) (macro C-c C-x S-.))
+  ccx-/ (tap-hold-press-timeout 175 175 (macro C-c C-x /) (macro C-c C-x /) (macro C-c C-x S-/))
+  ccx-rsft (tap-hold-press-timeout 175 175 (macro C-c C-x rsft) (macro C-c C-x rsft) (macro C-c C-x S-rsft))
+  ccx-lctl (tap-hold-press-timeout 175 175 (macro C-c C-x lctl) (macro C-c C-x lctl) (macro C-c C-x S-lctl))
+  ccx-lmet (tap-hold-press-timeout 175 175 (macro C-c C-x lmet) (macro C-c C-x lmet) (macro C-c C-x S-lmet))
+  ccx-lalt (tap-hold-press-timeout 175 175 (macro C-c C-x lalt) (macro C-c C-x lalt) (macro C-c C-x S-lalt))
+  ccx-spc (tap-hold-press-timeout 175 175 (macro C-c C-x spc) (macro C-c C-x spc) (macro C-c C-x S-spc))
+  ccx-ralt (tap-hold-press-timeout 175 175 (macro C-c C-x ralt) (macro C-c C-x ralt) (macro C-c C-x S-ralt))
+  ccx-menu (tap-hold-press-timeout 175 175 (macro C-c C-x menu) (macro C-c C-x menu) (macro C-c C-x S-menu))
+  ccx-prnt (tap-hold-press-timeout 175 175 (macro C-c C-x prnt) (macro C-c C-x prnt) (macro C-c C-x S-prnt))
+  ccx-rctl (tap-hold-press-timeout 175 175 (macro C-c C-x rctl) (macro C-c C-x rctl) (macro C-c C-x S-rctl))
+  ccx-mlft (tap-hold-press-timeout 175 175 (macro C-c C-x mlft) (macro C-c C-x mlft) (macro C-c C-x S-mlft))
+  ccx-mmid (tap-hold-press-timeout 175 175 (macro C-c C-x mmid) (macro C-c C-x mmid) (macro C-c C-x S-mmid))
+  ccx-mrgt (tap-hold-press-timeout 175 175 (macro C-c C-x mrgt) (macro C-c C-x mrgt) (macro C-c C-x S-mrgt))
 )
 
 (deflayer c-c-x-prefix
-  _
-  _ _ _ _ _ _ _ _ _ _ _ _ _ _
-  _ @ccx-q @ccx-w @ccx-e @ccx-r @ccx-t @ccx-y @ccx-u @ccx-i @ccx-o @ccx-p _ _
-  _ @ccx-a @ccx-s @ccx-d @ccx-f @ccx-g @ccx-h @ccx-j @ccx-k @ccx-l @ccx-; _ _ _
-  _ _ @ccx-z @ccx-x @ccx-c @ccx-v @ccx-b @ccx-n @ccx-m _ _ _ _
-  _ _ _ _ _ _ _ _
-  _ _ _
+  @ccx-esc
+  @ccx-grv @ccx-1 @ccx-2 @ccx-3 @ccx-4 @ccx-5 @ccx-6 @ccx-7 @ccx-8 @ccx-9 @ccx-0 @ccx-- @ccx-= @ccx-bspc
+  @ccx-tab @ccx-q @ccx-w @ccx-e @ccx-r @ccx-t @ccx-y @ccx-u @ccx-i @ccx-o @ccx-p @ccx-[ @ccx-]
+  @ccx-caps @ccx-a @ccx-s @ccx-d @ccx-f @ccx-g @ccx-h @ccx-j @ccx-k @ccx-l @ccx-; @ccx-' @ccx-\ @ccx-ret
+  @ccx-lsft @ccx-< @ccx-z @ccx-x @ccx-c @ccx-v @ccx-b @ccx-n @ccx-m @ccx-, @ccx-. @ccx-/ @ccx-rsft
+  @ccx-lctl @ccx-lmet @ccx-lalt @ccx-spc @ccx-ralt @ccx-menu @ccx-prnt @ccx-rctl
+  @ccx-mlft @ccx-mmid @ccx-mrgt
 )
 #+end_src
 
