@@ -420,7 +420,7 @@ i (tap-hold 175 175 i (tap-hold-press-timeout 0 150 i (multi lmet lalt) (macro S
 
 ;;c (tap-hold 175 200 c (tap-hold-press-timeout 0 200 c f15 (macro S-c)))
 ;; m (tap-hold 175 200 m (tap-hold-press-timeout 0 200 m f15 (macro S-m)))
-m (tap-hold 175 175 m (tap-hold-press-timeout 0 230 m m (macro S-m)))
+m (tap-hold 175 175 m (tap-hold-press-timeout 0 230 m (layer-while-held c-c-prefix) (macro S-m)))
 ;; When held with d (ctrl), c should act as a layer that prefixes all keys with C-c
 c (tap-hold 175 175 c (tap-hold-press-timeout 0 230 c (layer-while-held c-c-prefix) (macro S-c)))
 #+end_src
@@ -670,9 +670,9 @@ This layer sends C-c before each key when activated by holding c with d (ctrl).
 (deflayer c-c-prefix
   _
   _ _ _ _ _ _ _ _ _ _ _ _ _ _
-  _ (macro C-c q) (macro C-c w) (macro C-c e) (macro C-c r) (macro C-c t) (macro C-c y) (macro C-c u) (macro C-c i) (macro C-c o) (macro C-c p) _ _
-  _ (macro C-c a) (macro C-c s) (macro C-c d) (macro C-c f) (macro C-c g) (macro C-c h) (macro C-c j) (macro C-c k) (macro C-c l) (macro C-c ;) _ _ _
-  _ _ (macro C-c z) (macro C-c x) _ (macro C-c v) (macro C-c b) (macro C-c n) (macro C-c m) _ _ _ _
+  _ (macro C-c q) (macro C-c w) (macro C-c e) (macro C-c r) (macro C-c t) (macro C-c y) (macro C-c u) (macro C-c i) (macro C-c o) (macro C-c p) (macro C-c [) (macro C-c ])
+  _ (macro C-c a) (macro C-c s) (macro C-c d) (macro C-c f) (macro C-c g) (macro C-c h) (macro C-c j) (macro C-c k) (macro C-c l) (macro C-c ;) (macro C-c ') (macro C-c \) _
+  _ _ (macro C-c z) (macro C-c x) _ (macro C-c v) (macro C-c b) (macro C-c n) (macro C-c m) (macro C-c ,) (macro C-c .) (macro C-c /) _
   _ _ _ _ _ _ _ _
   _ _ _
 )
@@ -734,9 +734,9 @@ except s which triggers C-c C-x instead of C-s.
 (deflayer left-ctrl-layer
   _
   _ _ _ _ _ _ _ _ _ _ _ _ _ _
-  _ (macro C-q) (macro C-w) (macro C-e) (macro C-r) (macro C-t) (macro C-y) (macro C-u) (macro C-i) (macro C-o) (macro C-p) _ _
-  _ (macro C-a) (macro C-c C-x) (macro C-d) (macro C-f) (macro C-g) (macro C-h) (macro C-j) (macro C-k) (macro C-l) _ _ _ _
-  _ _ (macro C-z) (macro C-x) (layer-while-held c-c-prefix) (macro C-v) (macro C-b) (macro C-n) (macro C-m) _ _ _ _
+  _ (macro C-q) (macro C-w) (macro C-e) (macro C-r) (macro C-t) (macro C-y) (macro C-u) (macro C-i) (macro C-o) (macro C-p) (macro C-[) (macro C-])
+  _ (macro C-a) (macro C-c C-x) (macro C-d) (macro C-f) (macro C-g) (macro C-h) (macro C-j) (macro C-k) (macro C-l) (macro C-;) (macro C-') (macro C-\) _
+  _ _ (macro C-z) (macro C-x) (layer-while-held c-c-prefix) (macro C-v) (macro C-b) (macro C-n) (macro C-m) (macro C-,) (macro C-.) (macro C-/) _
   _ _ _ _ _ _ _ _
   _ _ _
 )
@@ -750,9 +750,9 @@ except l which triggers C-c C-x instead of C-l.
 (deflayer right-ctrl-layer
   _
   _ _ _ _ _ _ _ _ _ _ _ _ _ _
-  _ (macro C-q) (macro C-w) (macro C-e) (macro C-r) (macro C-t) (macro C-y) (macro C-u) (macro C-i) (macro C-o) (macro C-p) _ _
-  _ (macro C-a) (macro C-s) (macro C-d) (macro C-f) (macro C-g) (macro C-h) (macro C-j) (macro C-k) (macro C-c C-x) _ _ _ _
-  _ _ (macro C-z) (macro C-x) (layer-while-held c-c-prefix) (macro C-v) (macro C-b) (macro C-n) (macro C-m) _ _ _ _
+  _ (macro C-q) (macro C-w) (macro C-e) (macro C-r) (macro C-t) (macro C-y) (macro C-u) (macro C-i) (macro C-o) (macro C-p) (macro C-[) (macro C-])
+  _ (macro C-a) (macro C-s) (macro C-d) (macro C-f) (macro C-g) (macro C-h) (macro C-j) (macro C-k) (macro C-c C-x) (macro C-;) (macro C-') (macro C-\) _
+  _ _ (macro C-z) (macro C-x) (layer-while-held c-c-prefix) (macro C-v) (macro C-b) (macro C-n) (macro C-m) (macro C-,) (macro C-.) (macro C-/) _
   _ _ _ _ _ _ _ _
   _ _ _
 )
@@ -766,9 +766,9 @@ except s which activates c-c-x-prefix layer, and d/k which pass through to allow
 (deflayer a-layer
   _
   _ _ _ _ _ _ _ _ _ _ _ _ _ _
-  _ (tap-hold-press-timeout 175 175 (macro f16 q) (macro f16 q) (macro f16 S-q)) (tap-hold-press-timeout 175 175 (macro f16 w) (macro f16 w) (macro f16 S-w)) (tap-hold-press-timeout 175 175 (macro f16 e) (macro f16 e) (macro f16 S-e)) (tap-hold-press-timeout 175 175 (macro f16 r) (macro f16 r) (macro f16 S-r)) (tap-hold-press-timeout 175 175 (macro f16 t) (macro f16 t) (macro f16 S-t)) (tap-hold-press-timeout 175 175 (macro f16 y) (macro f16 y) (macro f16 S-y)) (tap-hold-press-timeout 175 175 (macro f16 u) (macro f16 u) (macro f16 S-u)) (tap-hold-press-timeout 175 175 (macro f16 i) (macro f16 i) (macro f16 S-i)) (tap-hold-press-timeout 175 175 (macro f16 o) (macro f16 o) (macro f16 S-o)) (tap-hold-press-timeout 175 175 (macro f16 p) (macro f16 p) (macro f16 S-p)) _ _
-  _ (tap-hold-press-timeout 175 175 (macro f16 a) (macro f16 a) (macro f16 S-a)) (layer-while-held c-c-x-prefix) (tap-hold 175 175 (macro f16 d) (tap-hold-press-timeout 0 230 (macro f16 d) (layer-while-held left-ctrl-layer) (macro f16 S-d))) (tap-hold-press-timeout 175 175 (macro f16 f) (macro f16 f) (macro f16 S-f)) (tap-hold-press-timeout 175 175 (macro f16 g) (macro f16 g) (macro f16 S-g)) (tap-hold-press-timeout 175 175 (macro f16 h) (macro f16 h) (macro f16 S-h)) (tap-hold-press-timeout 175 175 (macro f16 j) (macro f16 j) (macro f16 S-j)) (tap-hold 175 175 (macro f16 k) (tap-hold-press-timeout 0 230 (macro f16 k) (layer-while-held right-ctrl-layer) (macro f16 S-k))) (tap-hold-press-timeout 150 175 (macro f16 l) (macro f16 f12) (macro f16 S-l)) _ _ _ _
-  _ _ (tap-hold-press-timeout 175 175 (macro f16 z) (macro f16 z) (macro f16 S-z)) (tap-hold-press-timeout 175 175 (macro f16 x) (macro f16 x) (macro f16 S-x)) (tap-hold-press-timeout 175 175 (macro f16 c) (macro f16 c) (macro f16 S-c)) (tap-hold-press-timeout 175 175 (macro f16 v) (macro f16 v) (macro f16 S-v)) (tap-hold-press-timeout 175 175 (macro f16 b) (macro f16 b) (macro f16 S-b)) (tap-hold-press-timeout 175 175 (macro f16 n) (macro f16 n) (macro f16 S-n)) (tap-hold-press-timeout 175 175 (macro f16 m) (macro f16 m) (macro f16 S-m)) _ _ _ _
+  _ (tap-hold-press-timeout 175 175 (macro f16 q) (macro f16 q) (macro f16 S-q)) (tap-hold-press-timeout 175 175 (macro f16 w) (macro f16 w) (macro f16 S-w)) (tap-hold-press-timeout 175 175 (macro f16 e) (macro f16 e) (macro f16 S-e)) (tap-hold-press-timeout 175 175 (macro f16 r) (macro f16 r) (macro f16 S-r)) (tap-hold-press-timeout 175 175 (macro f16 t) (macro f16 t) (macro f16 S-t)) (tap-hold-press-timeout 175 175 (macro f16 y) (macro f16 y) (macro f16 S-y)) (tap-hold-press-timeout 175 175 (macro f16 u) (macro f16 u) (macro f16 S-u)) (tap-hold-press-timeout 175 175 (macro f16 i) (macro f16 i) (macro f16 S-i)) (tap-hold-press-timeout 175 175 (macro f16 o) (macro f16 o) (macro f16 S-o)) (tap-hold-press-timeout 175 175 (macro f16 p) (macro f16 p) (macro f16 S-p)) (tap-hold-press-timeout 175 175 (macro f16 [) (macro f16 [) (macro f16 S-[)) (tap-hold-press-timeout 175 175 (macro f16 ]) (macro f16 ]) (macro f16 S-]))
+  _ (tap-hold-press-timeout 175 175 (macro f16 a) (macro f16 a) (macro f16 S-a)) (layer-while-held c-c-x-prefix) (tap-hold 175 175 (macro f16 d) (tap-hold-press-timeout 0 230 (macro f16 d) (layer-while-held left-ctrl-layer) (macro f16 S-d))) (tap-hold-press-timeout 175 175 (macro f16 f) (macro f16 f) (macro f16 S-f)) (tap-hold-press-timeout 175 175 (macro f16 g) (macro f16 g) (macro f16 S-g)) (tap-hold-press-timeout 175 175 (macro f16 h) (macro f16 h) (macro f16 S-h)) (tap-hold-press-timeout 175 175 (macro f16 j) (macro f16 j) (macro f16 S-j)) (tap-hold 175 175 (macro f16 k) (tap-hold-press-timeout 0 230 (macro f16 k) (layer-while-held right-ctrl-layer) (macro f16 S-k))) (tap-hold-press-timeout 150 175 (macro f16 l) (macro f16 f12) (macro f16 S-l)) (tap-hold-press-timeout 175 175 (macro f16 ;) (macro f16 ;) (macro f16 S-;)) (tap-hold-press-timeout 175 175 (macro f16 ') (macro f16 ') (macro f16 S-')) (tap-hold-press-timeout 175 175 (macro f16 \) (macro f16 \) (macro f16 S-\)) _
+  _ _ (tap-hold-press-timeout 175 175 (macro f16 z) (macro f16 z) (macro f16 S-z)) (tap-hold-press-timeout 175 175 (macro f16 x) (macro f16 x) (macro f16 S-x)) (tap-hold-press-timeout 175 175 (macro f16 c) (macro f16 c) (macro f16 S-c)) (tap-hold-press-timeout 175 175 (macro f16 v) (macro f16 v) (macro f16 S-v)) (tap-hold-press-timeout 175 175 (macro f16 b) (macro f16 b) (macro f16 S-b)) (tap-hold-press-timeout 175 175 (macro f16 n) (macro f16 n) (macro f16 S-n)) (tap-hold-press-timeout 175 175 (macro f16 m) (macro f16 m) (macro f16 S-m)) (tap-hold-press-timeout 175 175 (macro f16 ,) (macro f16 ,) (macro f16 S-,)) (tap-hold-press-timeout 175 175 (macro f16 .) (macro f16 .) (macro f16 S-.)) (tap-hold-press-timeout 175 175 (macro f16 /) (macro f16 /) (macro f16 S-/)) _
   _ _ _ _ _ _ _ _
   _ _ _
 )
@@ -782,9 +782,9 @@ except l which activates c-c-x-prefix layer, and d/k which pass through to allow
 (deflayer semicolon-layer
   _
   _ _ _ _ _ _ _ _ _ _ _ _ _ _
-  _ (tap-hold-press-timeout 175 175 (macro f16 q) (macro f16 q) (macro f16 S-q)) (tap-hold-press-timeout 175 175 (macro f16 w) (macro f16 w) (macro f16 S-w)) (tap-hold-press-timeout 175 175 (macro f16 e) (macro f16 e) (macro f16 S-e)) (tap-hold-press-timeout 175 175 (macro f16 r) (macro f16 r) (macro f16 S-r)) (tap-hold-press-timeout 175 175 (macro f16 t) (macro f16 t) (macro f16 S-t)) (tap-hold-press-timeout 175 175 (macro f16 y) (macro f16 y) (macro f16 S-y)) (tap-hold-press-timeout 175 175 (macro f16 u) (macro f16 u) (macro f16 S-u)) (tap-hold-press-timeout 175 175 (macro f16 i) (macro f16 i) (macro f16 S-i)) (tap-hold-press-timeout 175 175 (macro f16 o) (macro f16 o) (macro f16 S-o)) (tap-hold-press-timeout 175 175 (macro f16 p) (macro f16 p) (macro f16 S-p)) _ _
-  _ (tap-hold-press-timeout 175 175 (macro f16 a) (macro f16 a) (macro f16 S-a)) (tap-hold-press-timeout 150 175 (macro f16 s) (macro f16 f12) (macro f16 S-s)) (tap-hold 175 175 (macro f16 d) (tap-hold-press-timeout 0 230 (macro f16 d) (layer-while-held left-ctrl-layer) (macro f16 S-d))) (tap-hold-press-timeout 175 175 (macro f16 f) (macro f16 f) (macro f16 S-f)) (tap-hold-press-timeout 175 175 (macro f16 g) (macro f16 g) (macro f16 S-g)) (tap-hold-press-timeout 175 175 (macro f16 h) (macro f16 h) (macro f16 S-h)) (tap-hold-press-timeout 175 175 (macro f16 j) (macro f16 j) (macro f16 S-j)) (tap-hold 175 175 (macro f16 k) (tap-hold-press-timeout 0 230 (macro f16 k) (layer-while-held right-ctrl-layer) (macro f16 S-k))) (layer-while-held c-c-x-prefix) _ _ _ _
-  _ _ (tap-hold-press-timeout 175 175 (macro f16 z) (macro f16 z) (macro f16 S-z)) (tap-hold-press-timeout 175 175 (macro f16 x) (macro f16 x) (macro f16 S-x)) (tap-hold-press-timeout 175 175 (macro f16 c) (macro f16 c) (macro f16 S-c)) (tap-hold-press-timeout 175 175 (macro f16 v) (macro f16 v) (macro f16 S-v)) (tap-hold-press-timeout 175 175 (macro f16 b) (macro f16 b) (macro f16 S-b)) (tap-hold-press-timeout 175 175 (macro f16 n) (macro f16 n) (macro f16 S-n)) (tap-hold-press-timeout 175 175 (macro f16 m) (macro f16 m) (macro f16 S-m)) _ _ _ _
+  _ (tap-hold-press-timeout 175 175 (macro f16 q) (macro f16 q) (macro f16 S-q)) (tap-hold-press-timeout 175 175 (macro f16 w) (macro f16 w) (macro f16 S-w)) (tap-hold-press-timeout 175 175 (macro f16 e) (macro f16 e) (macro f16 S-e)) (tap-hold-press-timeout 175 175 (macro f16 r) (macro f16 r) (macro f16 S-r)) (tap-hold-press-timeout 175 175 (macro f16 t) (macro f16 t) (macro f16 S-t)) (tap-hold-press-timeout 175 175 (macro f16 y) (macro f16 y) (macro f16 S-y)) (tap-hold-press-timeout 175 175 (macro f16 u) (macro f16 u) (macro f16 S-u)) (tap-hold-press-timeout 175 175 (macro f16 i) (macro f16 i) (macro f16 S-i)) (tap-hold-press-timeout 175 175 (macro f16 o) (macro f16 o) (macro f16 S-o)) (tap-hold-press-timeout 175 175 (macro f16 p) (macro f16 p) (macro f16 S-p)) (tap-hold-press-timeout 175 175 (macro f16 [) (macro f16 [) (macro f16 S-[)) (tap-hold-press-timeout 175 175 (macro f16 ]) (macro f16 ]) (macro f16 S-]))
+  _ (tap-hold-press-timeout 175 175 (macro f16 a) (macro f16 a) (macro f16 S-a)) (tap-hold-press-timeout 150 175 (macro f16 s) (macro f16 f12) (macro f16 S-s)) (tap-hold 175 175 (macro f16 d) (tap-hold-press-timeout 0 230 (macro f16 d) (layer-while-held left-ctrl-layer) (macro f16 S-d))) (tap-hold-press-timeout 175 175 (macro f16 f) (macro f16 f) (macro f16 S-f)) (tap-hold-press-timeout 175 175 (macro f16 g) (macro f16 g) (macro f16 S-g)) (tap-hold-press-timeout 175 175 (macro f16 h) (macro f16 h) (macro f16 S-h)) (tap-hold-press-timeout 175 175 (macro f16 j) (macro f16 j) (macro f16 S-j)) (tap-hold 175 175 (macro f16 k) (tap-hold-press-timeout 0 230 (macro f16 k) (layer-while-held right-ctrl-layer) (macro f16 S-k))) (layer-while-held c-c-x-prefix) (tap-hold-press-timeout 175 175 (macro f16 ;) (macro f16 ;) (macro f16 S-;)) (tap-hold-press-timeout 175 175 (macro f16 ') (macro f16 ') (macro f16 S-')) (tap-hold-press-timeout 175 175 (macro f16 \) (macro f16 \) (macro f16 S-\)) _
+  _ _ (tap-hold-press-timeout 175 175 (macro f16 z) (macro f16 z) (macro f16 S-z)) (tap-hold-press-timeout 175 175 (macro f16 x) (macro f16 x) (macro f16 S-x)) (tap-hold-press-timeout 175 175 (macro f16 c) (macro f16 c) (macro f16 S-c)) (tap-hold-press-timeout 175 175 (macro f16 v) (macro f16 v) (macro f16 S-v)) (tap-hold-press-timeout 175 175 (macro f16 b) (macro f16 b) (macro f16 S-b)) (tap-hold-press-timeout 175 175 (macro f16 n) (macro f16 n) (macro f16 S-n)) (tap-hold-press-timeout 175 175 (macro f16 m) (macro f16 m) (macro f16 S-m)) (tap-hold-press-timeout 175 175 (macro f16 ,) (macro f16 ,) (macro f16 S-,)) (tap-hold-press-timeout 175 175 (macro f16 .) (macro f16 .) (macro f16 S-.)) (tap-hold-press-timeout 175 175 (macro f16 /) (macro f16 /) (macro f16 S-/)) _
   _ _ _ _ _ _ _ _
   _ _ _
 )
