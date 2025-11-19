@@ -680,14 +680,47 @@ This layer sends C-c before each key when activated by holding c with d (ctrl).
 
 ** C-c C-x Prefix Layer
 This layer sends C-c C-x before each key when activated by pressing s in a-layer or l in semicolon-layer.
+Keys support autoshift: tap=C-c C-x <key>, hold=C-c C-x <key>, long-hold=C-c C-x S-<key>
 
 #+begin_src kbd
+;; Aliases for C-c C-x prefix mappings with autoshift support
+;; Pattern: tap=C-c C-x key, hold=C-c C-x key, long-hold=C-c C-x Shift-key
+(defalias
+  ccx-q (tap-hold-press-timeout 175 175 (macro C-c C-x q) (macro C-c C-x q) (macro C-c C-x S-q))
+  ccx-w (tap-hold-press-timeout 175 175 (macro C-c C-x w) (macro C-c C-x w) (macro C-c C-x S-w))
+  ccx-e (tap-hold-press-timeout 175 175 (macro C-c C-x e) (macro C-c C-x e) (macro C-c C-x S-e))
+  ccx-r (tap-hold-press-timeout 175 175 (macro C-c C-x r) (macro C-c C-x r) (macro C-c C-x S-r))
+  ccx-t (tap-hold-press-timeout 175 175 (macro C-c C-x t) (macro C-c C-x t) (macro C-c C-x S-t))
+  ccx-y (tap-hold-press-timeout 175 175 (macro C-c C-x y) (macro C-c C-x y) (macro C-c C-x S-y))
+  ccx-u (tap-hold-press-timeout 175 175 (macro C-c C-x u) (macro C-c C-x u) (macro C-c C-x S-u))
+  ccx-i (tap-hold-press-timeout 175 175 (macro C-c C-x i) (macro C-c C-x i) (macro C-c C-x S-i))
+  ccx-o (tap-hold-press-timeout 175 175 (macro C-c C-x o) (macro C-c C-x o) (macro C-c C-x S-o))
+  ccx-p (tap-hold-press-timeout 175 175 (macro C-c C-x p) (macro C-c C-x p) (macro C-c C-x S-p))
+  ccx-a (tap-hold-press-timeout 175 175 (macro C-c C-x a) (macro C-c C-x a) (macro C-c C-x S-a))
+  ccx-s (tap-hold-press-timeout 175 175 (macro C-c C-x s) (macro C-c C-x s) (macro C-c C-x S-s))
+  ccx-d (tap-hold-press-timeout 175 175 (macro C-c C-x d) (macro C-c C-x d) (macro C-c C-x S-d))
+  ccx-f (tap-hold-press-timeout 175 175 (macro C-c C-x f) (macro C-c C-x f) (macro C-c C-x S-f))
+  ccx-g (tap-hold-press-timeout 175 175 (macro C-c C-x g) (macro C-c C-x g) (macro C-c C-x S-g))
+  ccx-h (tap-hold-press-timeout 175 175 (macro C-c C-x h) (macro C-c C-x h) (macro C-c C-x S-h))
+  ccx-j (tap-hold-press-timeout 175 175 (macro C-c C-x j) (macro C-c C-x j) (macro C-c C-x S-j))
+  ccx-k (tap-hold-press-timeout 175 175 (macro C-c C-x k) (macro C-c C-x k) (macro C-c C-x S-k))
+  ccx-l (tap-hold-press-timeout 175 175 (macro C-c C-x l) (macro C-c C-x l) (macro C-c C-x S-l))
+  ccx-; (tap-hold-press-timeout 175 175 (macro C-c C-x ;) (macro C-c C-x ;) (macro C-c C-x S-;))
+  ccx-z (tap-hold-press-timeout 175 175 (macro C-c C-x z) (macro C-c C-x z) (macro C-c C-x S-z))
+  ccx-x (tap-hold-press-timeout 175 175 (macro C-c C-x x) (macro C-c C-x x) (macro C-c C-x S-x))
+  ccx-c (tap-hold-press-timeout 175 175 (macro C-c C-x c) (macro C-c C-x c) (macro C-c C-x S-c))
+  ccx-v (tap-hold-press-timeout 175 175 (macro C-c C-x v) (macro C-c C-x v) (macro C-c C-x S-v))
+  ccx-b (tap-hold-press-timeout 175 175 (macro C-c C-x b) (macro C-c C-x b) (macro C-c C-x S-b))
+  ccx-n (tap-hold-press-timeout 175 175 (macro C-c C-x n) (macro C-c C-x n) (macro C-c C-x S-n))
+  ccx-m (tap-hold-press-timeout 175 175 (macro C-c C-x m) (macro C-c C-x m) (macro C-c C-x S-m))
+)
+
 (deflayer c-c-x-prefix
   _
   _ _ _ _ _ _ _ _ _ _ _ _ _ _
-  _ (macro C-c C-x q) (macro C-c C-x w) (macro C-c C-x e) (macro C-c C-x r) (macro C-c C-x t) (macro C-c C-x y) (macro C-c C-x u) (macro C-c C-x i) (macro C-c C-x o) (macro C-c C-x p) _ _
-  _ (macro C-c C-x a) (macro C-c C-x s) (macro C-c C-x d) (macro C-c C-x f) (macro C-c C-x g) (macro C-c C-x h) (macro C-c C-x j) (macro C-c C-x k) (macro C-c C-x l) (macro C-c C-x ;) _ _ _
-  _ _ (macro C-c C-x z) (macro C-c C-x x) (macro C-c C-x c) (macro C-c C-x v) (macro C-c C-x b) (macro C-c C-x n) (macro C-c C-x m) _ _ _ _
+  _ @ccx-q @ccx-w @ccx-e @ccx-r @ccx-t @ccx-y @ccx-u @ccx-i @ccx-o @ccx-p _ _
+  _ @ccx-a @ccx-s @ccx-d @ccx-f @ccx-g @ccx-h @ccx-j @ccx-k @ccx-l @ccx-; _ _ _
+  _ _ @ccx-z @ccx-x @ccx-c @ccx-v @ccx-b @ccx-n @ccx-m _ _ _ _
   _ _ _ _ _ _ _ _
   _ _ _
 )
