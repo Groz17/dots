@@ -315,6 +315,17 @@ bindkey '^[^]' vi-find-prev-char
 # C-] - search next char (vi)
 bindkey '^]' vi-find-next-char
 
+# C-M-e - shell expand line (like readline: expands $vars, aliases, ~, etc.)
+_shell_expand_line() {
+  # First expand aliases
+  [[ $LBUFFER =~ '(^|[;|&])\s*([A-Za-z_][A-Za-z0-9_-]*)$' ]] && LBUFFER=${LBUFFER%%${match[2]}}${aliases[${match[2]}]:-${match[2]}}
+  # Then expand parameters, command substitutions, etc.
+  LBUFFER="${${(e)LBUFFER}%%[[:space:]]##}"
+  RBUFFER="${${(e)RBUFFER}##[[:space:]]##}"
+}
+zle -N _shell_expand_line
+bindkey '^[^E' _shell_expand_line
+
 # TODO: fix M-y
 backward-kill-blank-word() {
   # Save current position and buffer state
