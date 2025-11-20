@@ -689,22 +689,68 @@ bind = $mainMod SHIFT, o, exec, sh -c 'grimblast --freeze save area - | tesserac
 # Use $univArg per listare picker come universal argument in emacs
 # p->salva in Pictures mnemonic
 bind = SUPER,       s, exec, grimblast --freeze --notify save area
-bind = SUPER SHIFT, s, exec, grimblast --freeze --notify save active
+# just make window fullscreen b4
+# bind = SUPER SHIFT, s, exec, grimblast --freeze --notify save active
+bind = SUPER SHIFT, s, exec, grimblast --freeze --notify save screen
 # nice dicotomy/mnemonic w y (copy) and p (paste)
 bind = SUPER,       y, exec, grimblast --freeze --notify copy area
-bind = SUPER SHIFT, y, exec, grimblast --freeze --notify copy active
+# bind = SUPER SHIFT, y, exec, grimblast --freeze --notify copy active
+bind = SUPER SHIFT, y, exec, grimblast --freeze --notify copy screen
 # bind = SUPER ALT,   c, exec, grimblast --notify copy output
 # bind = SUPER CTRL,  c, exec, grimblast --notify copy screen
 
 #+end_src
 
-*** TODO Recording
-**** Audio
+*** Recording
 #+begin_src hyprlang
+# Toggle audio recording (microphone only)
+bind = SUPER, a, exec, ~/.config/hypr/scripts/record audio
+# Toggle video recording (area selection)
+bind = SUPER, bracketleft, exec, ~/.config/hypr/scripts/record area
+# Toggle video recording (full screen)
+bind = SUPER, bracketright, exec, ~/.config/hypr/scripts/record screen
 #+end_src
 
-**** Video
-#+begin_src hyprlang
+#+begin_src bash :tangle ~/.config/hypr/scripts/record :shebang "#!/usr/bin/env bash"
+mode="${1:-area}"
+PID_FILE="/tmp/recorder-${mode}.pid"
+
+# Stop recording if already running
+if [ -f "$PID_FILE" ]; then
+    kill -INT $(cat "$PID_FILE") 2>/dev/null
+    rm "$PID_FILE"
+    dunstify -a "Recording" "Recording stopped" "Saved to ~/Videos/"
+    exit 0
+fi
+
+# Start recording based on mode
+case "$mode" in
+    audio)
+        filename="$HOME/Videos/audio_$(date +%Y-%m-%d_%H-%M-%S).opus"
+        cmd=(ffmpeg -f pulse -i default -c:a libopus "$filename")
+        msg="Recording microphone..."
+        ;;
+    area)
+        geometry=$(slurp) || exit 1
+        filename="$HOME/Videos/recording_$(date +%Y-%m-%d_%H-%M-%S).mp4"
+        cmd=(wf-recorder -g "$geometry" -f "$filename" --audio)
+        msg="Recording selected area..."
+        ;;
+    screen)
+        filename="$HOME/Videos/recording_$(date +%Y-%m-%d_%H-%M-%S).mp4"
+        cmd=(wf-recorder -f "$filename" --audio)
+        msg="Recording full screen..."
+        ;;
+    *)
+        dunstify -a "Recording" "Invalid mode" "Use: audio, area, or screen"
+        exit 1
+        ;;
+esac
+
+# Execute command and notify
+"${cmd[@]}" &
+echo $! > "$PID_FILE"
+dunstify -a "Recording" "Recording started" "$msg"
 #+end_src
 
 *** TODO Workspaces (generate code)
