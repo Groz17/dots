@@ -17,20 +17,13 @@ autoshift
 org-babel for kanata/config files in general?
 
 basically i want: 
-- [ ] press fast and release: that letter
 - [ ] block keyboard input
-- [ ] press and hold: another behaviour
-- [ ] press and hold release before X time: shifted version
-- [ ] press and hold release after X time: behaviour (for which-key)
 - [ ] use touchpad for localleader?
 
-- [ ] cancel control if C-c C key follows a [^[:alpha:]]
 - [ ] if u manage to make shift+1,2,3,4 useless, make sure to bind that to f keys for emacs (macros)
 - [ ] key that repeats two times the shifted version of char, for stuff like &&, etc...
 - [ ] hold keys for stuff like \ and C-z for emacs (from insert mode normal command?)
 - [ ] rpt-key should take 1-8 as argument for last 1-8 keys? also range
-- [ ] fai che 2 pressi funga lo stesso , tipo c-xc-s c-xc-c
-- [ ] makes it so trackpoint creates a layer and g (or maybe space)-> left click, h-> right, b-> middle
 - [ ] maybe also prefix for lsp, etc...?
 - [ ] also touchpad for C-u?
 - [ ] use super + q for macros (bind to f23 and wtype in hyprland?)
@@ -40,47 +33,25 @@ basically i want:
 - [ ] disable for stuff like games? emacs tetris i need repeat
 - [ ] caps/a & l/; for [,]
 - [ ] create layer for left hand with hjkl being respectively gfds
-- [ ] layer for accents? altgr? or maybe just substitute with abbrev e' for example to é
-- [ ] ridonandanza nei layer? tipo per c-x in emacs
 - [ ] 2/3 & 9/0 easy to reach
-- [ ] cant seem to use <c-cr>...
-- [ ] maybe use abbreviations like the for awkward keys?
-- [ ] variation of same keybinding to stay on that layer? so u can release the key
-- [ ] fai che df<symbol>=ctrl-alt-<symbol>, fd e rilascia->esc, fd e <symbol>->ctrl-alt-symbol layer
 - [ ] make a touchpad press be rpt-any? also explore zones... (maybe also for symbols, like %(left top)&^(right top), rpt-any (top center))
 
 - [ ] layer to select layers? which-key?
-- [ ] flash f13?
 - [ ] writing layer? like for quotes, em dash...
-- [ ]
 - [ ] mappings to transform last \S+ to pascal, camel (corce-like, same letters)
-- [ ]
 - [ ] bottom alt tap/hold mapping?
-- [ ]
 - [ ] one-shot shift? chord?
-- [ ]
-- [ ]
-- [ ] caps and ; for accents? digraphs?
-- [ ]
 - [ ] how to make tap-dance work with modifiers?
 - [ ] rpt-any should be in either side of the keyboard (maybe altgr/alt?)
 - [ ] how to use with multi like ^ww?
-- [ ]
 - [ ] mappa in modo da rendere piu facili combinazioni usate tipo ctrl-- and ctrl-+ per zoomare?
-- [ ]
-- [ ] magari, asdfc -> leader, ctrl, alt, symbols, localleader (oppure switcha c-x and c-c in emacs cosi diventa alt,ctrl... pessima idea?)
 - [ ] also sdc are easier to type together
 - [ ] mappa ctrl-o per normal mode comments in neovim?
 - [ ] make ctrl-letter generalized: when not release act as ctrl (do these for All letters and maybe overwrite for HRM?)
-- [ ]
 - [ ] press symbol that toggle the functionality of a key? like for mouse/square brackets
-- [ ]
 - [ ] crea prefix for popup completion?
-- [ ]
 - [ ] use altgr hold for accents/fancy symbols like em dash?
-- [ ]
 - [ ] maybe use prefix for operators? like g or d hold?
-- [ ]
 - [ ] mouse layer: trackpoint held and j left k right m middle
 
 crea tutti o i piu importanti prefix in emacs like (place keys considering importance and mnemonics, like /&? for M-s)
