@@ -558,7 +558,7 @@ bind = $mainMod shift, e, exec, [float;fullscreen]emacs -Q
 # bind=super ,equal,exec, emacsclient -e '(full-calc)' -c -a ''
 
 # maybe these mappings should go under the terminal/ghostty keybind prefix (use zellij/tmux maybe?) or actually this is better maybe, use something like exwm
-bind = $mainMod, v, exec, ghostty --fullscreen -e nvim
+# bind = $mainMod, v, exec, ghostty --fullscreen -e nvim
 bind = $mainMod, B, exec, $browser
 
 bind = $mainMod, period, exec, [float] $fileManager
@@ -687,17 +687,11 @@ bind = $mainMod SHIFT, o, exec, sh -c 'grimblast --freeze save area - | tesserac
 # add filename? maybe transient UI
 # --openfile
 # Use $univArg per listare picker come universal argument in emacs
-# p->salva in Pictures mnemonic
 bind = SUPER,       s, exec, grimblast --freeze --notify save area
-# just make window fullscreen b4
-# bind = SUPER SHIFT, s, exec, grimblast --freeze --notify save active
 bind = SUPER SHIFT, s, exec, grimblast --freeze --notify save screen
 # nice dicotomy/mnemonic w y (copy) and p (paste)
 bind = SUPER,       y, exec, grimblast --freeze --notify copy area
-# bind = SUPER SHIFT, y, exec, grimblast --freeze --notify copy active
 bind = SUPER SHIFT, y, exec, grimblast --freeze --notify copy screen
-# bind = SUPER ALT,   c, exec, grimblast --notify copy output
-# bind = SUPER CTRL,  c, exec, grimblast --notify copy screen
 
 #+end_src
 
@@ -705,10 +699,12 @@ bind = SUPER SHIFT, y, exec, grimblast --freeze --notify copy screen
 #+begin_src hyprlang
 # Toggle audio recording (microphone only)
 bind = SUPER, a, exec, ~/.config/hypr/scripts/record audio
+# Toggle internal audio recording (system audio)
+bind = SUPER SHIFT, a, exec, ~/.config/hypr/scripts/record internal
 # Toggle video recording (area selection)
-bind = SUPER, bracketleft, exec, ~/.config/hypr/scripts/record area
+bind = SUPER, v, exec, ~/.config/hypr/scripts/record area
 # Toggle video recording (full screen)
-bind = SUPER, bracketright, exec, ~/.config/hypr/scripts/record screen
+bind = SUPER SHIFT, v, exec, ~/.config/hypr/scripts/record screen
 #+end_src
 
 #+begin_src bash :tangle ~/.config/hypr/scripts/record :shebang "#!/usr/bin/env bash"
@@ -730,6 +726,12 @@ case "$mode" in
         cmd=(ffmpeg -f pulse -i default -c:a libopus "$filename")
         msg="Recording microphone..."
         ;;
+    internal)
+        filename="$HOME/Videos/internal_$(date +%Y-%m-%d_%H-%M-%S).opus"
+        # Capture system audio output (monitor of default sink)
+        cmd=(ffmpeg -f pulse -i @DEFAULT_SINK@.monitor -c:a libopus "$filename")
+        msg="Recording system audio..."
+        ;;
     area)
         geometry=$(slurp) || exit 1
         filename="$HOME/Videos/recording_$(date +%Y-%m-%d_%H-%M-%S).mp4"
@@ -742,7 +744,7 @@ case "$mode" in
         msg="Recording full screen..."
         ;;
     *)
-        dunstify -a "Recording" "Invalid mode" "Use: audio, area, or screen"
+        dunstify -a "Recording" "Invalid mode" "Use: audio, internal, area, or screen"
         exit 1
         ;;
 esac
