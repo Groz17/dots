@@ -1,8 +1,5 @@
 #+property: header-args :tangle ~/.config/atuin/config.toml
 #+startup: content
-* TODO TASK LIST
-
-- [ ] ctrl r for local dir and c-s-r for global?
 - [ ] ctrl l To select?
 
 #+begin_src toml
