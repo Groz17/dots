@@ -13,20 +13,13 @@ source = ~/.config/hypr/myColors.conf
 ** TODO TASK LIST
 - [ ] bindsym $mod+s sticky toggle
 - [ ] add search image in clipboard? after using grim...
-- [ ] hyprshot don't save to clipboard
-- [ ] move to workspace without going there
 - [ ] keybinding to go running emacs instance(s)
 - [ ] focus on open?
-- [ ] mapping close notification
-- [ ] open chatgpt in workspace
 - [ ] wl-paste -s, --seat seat-name    Pick the seat to work with.?
 - [ ] iio-hyprland && sensory-proxy
-- [ ] quick mapping to show bar (when in fullscreen mode)? maybe just a few secs
 - [ ] focus pane when moving mouse
-- [ ] also u could use keys like f20 here (no modifier b4)
 - [ ] turn pane into own tab?
 - [ ] support v:count? bindv?
-- [ ] sync @" and terminal kill ring
 
 # hyprctl clients -j | jq -r '.[]|(.pid|tostring)+"\t"+.title' | grep -v "$USER"@ | rofi -dmenu  -display-column-separator '\t' -display-columns 2
 
@@ -502,6 +495,7 @@ bindel = ,XF86MonBrightnessDown, exec, brightnessctl s 10%-
 
 *** Notifications
 #+begin_src hyprlang
+bind = $mainMod SHIFT, period, exec, dunstctl close-all
 bind = $mainMod SHIFT, comma, exec, ~/.config/hypr/scripts/notifications
 #+end_src
 
