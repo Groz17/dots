@@ -231,6 +231,9 @@ you could inoremap/abbrev them tbh
   ;; so i can easily do |- in org mode for tables ; also near - for bash commands
   lmet (macro S-\)
 
+  ;; Keyboard blocking toggle - useful when passing PC to others
+  blocked-toggle (layer-toggle blocked)
+
 #+end_src
 
 #+name: ISO
@@ -634,6 +637,22 @@ restart (cmd playerctl position 0)
 )
 #+end_src
 
+** Blocked Layer
+All keyboard input is blocked except the unlock combination (lctl + lmet + rsft).
+Useful when passing your PC to someone else.
+
+#+begin_src kbd
+(deflayer blocked
+  XX
+  XX XX XX XX XX XX XX XX XX XX XX XX XX XX
+  XX XX XX XX XX XX XX XX XX XX XX XX XX
+  XX XX XX XX XX XX XX XX XX XX XX XX XX XX
+  XX XX XX XX XX XX XX XX XX XX XX XX XX
+  XX XX XX XX XX XX XX XX
+  XX XX XX
+)
+#+end_src
+
 ** C-c Prefix Layer
 This layer sends C-c before each key when activated by holding c with d (ctrl).
 Keys support autoshift: tap=C-c <key>, hold=C-c <key>, long-hold=C-c S-<key>
@@ -905,6 +924,10 @@ is it possible to do a tap-hold but for chords? for |...
 (lsft rsft) (caps-word 10000) 250 first-release ()
 
 ;;(mlft mrgt) rpt-any 250 first-release ()
+
+;; Keyboard blocking toggle - useful when passing PC to others
+;; (cmd pass blocked) @blocked-toggle 250 first-release ()
+
 #+end_src
 
 ** Quick accents
