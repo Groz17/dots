@@ -3,7 +3,6 @@ HACK: f12 becomes ~ on ghostty
 #+startup: content
 
 * TODO TASK LIST
-- [ ] m-c-j to activate vim mode doesn't work?
 - [ ] keybinding for most common longish commands? analysis w/ atuin
 - [ ] most common actions? like pwd|c
 

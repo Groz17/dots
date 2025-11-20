@@ -257,10 +257,8 @@ add-zsh-hook precmd _bottom_padding_precmd
 ** ZLE
 *** TODO Tasks
 - [ ] Test Alt+Ctrl+J for vi mode toggle
-- [ ] Verify all Ctrl+X combinations work
 - [ ] Add keybinding for common commands (analyze with atuin)
 - [ ] Implement nohist function if needed
-
 
 # Ctrl+X Ctrl+N - dynamic history completion
 bindkey '^X^N' _history-complete-older
