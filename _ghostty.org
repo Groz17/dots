@@ -163,8 +163,8 @@ keybind = super+alt+l=goto_split:right
 
 keybind = super+alt+t=new_tab
 # turn split to tab? like ^wT in vim
-# keybind = super+alt+o=toggle_split_zoom
-#
+keybind = super+alt+f=toggle_split_zoom
+
 keybind = super+alt+o=next_tab
 keybind = super+alt+shift+o=previous_tab
 # like <c-x>t{o,O}
