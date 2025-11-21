@@ -118,9 +118,6 @@ setopt NO_NOMATCH
  #+begin_src zsh
  # Allow comments starting with `#` in the interactive shell.
  setopt INTERACTIVE_COMMENTS
-
- # Disallow `>` to overwrite existing files. Use `>|` or `>!` instead.
- setopt NO_CLOBBER
  #+end_src
 
 *** Job control
