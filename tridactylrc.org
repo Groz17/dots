@@ -421,8 +421,8 @@ gists() {
 
   DIR="${GIT_DIR}/$USERNAME"
 
-  [[ -d "$DIR" ]] || {
-    dunstify -u critical "Aborting..." "Gists Directory doesn't exist"
+  [[ -d "$DIR" ]] && {
+    dunstify -u critical "Aborting..." "Gists Directory already exist"
     exit 1
   }
 
