@@ -771,7 +771,7 @@ Keys support autoshift: tap=C-c C-x <key>, hold=C-c C-x <key>, long-hold=C-c C-x
   ccx-t (tap-hold-press-timeout 175 175 (macro C-c C-x t) (macro C-c C-x t) (macro C-c C-x S-t))
   ccx-y (tap-hold-press-timeout 175 175 (macro C-c C-x y) (macro C-c C-x y) (macro C-c C-x S-y))
   ccx-u (tap-hold-press-timeout 175 175 (macro C-c C-x u) (macro C-c C-x u) (macro C-c C-x S-u))
-  ccx-i (tap-hold-press-timeout 175 175 (macro C-c C-x i) (macro C-c C-x i) (macro C-c C-x S-i))
+  ccx-i (tap-hold-press-timeout 100 200 (macro C-c C-x i) (macro C-c C-x i) (macro C-c C-x S-i))
   ccx-o (tap-hold-press-timeout 175 175 (macro C-c C-x o) (macro C-c C-x o) (macro C-c C-x S-o))
   ccx-p (tap-hold-press-timeout 175 175 (macro C-c C-x p) (macro C-c C-x p) (macro C-c C-x S-p))
   ccx-[ (tap-hold-press-timeout 175 175 (macro C-c C-x [) (macro C-c C-x [) (macro C-c C-x S-[))
