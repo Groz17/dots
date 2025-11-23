@@ -63,7 +63,7 @@ Dirty hack
 #+end_src
 
 #+begin_src conf
-# TODO: non funge con ssh/neovim/emacs cwd
+# TODO: non funge con ssh/neovim/emacs/adb cwd
 window-inherit-working-directory=true
 # split-divider-color=yellow
 #+end_src
