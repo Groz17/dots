@@ -10,3 +10,18 @@
 - Formatting: Indent with spaces (2-4 per level)
 - Naming: Descriptive section headers; consistent variable/function names
 - Follow existing patterns: Mimic structure in bash.org, git.org, etc.; keep configs modular
+
+## **Attribution Requirements**
+
+AI agents must disclose what tool and model they are using in
+the "Assisted-by" commit footer:
+
+``` language-text
+Assisted-by: [Model Name] via [Tool Name]
+```
+
+Example:
+
+``` language-text
+Assisted-by: GLM 4.6 via Claude Code
+```
