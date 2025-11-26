@@ -40,6 +40,7 @@ notifiche ricevute?
   "memory",
   "network",
   <<laptop_modules()>>
+  "custom/mic",
   "pulseaudio"
 ],
 #+end_src
@@ -69,6 +70,15 @@ EOF
   "exec": "systemctl --user --no-pager -o json list-timers mail-sync.timer | jq -re 'if length == 0 then \"inactive\" elif .[].left != null then (.[].left / 1000000 - now | strftime(\"%-Mm %Ss\")) else \"sync\" end'",
   "interval": 1,
   "on-click": "if systemctl --user is-active mail-sync.timer >/dev/null; then systemctl --user start mail-sync.service && dunstify -a email 'Mail Sync' 'Syncing completed'; else pizauth show personal 2>&1|awk '{print $NF}'|xargs floorp & systemctl --user start mail-sync.timer; fi"
+},
+"custom/mic": {
+  "format": "🎤 {}%",
+  "exec": "pactl get-source-volume @DEFAULT_SOURCE@ | awk '{print $5}' | tr -d '%'",
+  "exec-if": "pactl list sources short | grep $(pactl get-default-source) | grep -q RUNNING",
+  "interval": 1,
+  "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+  "on-scroll-up": "pactl set-source-volume @DEFAULT_SOURCE@ +1%",
+  "on-scroll-down": "pactl set-source-volume @DEFAULT_SOURCE@ -1%"
 },
 #+end_src
 
@@ -293,7 +303,8 @@ tooltip {
 #battery,
 #network,
 #pulseaudio,
-#custom-email {
+#custom-email,
+#custom-mic {
     margin: 6px 6px 6px 0px;
     padding: 2px 8px;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
@@ -408,7 +419,8 @@ tooltip {
 #cpu,
 #memory,
 #network,
-#pulseaudio {
+#pulseaudio,
+#custom-mic {
     background: linear-gradient(135deg, #ffffff 0%, #f5e1ff 50%, #f0d1ff 100%);
     border: 2px solid rgba(225, 195, 240, 0.8);
     color: #4b2a5e;
@@ -486,7 +498,8 @@ tooltip {
 #battery,
 #network,
 #pulseaudio,
-#custom-email {
+#custom-email,
+#custom-mic {
     margin: 6px 6px 6px 0px;
     padding: 2px 8px;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
@@ -601,7 +614,8 @@ tooltip {
 #cpu,
 #memory,
 #network,
-#pulseaudio {
+#pulseaudio,
+#custom-mic {
     background: linear-gradient(135deg, #ffffff 0%, #f5f0fa 50%, #f0e5ff 100%);
     border: 2px solid rgba(200, 180, 220, 0.6);
     color: #3a2a5e;
