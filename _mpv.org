@@ -85,6 +85,7 @@ H seek -30
 L seek 30
 n playlist-next
 p playlist-prev
+ctrl+b script-binding toggle_mpvDLNA
 
 # i cycle-values vf "sub,lavfi=negate" ""
 # t script-message-to seek_to toggle-seeker
