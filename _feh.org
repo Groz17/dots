@@ -3,11 +3,9 @@
 :header-args: :tangle ~/.config/feh/keys
 :END:
 
-#+begin_src conf
-# ----------------------------
-# Menu
-# ----------------------------
+** Menu
 
+#+begin_src conf
 # menu_up 1-k
 # menu_down 1-j
 # menu_parent 1-h
@@ -19,11 +17,11 @@ menu_parent h
 menu_child l
 menu_select Return space
 menu_close Escape
+#+end_src
 
-# ----------------------------
-# Navigation
-# ----------------------------
+** Navigation
 
+#+begin_src conf
 # action_0 Return
 # Print
 action_0
@@ -47,11 +45,11 @@ jump_random z
 
 close x
 quit q Escape
+#+end_src
 
-# ----------------------------
-# Image management
-# ----------------------------
+** Image management
 
+#+begin_src conf
 save_image s
 save_filelist L
 
@@ -67,11 +65,11 @@ orient_3 less
 
 # render R
 size_to_image w
+#+end_src
 
-# ----------------------------
-# Toggle options
-# ----------------------------
+** Toggle options
 
+#+begin_src conf
 toggle_actions a
 toggle_aliasing A
 toggle_caption c
@@ -84,11 +82,11 @@ toggle_keep_vp v
 toggle_menu m
 toggle_pointer o
 toggle_fullscreen f
+#+end_src
 
-# ----------------------------
-# Scroll
-# ----------------------------
+** Scroll
 
+#+begin_src conf
 # By default, scroll is a bit counterintuitive...
 # It is reasonable to reverse every binding.
 
@@ -101,11 +99,11 @@ scroll_left_page H
 scroll_down_page J
 scroll_up_page K
 scroll_right_page L
+#+end_src
 
-# ----------------------------
-# Zoom
-# ----------------------------
+** Zoom
 
+#+begin_src conf
 zoom_in C-k
 zoom_out C-j
 zoom_default equal
@@ -142,23 +140,22 @@ zoom_out
 
 #+begin_src conf
 feh --conversion-timeout 5
+#+end_src
 
+** Menu
 
-# ----------------------------
-# Menu
-# ----------------------------
-
+#+begin_src conf
 aluminium --menu-bg /usr/share/feh/images/menubg_aluminium.png
 aqua --menu-bg /usr/share/feh/images/menubg_aqua.png
 black --menu-bg /usr/share/feh/images/menubg_black.png
 brushed --menu-bg /usr/share/feh/images/menubg_brushed.png
 default --menu-bg /usr/share/feh/images/menubg_default.png
 sky --menu-bg /usr/share/feh/images/menubg_sky.png
+#+end_src
 
-# ----------------------------
-# Miscellaneous
-# ----------------------------
+** Miscellaneous
 
+#+begin_src conf
 presentation --full-screen --hide-pointer --keep-zoom-vp
 slideshow --auto-rotate --auto-zoom --cycle-once --full-screen --hide-pointer --slideshow-delay 10
 thumbnails --thumbnails --thumb-title "Thumbnails" --thumb-width 256 --thumb-height 256 --image-bg black --sort filename --cache-thumbnails
