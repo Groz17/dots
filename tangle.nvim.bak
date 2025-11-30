@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# nvim --headless -c 'argdo lua require("orgmode").action("org_mappings.org_babel_tangle")' -cqa *.org
+# github action to tangle these in another repo?
+[ $# -eq 0 ] && set -- *[!\|].org
+nvim -Resc 'argdo exe "norm \<C-c>\<C-v>\<C-t>"' -- "$@"

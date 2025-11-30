@@ -1,5 +1,16 @@
 #!/usr/bin/env bash
-# nvim --headless -c 'argdo lua require("orgmode").action("org_mappings.org_babel_tangle")' -cqa *.org
-# github action to tangle these in another repo?
+# Tangle org files using Emacs
+
+# Default to all org files excluding those with | suffix
 [ $# -eq 0 ] && set -- *[!\|].org
-nvim -Resc 'argdo exe "norm \<C-c>\<C-v>\<C-t>"' -- "$@"
+
+# Tangle files using Emacs batch mode
+emacs --batch \
+  --eval "(require 'org)" \
+  --eval "(setq org-confirm-babel-evaluate nil)" \
+  --eval "(dolist (file command-line-args-left)
+            (message \"Tangling %s...\" file)
+            (with-current-buffer (find-file-noselect file)
+              (org-babel-tangle)))" \
+  -- "$@"
+

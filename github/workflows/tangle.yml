@@ -1,0 +1,101 @@
+name: Tangle Org Files
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**.org'
+      - 'tangle'
+  pull_request:
+    paths:
+      - '**.org'
+      - 'tangle'
+  workflow_dispatch:
+
+jobs:
+  tangle:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Emacs
+        uses: purcell/setup-emacs@master
+        with:
+          version: 29.4
+      
+      - name: Tangle org files
+        run: |
+          # Tangle all org files (excluding those with |)
+          emacs --batch \
+            --eval "(require 'org)" \
+            --eval "(setq org-confirm-babel-evaluate nil)" \
+            --eval "(dolist (file (file-expand-wildcards \"*[^|].org\"))
+                      (message \"Tangling %s...\" file)
+                      (with-current-buffer (find-file-noselect file)
+                        (org-babel-tangle)))" \
+            2>&1 | tee tangle.log
+          
+          echo "Tangle completed. Check tangle.log for details."
+      
+      - name: Collect tangled files
+        run: |
+          # Use smart collection script
+          chmod +x .github/scripts/collect-tangled.sh
+          ./.github/scripts/collect-tangled.sh tangled-output
+          
+          # Add metadata
+          cat > tangled-output/INFO.txt << EOF
+          Tangled from: ${{ github.repository }}
+          Commit: ${{ github.sha }}
+          Date: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          Branch: ${{ github.ref_name }}
+          EOF
+      
+      - name: Upload artifact (for testing)
+        uses: actions/upload-artifact@v4
+        with:
+          name: dotfiles-${{ github.sha }}
+          path: tangled-output/
+          retention-days: 30
+      
+      - name: Create tarball
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          cd tangled-output
+          tar czf ../dotfiles.tar.gz .
+          cd ..
+      
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dotfiles.tar.gz
+          body: |
+            # Dotfiles Release ${{ github.ref_name }}
+            
+            Tangled configuration files generated from commit ${{ github.sha }}.
+            
+            ## Installation
+            
+            ```bash
+            # Download and extract
+            curl -L https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/dotfiles.tar.gz | tar xz
+            
+            # Review files before applying
+            ls -la
+            
+            # Apply configs (copy to your home directory as needed)
+            ```
+            
+            ## What's Included
+            
+            See `MANIFEST.txt` in the archive for a complete list of files.
+            
+            Generated on: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
