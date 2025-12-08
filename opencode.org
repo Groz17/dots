@@ -41,11 +41,12 @@ start in plam mode?
 "messages_page_up": "alt+v",
 "messages_page_down": "ctrl+v",
 "messages_copy": "alt+w",
-"input_paste": "ctrl+shift+v",
+"input_paste": "ctrl+v",
 "messages_first": "alt+<",
 "messages_last": "alt+>",
 "session_interrupt": "ctrl+g,esc",
 "session_child_cycle": "alt+n",
 "session_child_cycle_reverse": "alt+p",
-"messages_undo": "ctrl+/"
+"messages_undo": "ctrl+/",
+"command_list": "alt+x",
 #+end_src
