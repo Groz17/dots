@@ -35,6 +35,7 @@ notifiche ricevute?
 "modules-right": [
 "custom/email",
   "tray",
+  "disk",
   // "cpu_text",
   "cpu",
   "memory",
@@ -137,6 +138,17 @@ EOF
 
     "states": {
       "critical": 80
+    }
+  },
+
+  "disk": {
+    "format": "disk {percentage_used}%",
+    "path": "/",
+    "interval": 10,
+
+    "states": {
+      "warning": 70,
+      "critical": 90
     }
   },
 
@@ -300,6 +312,7 @@ tooltip {
 #tray,
 #cpu,
 #memory,
+#disk,
 #battery,
 #network,
 #pulseaudio,
@@ -399,6 +412,10 @@ tooltip {
     border-left: 3px solid #c84aae;
 }
 
+#disk {
+    border-left: 3px solid #b84a9e;
+}
+
 #custom-mpv-repeat {
     margin-left: 0px;
 }
@@ -418,6 +435,7 @@ tooltip {
 #bluetooth,
 #cpu,
 #memory,
+#disk,
 #network,
 #pulseaudio,
 #custom-mic {
@@ -440,7 +458,9 @@ tooltip {
 }
 
 #cpu.critical,
-#memory.critical {
+#memory.critical,
+#disk.warning,
+#disk.critical {
     background-color: #f0d1ff;
     border: 2px solid #e1c3f0;
     color: #d35dae;
@@ -495,6 +515,7 @@ tooltip {
 #tray,
 #cpu,
 #memory,
+#disk,
 #battery,
 #network,
 #pulseaudio,
@@ -594,6 +615,10 @@ tooltip {
     border-left: 3px solid #c84aae;
 }
 
+#disk {
+    border-left: 3px solid #b84a9e;
+}
+
 #custom-mpv-repeat {
     margin-left: 0px;
 }
@@ -613,6 +638,7 @@ tooltip {
 #bluetooth,
 #cpu,
 #memory,
+#disk,
 #network,
 #pulseaudio,
 #custom-mic {
@@ -635,7 +661,9 @@ tooltip {
 }
 
 #cpu.critical,
-#memory.critical {
+#memory.critical,
+#disk.warning,
+#disk.critical {
     background-color: #ffe0f0;
     border: 2px solid #ffc0e0;
     color: #d35dae;
