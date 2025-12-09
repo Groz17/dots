@@ -7,27 +7,12 @@ gh_grep:
 context7:
   type: local
   command: [ "npx", "-y", "@upstash/context7-mcp" ]
-blender:
-  type: local
-  command: [ "uvx", "blender-mcp" ]
-# sqlite:
-#   type: local
-#   command: [ "uvx", "mcp-server-sqlite"]
-reaper:
-  type: local
-  command: [ "python", "-m", "reaper_reapy_mcp" ]
-yt-dlp:
-  type: local
-  command: [ "npx", "-y", "@anaisbetts/mcp-youtube" ]
 fetch:
   type: local
   command: [ "uvx", " mcp-server-fetch" ]
 # pdf-reader-mcp:
 #   type: local
 #   command: [ npx, '@sylphlab/pdf-reader-mcp']
-freecad:
-  type: local
-  command: [ uvx, freecad-mcp]
 #+end_src
 # npx -y github:nietus/anki-mcp
 
