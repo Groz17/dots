@@ -561,7 +561,7 @@ bind = $mainMod shift, e, exec, [float;fullscreen]emacs -Q
 # bind = $mainMod, v, exec, ghostty --fullscreen -e nvim
 bind = $mainMod, B, exec, $browser
 
-bind = $mainMod, period, exec, [float] $fileManager
+# bind = $mainMod, period, exec, [float] $fileManager
 
 # bind = SUPER, parenleft, exec, echo '{"ActOnFakeKey": {"name": "stop-macro", "action": "Press"}}' | nc localhost 5829
 # bind = SUPER, parenright, exec, echo '{"ActOnFakeKey": {"name": "play-macro", "action": "Press"}}' | nc localhost 5829
@@ -865,7 +865,7 @@ cliphist list | head -1 | cliphist delete
 bind = $mainMod , n, exec, [float;size 30% 30%] $terminal -e nvim -c 'norm 1 Qd'
 bind = $mainMod shift, n, exec, [float] $terminal -e nvim -c 'let @+=\"## \" ..input(\">\")..\"\n\"..@+|norm 1 Qy'
 # resize terminal for input?
-bind = $mainMod shift, slash, exec, [float;size 30% 30%] $terminal -e nvim -c 'let @+=input(">")|norm 1 Qd'
+bind = $mainMod , period, exec, [float;size 30% 30%] $terminal -e nvim -c 'let @+=input(">")|norm 1 Qd'
 #+end_src
 
 
