@@ -256,6 +256,7 @@ bind --mode=ex     <C-g> composite text.beginning_of_line ; text.forward_word ; 
 Sposta in bindurl? a-w per info rilevanti per quella webpage
 Magari migliora
 #+begin_src js
+// TODO: Estrai solo url di risultati ricerca
 bindurl google\..*/search\?(?!.*[&?]udm=) <Space><Space> js navigator.clipboard.writeText( \
   [window.location.href, ...[...document.querySelectorAll('a')] \
     .map(a => a.href) \
@@ -1108,6 +1109,13 @@ command translate js let googleTranslateCallback = document.createElement('scrip
 " Isolate Facebook in its own container
 set auconcreatecontainer true
 autocontain facebook\.com facebook
+
+
+* BOOKMARKS
+#+begin_src tridactyl
+" magari scrivi qua i bookmarks commentati
+" bmark <url>"
+#+end_src
 
 * QUICKMARKS
 Use searchurls when you need to insert some (small) input, quickmarks otherwise (like for forums)
