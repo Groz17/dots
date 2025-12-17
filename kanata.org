@@ -348,7 +348,8 @@ d (tap-hold 175 175 d (tap-hold-press-timeout 0 230 d lctl (macro S-d)))
 k (tap-hold 175 175 k (tap-hold-press-timeout 0 230 k rctl (macro S-k)))
 #+end_src
 
-*** Alt
+*** TODO Alt
+Modifier-{,} doesn't work
 #+begin_src kbd
 ;; change this out for the list:https://github.com/jtroo/kanata/blob/main/cfg_samples/home-row-mod-advanced.kbd
 f (tap-hold 175 175 f (tap-hold-press-timeout 0 230 f lalt (macro S-f)))
