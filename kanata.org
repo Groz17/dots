@@ -587,6 +587,10 @@ echo '{ "command": ["get_property", "af"] }' | socat - /tmp/mpvsocket | jq -er '
     echo '{ "command": ["set_property", "af",""] }' | socat - /tmp/mpvsocket 
 #+end_src
 
+#+begin_src bash :tangle ~/.config/hypr/scripts/goto :noweb yes :shebang "#!/usr/bin/env bash"
+playerctl position $(zenity --text="Position (s)" --entry)
+#+end_src
+
 #+begin_src bash :tangle ~/.config/hypr/scripts/recognize_song :noweb yes :shebang "#!/usr/bin/env bash"
 dunstify "Recognizing song..."
 
@@ -618,6 +622,7 @@ microphone (cmd pactl set-source-mute @DEFAULT_SOURCE@ toggle)
 ;; make these support v:count? or should hyprland?
 recognize (cmd bash -c "~/.config/hypr/scripts/recognize_song")
 fx (cmd bash -c "~/.config/hypr/scripts/fx")
+goto (cmd bash -c "~/.config/hypr/scripts/goto")
 ;; uppercase O for playlist?
 loop (cmd bash -c "playerctl loop $( [ $(playerctl loop) = None ] && printf Track || printf None )")
 
@@ -631,7 +636,7 @@ restart (cmd playerctl position 0)
   _
   _ _ _              _              _ _   _ _   _          _        @restart                  _ _ _
   _ _ _              _              _ _   _ _   @microphone          @loop      MediaTrackPrevious _
-  _ _ _              @recognize            _ @fx _ @back VolumeDown VolumeUp @forward                _ _ _ _
+  _ _ _              @recognize            _ @fx @goto @back VolumeDown VolumeUp @forward                _ _ _ _
   _ _ _              _              _ _   _ MediaTrackNext   VolumeMute _        _                  _ _
   _ _ _ MediaPlayPause _ _   _ _
   _ _ _             
