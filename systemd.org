@@ -23,13 +23,13 @@ if [ -n "$MBSYNC" -o -n "$NOTMUCH" ]; then
     exit 0
 fi
 
-notmuch search --format=text0 --output=files tag:deleted > /tmp/tagged_as_deleted
-emails_to_deleted=$(awk -v RS='\0' 'END{print NR}' < /tmp/tagged_as_deleted)
-if [ $emails_to_deleted -gt 0 ]; then
-    zenity --question --title="Email deletion" --text="Delete $emails_to_deleted Emails?" &&
-    xargs -0 -a /tmp/tagged_as_deleted rm -v &&
-    dunstify "Email update" "Deleted $emails_to_deleted Email(s)"
-fi
+# notmuch search --format=text0 --output=files tag:deleted > /tmp/tagged_as_deleted
+# emails_to_deleted=$(awk -v RS='\0' 'END{print NR}' < /tmp/tagged_as_deleted)
+# if [ $emails_to_deleted -gt 0 ]; then
+#     zenity --question --title="Email deletion" --text="Delete $emails_to_deleted Emails?" &&
+#     xargs -0 -a /tmp/tagged_as_deleted rm -v &&
+#     dunstify "Email update" "Deleted $emails_to_deleted Email(s)"
+# fi
 
 mbsync -Va &&
 notmuch new
