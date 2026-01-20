@@ -224,8 +224,11 @@ you could inoremap/abbrev them tbh
   ;; ralt esc
 
   ;;lctl (macro S-3)
-   lctl rpt-any ;; ... doesn't work with c-m-s-v though? for emacs
+   ;; lctl rpt-any ;; ... doesn't work with c-m-s-v though? for emacs
   ;;lctl (macro S-1) ;; near | and vertical aligned with 1/!
+   ;; layout picker via left ctrl hold; tap repeats last key (keeps rpt-any)
+   ;;lctl (tap-hold-press-timeout 175 175 rpt-any (layer-while-held layout) rpt-any)
+   lctl (layer-while-held layout)
   rctl (macro S-8)
   ;; facile usare |-tab in orgmode (also nice for pipelines near -)
   ;; so i can easily do |- in org mode for tables ; also near - for bash commands
@@ -577,6 +580,38 @@ _ _ _ _     _ _ _ left down up rght _ _ _ _
 _ _ _ _     _ _ _ _    ret  _  _    _ _
 _ _ _ _     _ _ _ _
 _ _ _
+)
+#+end_src
+
+** Layout switcher
+Hold to pick temporary layout; tap to reset to default (kanata+kb).
+
+#+begin_src kbd
+(defalias
+  ;; hyprctl switchxkblayout <device> <index>
+  kbd-ru   (cmd hyprctl switchxkblayout current 1)
+  kbd-ar   (cmd hyprctl switchxkblayout current 2)
+  kbd-dev  (cmd hyprctl switchxkblayout current 3)
+  kbd-reset (cmd hyprctl switchxkblayout current 0)
+)
+
+
+(deflayer layout
+;; _
+;; _ _ _ _     _ _ _ _    _    _  _    _ _ _
+;; _ _ _ _     @kbd-ru _ _ @kbd-reset    _    _  _    _
+;; _ @kbd-ar _ _     _ _ _ _ _ _ _ _ _ _ _
+;; _ _ _ _     _ _ _ _    _  _  _    _ _
+;; _ _ _ _     _ _ _ _
+;; _ _ _
+
+  _
+  _  _  _  _  _  _  _  _  _  _  _  _  _  _
+  _  _  _  _  @kbd-ru  _  _  @kbd-reset  _  _  _  _  _
+  _  @kbd-ar  _  _  _  _  _  _  _  _  _  _  _  _
+  _  _  _  _  _  _  _  _  _  _  _  _  _
+  _  _  _  _  _  _  _  _
+  _  _  _
 )
 #+end_src
 

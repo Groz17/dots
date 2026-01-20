@@ -304,12 +304,11 @@ misc {
 
 # https://wiki.hyprland.org/Configuring/Variables/#input
 input {
-  kb_layout = us
+  kb_layout = us,ru,ara,dev
   kb_variant =
   kb_model =
-  kb_options =
-  kb_rules =
   kb_options = fkeys:basic_13-24
+  kb_rules =
 
   touchdevice  {
     transform = 0
