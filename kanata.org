@@ -589,22 +589,16 @@ Hold to pick temporary layout; tap to reset to default (kanata+kb).
 #+begin_src kbd
 (defalias
   ;; hyprctl switchxkblayout <device> <index>
-  kbd-ru   (cmd hyprctl switchxkblayout current 1)
-  kbd-ar   (cmd hyprctl switchxkblayout current 2)
-  kbd-dev  (cmd hyprctl switchxkblayout current 3)
-  kbd-reset (cmd hyprctl switchxkblayout current 0)
+  kbd-ru   (cmd hyprctl switchxkblayout kanata 1)
+  kbd-ar   (cmd hyprctl switchxkblayout kanata 2)
+  kbd-dev  (cmd hyprctl switchxkblayout kanata 3)
+  ;; kbd-reset (cmd hyprctl switchxkblayout kanata 0)
+  ;; kbd-reset (cmd systemctl --user restart kanata)
+  kbd-reset (layer-switch base)
 )
 
 
 (deflayer layout
-;; _
-;; _ _ _ _     _ _ _ _    _    _  _    _ _ _
-;; _ _ _ _     @kbd-ru _ _ @kbd-reset    _    _  _    _
-;; _ @kbd-ar _ _     _ _ _ _ _ _ _ _ _ _ _
-;; _ _ _ _     _ _ _ _    _  _  _    _ _
-;; _ _ _ _     _ _ _ _
-;; _ _ _
-
   _
   _  _  _  _  _  _  _  _  _  _  _  _  _  _
   _  _  _  _  @kbd-ru  _  _  @kbd-reset  _  _  _  _  _
