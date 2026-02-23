@@ -894,21 +894,9 @@ submap = reset
 # Example windowrule v1
 # windowrule = float, ^(kitty)$
 
-windowrulev2 = pin,class:^zenity$
-
 # Example windowrule v2
 # windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
 
-# Ignore maximize requests from apps. You'll probably like this.
-windowrulev2 = suppressevent maximize, class:.**
-
-# Fix some dragging issues with XWayland
-windowrulev2 = nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0
-
-windowrulev2 = float,class:^(pulsemixer)$
-windowrulev2 = size 700 400,class:^(pulsemixer)$
-windowrulev2 = move 100%-800 100%-500,class:^(pulsemixer)$
-windowrulev2 = opacity 0.9,class:^(pulsemixer)$
 # bind = $mainMod, A, exec, $terminal --class=pulsemixer sh -c 'pulsemixer' 
 # bind = $mainMod, m, exec, $terminal --class=pulsemixer -e sh -c 'pulsemixer' 
 
@@ -930,12 +918,6 @@ workspace=1,class:^(emacs)$
 workspace = w[t1], gapsout:0, gapsin:0
 workspace = w[tg1], gapsout:0, gapsin:0
 workspace = f[1], gapsout:0, gapsin:0
-windowrulev2 = bordersize 0, floating:0, onworkspace:w[t1]
-windowrulev2 = rounding 0, floating:0, onworkspace:w[t1]
-windowrulev2 = bordersize 0, floating:0, onworkspace:w[tg1]
-windowrulev2 = rounding 0, floating:0, onworkspace:w[tg1]
-windowrulev2 = bordersize 0, floating:0, onworkspace:f[1]
-windowrulev2 = rounding 0, floating:0, onworkspace:f[1]
 #+end_src
 
 *** Special workspaces
@@ -1257,11 +1239,14 @@ listener {
 can u use source code (maybe elisp) to pick random image?
 #+begin_src hyprlang
 # Preload both light and dark wallpapers
-preload=~/dots/pics/wallpapers/kanagawa_vaporwave.jpg
-preload=~/dots/pics/wallpapers/Mountain.jpg
+# preload=~/dots/pics/wallpapers/kanagawa_vaporwave.jpg
+# preload=~/dots/pics/wallpapers/Mountain.jpg
 # Default wallpaper (switched by systemd timers)
-wallpaper=,~/dots/pics/wallpapers/kanagawa_vaporwave.jpg
-ipc = on
+# wallpaper=,~/dots/pics/wallpapers/kanagawa_vaporwave.jpg
+# ipc = on
+wallpaper {
+path=~/dots/pics/wallpapers/kanagawa_vaporwave.jpg
+}
 #+end_src
 
 * Hyprsunset
