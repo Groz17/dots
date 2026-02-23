@@ -617,7 +617,14 @@ echo '{ "command": ["get_property", "af"] }' | socat - /tmp/mpvsocket | jq -er '
 #+end_src
 
 #+begin_src bash :tangle ~/.config/hypr/scripts/goto :noweb yes :shebang "#!/usr/bin/env bash"
-playerctl position $(zenity --text="Position (s)" --entry)
+# Ensure display environment is set for GUI apps
+offset=$(WAYLAND_DISPLAY=wayland-1 zenity --text="Position (s)" --entry)
+
+[[ $offset =~ ([0-9]+)h ]] && h=${BASH_REMATCH[1]}
+[[ $offset =~ ([0-9]+)m ]] && m=${BASH_REMATCH[1]}
+[[ $offset =~ ([0-9]+)s?$ ]] && s=${BASH_REMATCH[1]}
+
+playerctl position $((h*3600 + m*60 + s))
 #+end_src
 
 #+begin_src bash :tangle ~/.config/hypr/scripts/recognize_song :noweb yes :shebang "#!/usr/bin/env bash"
