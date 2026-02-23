@@ -618,7 +618,7 @@ echo '{ "command": ["get_property", "af"] }' | socat - /tmp/mpvsocket | jq -er '
 
 #+begin_src bash :tangle ~/.config/hypr/scripts/goto :noweb yes :shebang "#!/usr/bin/env bash"
 # Ensure display environment is set for GUI apps
-offset=$(WAYLAND_DISPLAY=wayland-1 zenity --text="Position (s)" --entry)
+offset=$(WAYLAND_DISPLAY=wayland-1 zenity --text="Position (h/m/s?)" --entry --title="Jump to position")
 
 [[ $offset =~ ([0-9]+)h ]] && h=${BASH_REMATCH[1]}
 [[ $offset =~ ([0-9]+)m ]] && m=${BASH_REMATCH[1]}
