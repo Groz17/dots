@@ -260,7 +260,6 @@ magit () {
 * External commands
 #+name: commands
 #+begin_src sh :var shell="sh" :results output :prologue "cat << 'EOF'" :epilogue EOF
-eval "$(gh copilot alias -- $shell)"
 eval "$(starship init $shell)"
 eval "$(atuin init $shell)"
 # Make sure it appears even after rvm, git-prompt and other shell extensions that manipulate the prompt.
