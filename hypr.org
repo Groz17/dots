@@ -1244,7 +1244,10 @@ can u use source code (maybe elisp) to pick random image?
 # wallpaper=,~/dots/pics/wallpapers/kanagawa_vaporwave.jpg
 # ipc = on
 wallpaper {
-path=~/dots/pics/wallpapers/kanagawa_vaporwave.jpg
+    monitor =
+    path = ~/dots/pics/wallpapers/kanagawa_vaporwave.jpg
+    fit_mode = cover
+    splash = false
 }
 #+end_src
 
