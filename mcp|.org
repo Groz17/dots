@@ -10,6 +10,12 @@ context7:
 fetch:
   type: local
   command: [ "uvx", " mcp-server-fetch" ]
+emacs:
+  type: local
+  command: [ "{env:HOME}/.config/emacs/elpaca/repos/emacs-mcp-server/mcp-wrapper.sh", "{env:HOME}/.config/emacs/emacs-mcp-server.sock" ]
+# vim:
+#   type: local
+#   command: [ "npx", "buddy-mcp-proxy" ]
 # pdf-reader-mcp:
 #   type: local
 #   command: [ npx, '@sylphlab/pdf-reader-mcp']
