@@ -1245,10 +1245,10 @@ can u use source code (maybe elisp) to pick random image?
 # ipc = on
 wallpaper {
     monitor =
-    path = ~/dots/pics/wallpapers/kanagawa_vaporwave.jpg
+    path = ~/dots/pics/wallpapers/urdu.png
     fit_mode = cover
-    splash = false
 }
+splash = false
 #+end_src
 
 * Hyprsunset
