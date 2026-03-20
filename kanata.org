@@ -252,6 +252,7 @@ lsft (tap-hold-press-timeout 200 175 (macro S-<<ISO()>>) lsft (macro S-[))
 ** MOUSE
 #+begin_src kbd :tangle (if (string-match  "Power N/A, battery unknown (N/A% load, remaining time N/A)"(battery)) "no" (cdr (assq :tangle (org-babel-parse-header-arguments (cdr (assoc "header-args" org-keyword-properties))))))
 ;; how to make touchpad work?
+;; how to distinguish between trackpad upper (square brackets) and lower buttons (maybe mouse buttons)?
 
 ;; maybe define these just for neovim since u aint gonna use the mouse (define env var in neovim like IS_NEO?)
 ;; also use trackpoint tap for left click and hold for right click
