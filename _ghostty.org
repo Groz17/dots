@@ -110,6 +110,7 @@ keybind = super+alt+shift+equal=reset_font_size
 # actually the difference is that you can use these mappings only from ghostty, so just put them in hyprland/kanata/nix
 # keybind = global:super+alt+q>n=new_window --doesn't work On linux
 keybind = super+alt+d=toggle_window_decorations
+keybind = super+alt+shift+1=toggle_readonly
 # keybind = super+alt+w>f=toggle_fullscreen
 # Note This requires you to have the right editor set via xdg. 
 # This can be done with `xdg-mime default nvim.desktop text/plain`
