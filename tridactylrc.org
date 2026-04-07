@@ -546,6 +546,7 @@ set searchurls.wa https://wiki.archlinux.org/index.php?title=Special%3ASearch&se
 set searchurls.aw https://wiki.archlinux.org/index.php?search=%s
 set searchurls.w https://en.wikipedia.org/w/index.php?search=%s&title=Special%3ASearch
 set searchurls.wi https://it.wikipedia.org/w/index.php?search=%s&title=Special%3ASearch
+set searchurls.wb https://bn.wikipedia.org/w/index.php?search=%s&title=Special%3ASearch
 set searchurls.wd  https://en.wiktionary.org/wiki/?search=%s
 
 set searchurls.de  https://devdocs.io/#q=
