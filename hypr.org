@@ -655,6 +655,15 @@ bind = $mainMod , delete, exec, shutdown now
 # bind = $mainMod, x, exec, perl -pi -e 's/^\s**monitor\s*=.*,\s*\K([01])$/$1^1/e' ~/.config/hypr/hyprland.conf
 # bind = $mainMod, x, exec, hyprclt keyword monitor ',preferred,auto,auto, transform, 0' && hyprctl keyword input:touchdevice:transform 0 
 bind = $mainMod, x, exec, ~/.config/hypr/scripts/monitor
+#+end_src
+
+#+begin_src bash :tangle ~/.config/hypr/scripts/monitor :shebang "#!/usr/bin/env bash"
+
+toggle=$((1 - $(hyprctl -j monitors | jq '.[].transform')))
+hyprctl keyword input:touchdevice:transform $toggle
+hyprctl keyword monitor ',preferred,auto,auto, transform, '$toggle
+#+end_src
+#+begin_src hyprlang
 
 # Move focus with mainMod + arrow keys
 bind = $mainMod, h, movefocus, l
