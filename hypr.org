@@ -504,6 +504,11 @@ sleep 5
 dunstctl close-all
 #+end_src
 
+*** Remote desktop w/ VNC
+#+begin_src hyprlang :noweb yes
+bind = $mainMod, R, exec, ssh <<alternate()>> 'WAYLAND_DISPLAY=wayland-1 XDG_RUNTIME_DIR=/run/user/1000 wayvnc 0.0.0.0' & vncviewer <<alternate()>>:0 && hyprctl keyword monitor "eDP-1,320x200@60,0x0,1"
+#+end_src
+
 *** Theme
 #+begin_src hyprlang
 bind = $mainMod SHIFT, c, exec, ~/.config/hypr/scripts/theme
