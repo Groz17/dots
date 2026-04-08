@@ -471,7 +471,9 @@ alias -g TS='| ts "%F %H:%M:%.S"'
 #+begin_src zsh
 alias -s {png,jpg}='feh'
 alias -s {ape,avi,flv,m4a,mkv,mov,mp3,mp4,mpeg,mpg,ogg,ogm,wav,webm}=mpv
-alias -s {org,md}=nvim
+alias -s json=jq
+# rg --type-list
+alias -s {a{c,d{b,oc,s},gda,idl,lire.toml,s{c{,iidoc,x},m,p{,x}},ts,utomount,v{dl,pr,sc},wk},b{a{sh{,rc},t,zel{,rc}},b{,append,class},ib,p,r,st,x{,m,s},zl},c{a{bal,rp,ts},bor,c,dxml,eylon,f{c,g,m},js,l{j{,c,s,x},s},m{ake,d,l},o{ffee,mposer.lock,nf{,ig{,.ru}}},pphs,r{,eole},s{,h{,rc,tml},proj,s,v},ts,u{,h}},d{a{rt,ts},e{f,vice},hall,i{d,ff,ta{,map,val}},pr,t{d,s{,i,o},x},vc},e{build,c{lass,r},dn,ex,js,l{,m},nv,p{p,s},r{b,l},x{,s}},f{bs,i{dl,sh},nl,s{,i,proj,x},ut},g{ap,d,emspec,i,leam,n{,i},o,pr,r{a{dle{,.properties,w{,.bat}},phql{,s}},oovy},vimrc,z},h{a{,ml,ts},bs,eex,h,pp,rl,s{,c},tm{,l},y},i{d{l,r},ly,n{c,i,l,s},pynb,rbrc},j{a{net,va},inja,l,pynb,s{,on{,l},p{,x},x}},k{sh{,rc},t{,s}},l{agda,e{an,ex,ss},hs,i{dr,nk,sp,vemd},l,o{ck,g{,in,out}},pr,sp,tx,ua,y,zma},m{a{k{,o},o,rkdown},d{,own,wn,x},e{diawiki,son.{build,options}},int,js,k{,d{,n},file},l{,i,l,y},m,o{,unt},ts},ni{m{,ble,f,s},x},org,p{a{s,t{ch,h}},df,erl,fo,h{p,t{,ml}},l{,h,x},m,o{,d},p,r{f,i,o{,file,j,log,p{erties,s},to}},s{,ql},urs,x{d,i},y{,i,x}},q{ml,rc},r{ak{e,u{,doc,mod,test}},b{,w},doc,e{,d{,s},i,s{,i}},kt,md,n{g,w},obot,s{,t}},s{a{rif,ss,ts},bt,c{,ala,d{,oc},h,m,ope,ss},ervice,h{,ard.yml},ig,kim,l{i{ce,m{,e}},n{,f}},ml,o{cket,l,y},p{ark,ec},ql,sa,ty{,l},v{,elte,g,h},w{ap,ift}},t{a{rget{,s},skpaper},c{l,sh{,rc}},e{rraform{.rc,rc},x{,i,tile}},f{,rc,vars},gz,hrift,imer,oml,pl,s{,t,x},wig,x{t,z},yp{,oscript}},u{i,sd{,a,c}},v{ala,b,c{l,xproj},g,h{,d{,l}},im{,rc},sh,ue},w{ebidl,gsl,i{dl,ki}},x{html,jb,ml,s{d,l{,t}},z},y{a{ml,ng},ml},z{ig,log{in,out},profile,s{h{,env,rc},t{,d}}}}=nvim
 #+end_src
 
 ** Functions
