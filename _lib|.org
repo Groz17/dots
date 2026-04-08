@@ -13,6 +13,11 @@ hostnamectl -j | jq -r '.OperatingSystemReleaseData | map(select(startswith("ID"
 [[ <<chassis()>> = "desktop" ]] && echo 'arch' || echo 'fedora'
 #+end_src
 
+#+name: monitor
+#+begin_src bash :noweb yes
+[[ <<chassis()>> = "desktop" ]] && echo 'HDMI-A-2' || echo 'eDP-1'
+#+end_src
+
 #+name: theme
 #+begin_src bash :noweb yes :var color_scheme="dark" :results output
 case $color_scheme in
