@@ -505,6 +505,7 @@ dunstctl close-all
 #+end_src
 
 *** Remote desktop w/ VNC
+# TODO: toggle
 #+begin_src hyprlang :noweb yes
 bind = $mainMod, V, exec, ssh <<alternate()>> 'WAYLAND_DISPLAY=wayland-1 XDG_RUNTIME_DIR=/run/user/1000 wayvnc 0.0.0.0' & vncviewer <<alternate()>>:0 && hyprctl keyword monitor "eDP-1,320x200@60,0x0,1"
 #+end_src
@@ -658,6 +659,7 @@ binde = $mainMod, r, exec, ~/.config/hypr/scripts/monitor_rotate
 binde = $mainMod shift, backslash, exec, ~/.config/hypr/scripts/monitor_flip
 #+end_src
 
+# can u flip just window and not whole UI?
 #+begin_src bash :tangle ~/.config/hypr/scripts/monitor_rotate :shebang "#!/usr/bin/env bash" :noweb yes
 counter=$(hyprctl -j monitors | jq '.[].transform')
 counter=$(( (counter+3) %4 + (counter&4) ))
