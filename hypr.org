@@ -26,7 +26,7 @@ source = ~/.config/hypr/myColors.conf
 ** [[https://wiki.hyprland.org/Configuring/Monitors/][MONITORS]]
 ruota schermo per prendere appunti?
 
-#+begin_src hyprlang
+#+begin_src hyprlang :noweb yes
 # monitor=,preferred,auto,auto
 # monitor=,preferred,auto,auto, transform, 1
 # monitor=HDMI-A-2,preferred,auto,1, mirror, 0
@@ -587,7 +587,7 @@ bind = $mainMod , z, exec, hyprlock
 #+end_src
 
 *** WM
-#+begin_src hyprlang
+#+begin_src hyprlang :noweb yes
 # bind = $mainMod, W, layoutmsg, swapwithmaster master
 bind = $mainMod, W, layoutmsg, layoutmsg, cyclenext
 # maybe use mainmod e to start programs?
@@ -653,22 +653,22 @@ bind = $mainMod , delete, exec, shutdown now
 # it should really support v:count though
 # bind = $mainMod, x, exec, perl -pi -e 's/^\s**monitor\s*=.*,\s*\K([01])$/$1 eq 0 ? "1":"0"/e' ~/.config/hypr/hyprland.conf
 # bind = $mainMod, x, exec, perl -pi -e 's/^\s**monitor\s*=.*,\s*\K([01])$/$1^1/e' ~/.config/hypr/hyprland.conf
-# bind = $mainMod, x, exec, hyprclt keyword monitor ',preferred,auto,auto, transform, 0' && hyprctl keyword input:touchdevice:transform 0 
+# bind = $mainMod, x, exec, hyprclt keyword monitor '<<monitor()>>,preferred,auto,auto, transform, 0' && hyprctl keyword input:touchdevice:transform 0 
 binde = $mainMod, r, exec, ~/.config/hypr/scripts/monitor_rotate
 binde = $mainMod shift, backslash, exec, ~/.config/hypr/scripts/monitor_flip
 #+end_src
 
-#+begin_src bash :tangle ~/.config/hypr/scripts/monitor_rotate :shebang "#!/usr/bin/env bash"
+#+begin_src bash :tangle ~/.config/hypr/scripts/monitor_rotate :shebang "#!/usr/bin/env bash" :noweb yes
 counter=$(hyprctl -j monitors | jq '.[].transform')
 counter=$(( (counter+3) %4 + (counter&4) ))
 hyprctl keyword input:touchdevice:transform $counter
-hyprctl keyword monitor ',preferred,auto,auto, transform, '$counter
+hyprctl keyword monitor '<<monitor()>>,preferred,auto,auto, transform, '$counter
 #+end_src
 
-#+begin_src bash :tangle ~/.config/hypr/scripts/monitor_flip :shebang "#!/usr/bin/env bash"
+#+begin_src bash :tangle ~/.config/hypr/scripts/monitor_flip :shebang "#!/usr/bin/env bash" :noweb yes
 counter=$(((4 + $(hyprctl -j monitors | jq '.[].transform'))%8))
 hyprctl keyword input:touchdevice:transform $counter
-hyprctl keyword monitor ',preferred,auto,auto, transform, '$counter
+hyprctl keyword monitor '<<monitor()>>,preferred,auto,auto, transform, '$counter
 #+end_src
 
 #+begin_src hyprlang
