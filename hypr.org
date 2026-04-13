@@ -434,7 +434,7 @@ fi
 #+end_src
 
 #+begin_src hyprlang
-bind = $mainMod, i, exec, [float;size 50% 50%] ~/.config/hypr/scripts/theme-picker
+bind = $mainMod, t, exec, [float;size 50% 50%] ~/.config/hypr/scripts/theme-picker
 #+end_src
 
 *** [[https://wiki.hypr.land/Configuring/Binds/#media][Media]]
@@ -485,7 +485,15 @@ url=$(yt-dlp -f bestaudio --get-url "ytsearch:$search"|head -n1)
 mpv --input-ipc-server="$SOCKET" "$url"
 #+end_src
 
-  
+** [[https://www.reddit.com/r/hyprland/comments/zxxr9w/how_do_i_dedicate_all_my_hotkeys_to_focused_window/][Passthrough]]
+For VNC, etc... Maybe Emacs/Vim as well
+#+begin_src hyprlang
+bind=$mainMod,i,submap,passthrough
+submap=passthrough
+bind = $mainMod, i, submap, reset
+submap=reset
+#+end_src
+
 *** Brightness
 #+begin_src hyprlang
 bindel = ,XF86MonBrightnessUp, exec, brightnessctl s 10%+
