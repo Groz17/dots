@@ -490,6 +490,7 @@ For VNC, etc... Maybe Emacs/Vim as well
 #+begin_src hyprlang
 bind=$mainMod,i,submap,passthrough
 submap=passthrough
+# I in analogia con Vim
 bind = $mainMod, i, submap, reset
 submap=reset
 #+end_src
