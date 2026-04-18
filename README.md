@@ -14,6 +14,7 @@ Literate programming approach to system configuration using Org-mode.
 ### Prerequisites
 
 - Emacs (with org-mode)
+- https://github.com/emskin/emskin: if you manage to send to another buffer (GUI software) and show it on top (z-index?) you'd get emacs-evil/vim mode for free!
 
 ### Local Development
 
