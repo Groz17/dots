@@ -296,6 +296,17 @@ dunstify -a "Browser" "URL saved in diary" "$1"
 #+end_src
 
 #+begin_src tridactyl
+bind --mode=visual <space>b composite js document.getSelection().toString() | shellescape | exclaim_quiet ~/.config/tridactyl/scripts/bn_IPA
+#+end_src
+
+#+begin_src bash :shebang "#!/usr/bin/env bash" :tangle ~/.config/tridactyl/scripts/bn_IPA
+dunstify "$(
+curl -G -k 'https://ipa.bangla.gov.bd/post_text_bangla_ipa' \
+  -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:148.0) Gecko/20100101 Firefox/148.0' --data-urlencode bangla_ipa="$1" | jq -r '.data[0]'
+)"
+#+end_src
+
+#+begin_src tridactyl
 
 bind --mode=normal <space>s composite get_current_url | shellescape | exclaim_quiet ~/.config/tridactyl/scripts/subs
 
