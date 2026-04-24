@@ -9,10 +9,10 @@ context7:
   command: [ "npx", "-y", "@upstash/context7-mcp" ]
 fetch:
   type: local
-  command: [ "uvx", " mcp-server-fetch" ]
+  command: [ "uvx", "mcp-server-fetch" ]
 emacs:
   type: local
-  command: [ "{env:HOME}/.config/emacs/elpaca/repos/emacs-mcp-server/mcp-wrapper.sh", "{env:HOME}/.config/emacs/emacs-mcp-server.sock" ]
+  command: [ "{env:HOME}/.config/emacs/elpaca/sources/emacs-mcp-server/mcp-wrapper.sh", "{env:HOME}/.config/emacs/emacs-mcp-server.sock" ]
 # vim:
 #   type: local
 #   command: [ "npx", "buddy-mcp-proxy" ]
