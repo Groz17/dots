@@ -65,6 +65,8 @@ export PATH="$HOME/node_modules/.bin:$PATH"
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="${XDG_DATA_HOME}/npm/bin:$PATH"
+# coursier install directory
+export PATH="$PATH:$HOME/.local/share/coursier/bin"
 #+end_src
 
 # Language
