@@ -187,7 +187,7 @@ adbvw() {
 
 adb get-state 2>/dev/null | grep -q "device" || { dunstify -u critical -a adb "Not connected"; return 1; }
 
-files=$(adb shell find /sdcard/Documents/Obsidian_vault/Data -maxdepth 1 -name '*.md')
+files=$(adb shell find /sdcard/Documents/Obsidian_vault/Vault -maxdepth 1 -name '*.md')
 [[ -z "$files" ]] && return 1;
 dir=~/vimwiki/Obsidian_vault/phone
 [ -d "$dir" ] && cd "$dir" || { dunstify -u critical -a FS "Directory doesn't exist"; return 1; }
