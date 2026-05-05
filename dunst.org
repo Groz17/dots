@@ -18,9 +18,11 @@ progress_bar_corners = top-left,bottom-right
 offset = (9, 9)
 gap_size = 5
 format = "<big><span background='#2b0f3d' color='#ff006e'><b> %a </b></span>\n<span background='#000000' color='#ff6ec7'> %s </span>\n<span background='#1a1a2e' color='#00ffff'>%b</span></big>"
-
 markup = no
 alignment=center
+
+[experimental]
+pause_on_mouse_over = true
 
 [urgency_low]
 foreground = "#00ffff"
