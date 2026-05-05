@@ -6,6 +6,7 @@ start in plam mode?
 #+begin_src jsonc :prologue "{"
 "theme": "system",
 "$schema": "https://opencode.ai/config.json",
+"default_agent": "plan",
 #+end_src
 
 * MCP
