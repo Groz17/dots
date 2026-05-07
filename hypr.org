@@ -538,6 +538,8 @@ case $(gsettings get org.gnome.desktop.interface color-scheme) in
     ;;
 esac
 gsettings set org.gnome.desktop.interface color-scheme "$scheme"
+# socket=$(find $XDG_RUNTIME_DIR -maxdepth 1 -name 'nvim.*.0' -type s -printf '%A@ %p\n' | sort -rn | head -1 | cut -d' ' -f2-)
+# data="$(nvim -u NONE --headless --server "$socket" --remote-send ":set background=${scheme#prefer-}<cr>")"
 hyprctl hyprpaper wallpaper ",$wallpaper"
 #+end_src
 
@@ -742,6 +744,7 @@ bind = SUPER SHIFT, y, exec, grimblast --freeze --notify copy screen
 #+end_src
 
 *** Recording
+usa universal argument/transient if possible also for screenshots
 #+begin_src hyprlang
 # Toggle audio recording (microphone only)
 bind = SUPER, r, exec, ~/.config/hypr/scripts/record audio
