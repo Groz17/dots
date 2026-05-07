@@ -21,6 +21,7 @@ source = ~/.config/hypr/myColors.conf
 - [ ] turn pane into own tab?
 - [ ] support v:count? bindv?
 - [ ] transient (magit) UI?
+- [ ] create keybinding to go to last window that played audio (like tridactyl's ga)
 
 # hyprctl clients -j | jq -r '.[]|(.pid|tostring)+"\t"+.title' | grep -v "$USER"@ | rofi -dmenu  -display-column-separator '\t' -display-columns 2
 
@@ -1005,7 +1006,7 @@ background {
   monitor =
   # color = rgba(25, 20, 20, 1.0)
   # blur_passes = 2
-  path = ~/dots/pics/lockscreen/kanagawa.jpg
+  path = ~/dots/pics/lockscreen/SC.jpg
   blur_passes = 1
   contrast = 0.8916
   brightness = 0.8172

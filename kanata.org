@@ -20,7 +20,7 @@ org-babel for kanata/config files in general?
 basically i want: 
 - [ ] block keyboard input
 - [ ] use touchpad for localleader?
-
+- [ ] crea keybind that makes next keypress shifted until another keypress is pressed... for ^W> and the likes
 - [ ] if u manage to make shift+1,2,3,4 useless, make sure to bind that to f keys for emacs (macros)
 - [ ] key that repeats two times the shifted version of char, for stuff like &&, etc...
 - [ ] hold keys for stuff like \ and C-z for emacs (from insert mode normal command?)

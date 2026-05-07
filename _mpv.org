@@ -26,8 +26,13 @@ osc=no
 # not needed in new mpv version {https://github.com/yt-dlp/yt-dlp/issues/6496}
 ytdl=no
 # How to do this only for videos but not audio?
-# save-position-on-quit
+save-position-on-quit
 reset-on-next-file=pause
+
+# for emskin
+[autono-video]
+profile-cond=not video
+force-window=no
 #+end_src
 
 ** Video
@@ -86,6 +91,9 @@ L seek 30
 n playlist-next
 p playlist-prev
 ctrl+b script-binding toggle_mpvDLNA
+
+Alt+w set clipboard/text ${sub-text}
+# universal argument + alt+w to open subtitles file in editor?
 
 # i cycle-values vf "sub,lavfi=negate" ""
 # t script-message-to seek_to toggle-seeker
@@ -251,4 +259,9 @@ c cycle sub                            # cycle through subtitles
 #+begin_src conf
 
 y run "/bin/sh" "-c" "printf %s ${=time-pos} | wl-copy"
+Alt+x script-binding M-x
 #+end_src
+
+* script-opts
+# ~/.config/mpv/script-opts/M_x.conf
+toggle_menu_binding=Alt+x
