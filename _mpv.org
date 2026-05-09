@@ -33,6 +33,7 @@ reset-on-next-file=pause
 [autono-video]
 profile-cond=not video
 force-window=no
+save-position-on-quit=no
 #+end_src
 
 ** Video
