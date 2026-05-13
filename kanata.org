@@ -630,6 +630,9 @@ playerctl position $((h*3600 + m*60 + s))
 #+end_src
 
 #+begin_src bash :tangle ~/.config/hypr/scripts/recognize_song :noweb yes :shebang "#!/usr/bin/env bash"
+export WAYLAND_DISPLAY="${WAYLAND_DISPLAY:-wayland-1}"
+export XDG_RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+
 dunstify "Recognizing song..."
 
 cmd=(songrec)
