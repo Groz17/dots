@@ -34,6 +34,10 @@ window-padding-y = 0
 # https://github.com/anhsirk0/ghostty-themes
 theme = light:<<theme(color_scheme="light")>>,dark:<<theme(color_scheme="dark")>>
 
+notify-on-command-finish = unfocused
+notify-on-command-finish-action = no-bell,notify
+notify-on-command-finish-after = 30s
+
  # TODO: finche non fixo deferred-clipboard in emacs
 clipboard-read=allow
 clipboard-write=allow
@@ -81,8 +85,10 @@ keybind=clear
 
 ** General
 #+begin_src conf
+keybind=super+alt+slash=start_search
+# keybind=super+alt+0=toggle_background_opacity
 # same mapping as neovim's :restart?
-keybind=super+alt+r=reload_config
+keybind=super+alt+shift+r=reload_config
 keybind = super+alt+a=select_all
 keybind = ctrl+shift+c=copy_to_clipboard
 keybind = super+alt+y=copy_url_to_clipboard
@@ -90,7 +96,7 @@ keybind = ctrl+shift+v=paste_from_clipboard
 # like emacs' <c-x>0
 # keybind = super+alt+digit_0=close_surface
 keybind = super+alt+q=close_surface
-keybind = super+alt+slash=undo
+# keybind = super+alt+slash=undo
 # Currently not working
 keybind = super+alt+shift+i=inspector:toggle
 
@@ -110,7 +116,8 @@ keybind = super+alt+shift+equal=reset_font_size
 # actually the difference is that you can use these mappings only from ghostty, so just put them in hyprland/kanata/nix
 # keybind = global:super+alt+q>n=new_window --doesn't work On linux
 keybind = super+alt+d=toggle_window_decorations
-keybind = super+alt+shift+1=toggle_readonly
+# pipe: block mnemonic
+# keybind = super+alt+shift+pipe=toggle_readonly
 # keybind = super+alt+w>f=toggle_fullscreen
 # Note This requires you to have the right editor set via xdg. 
 # This can be done with `xdg-mime default nvim.desktop text/plain`
@@ -147,11 +154,23 @@ keybind=super+alt+shift+s=new_split:up
 #
 # keybind = super+alt+equal=equalize_splits
 keybind = super+alt+e=equalize_splits
+#+end_src
+
+*** Resize
+#+begin_src conf
 # resize mode? do these actions support something like v:count?
-keybind = super+alt+,=resize_split:left,10
-keybind = super+alt+.=resize_split:right,10
-# keybind = alt>6=resize_split:up,10
-# keybind = alt>7=resize_split:down,10
+keybind = resize/k=resize_split:up,10
+keybind = resize/j=resize_split:down,10
+keybind = resize/h=resize_split:left,10
+keybind = resize/l=resize_split:right,10
+keybind = resize/escape=deactivate_key_table
+keybind = resize/catch_all=ignore
+
+keybind = super+alt+r=activate_key_table:resize
+#+end_src
+
+#+begin_src conf
+
 
 # # Split navigation
 keybind = super+alt+h=goto_split:left
@@ -165,7 +184,7 @@ keybind = super+alt+l=goto_split:right
 
 keybind = super+alt+t=new_tab
 # turn split to tab? like ^wT in vim
-keybind = super+alt+f=toggle_split_zoom
+keybind = super+alt+1=toggle_split_zoom
 keybind = super+alt+shift+t=toggle_tab_overview
 
 keybind = super+alt+o=next_tab
