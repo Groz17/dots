@@ -503,7 +503,7 @@ d1 (tap-hold-press-timeout 175 175 1 1 (macro S-1))
 ;; d2 (tap-hold-press-timeout 175 175 2 2 (macro S-2))
 d2 (tap-hold 175 175 2 (tap-hold-press-timeout 0 230 2 (layer-while-held audio) (macro S-2)))
 d3 (tap-hold 175 175 3 (tap-hold-press-timeout 0 230 3 (layer-while-held mouse) (macro S-3)))
-d4 (tap-hold-press-timeout 175 175 4 4 (macro S-4))
+d4 (tap-hold 175 175 4 (tap-hold-press-timeout 0 230 4 (layer-while-held TV) (macro S-4)))
 d5 (tap-hold-press-timeout 175 175 5 5 (macro S-5))
 d6 (tap-hold-press-timeout 175 175 6 6 (macro S-6))
 d7 (tap-hold-press-timeout 175 175 7 7 (macro S-7))
@@ -675,12 +675,12 @@ restart (cmd playerctl position 0)
 
 (deflayer audio
   _
-  _ _ _              _              _ _   _ _   _          _        @restart                  _ _ _
-  _ _ _              _              _ _   _ _   @microphone          @loop      MediaTrackPrevious _
-  _ _ _              @recognize            _ @fx @goto @back VolumeDown VolumeUp @forward                _ _ _ _
-  _ _ _              _              _ _   _ MediaTrackNext   VolumeMute _        _                  _ _
-  _ _ _ MediaPlayPause _ _   _ _
-  _ _ _             
+  _ _ _ _              _ _   _     _              _           _        @restart           _ _ _
+  _ _ _ _              _ _   _     _              @microphone @loop    MediaTrackPrevious _
+  _ _ _ @recognize     _ @fx @goto @back          VolumeDown  VolumeUp @forward           _ _ _ _
+  _ _ _ _              _ _   _     MediaTrackNext VolumeMute  _        _                  _ _
+  _ _ _ MediaPlayPause _ _   _     _             
+  _ _ _
 )
 #+end_src
 
@@ -947,6 +947,55 @@ except l which activates c-c-x-prefix layer, and d/k which pass through to allow
   _ _ (tap-hold-press-timeout 175 175 (macro f16 z) (macro f16 z) (macro f16 S-z)) (tap-hold-press-timeout 175 175 (macro f16 x) (macro f16 x) (macro f16 S-x)) (tap-hold-press-timeout 175 175 (macro f16 c) (macro f16 c) (macro f16 S-c)) (tap-hold-press-timeout 175 175 (macro f16 v) (macro f16 v) (macro f16 S-v)) (tap-hold-press-timeout 175 175 (macro f16 b) (macro f16 b) (macro f16 S-b)) (tap-hold-press-timeout 175 175 (macro f16 n) (macro f16 n) (macro f16 S-n)) (tap-hold-press-timeout 175 175 (macro f16 m) (macro f16 m) (macro f16 S-m)) (tap-hold-press-timeout 175 175 (macro f16 ,) (macro f16 ,) (macro f16 S-,)) (tap-hold-press-timeout 175 175 (macro f16 .) (macro f16 .) (macro f16 S-.)) (tap-hold-press-timeout 175 175 (macro f16 /) (macro f16 /) (macro f16 S-/)) _
   _ _ _ _ _ _ _ _
   _ _ _
+)
+#+end_src
+
+*** TV
+#+begin_src kbd
+(defalias
+  ;; Samsung TV remote control via a local pipe consumer.
+  ;; Each action appends one JSON command line to /tmp/tvpipe.
+
+tv-left  (cmd bash -c r#"
+echo '{"method":"ms.remote.control","params":{"Cmd":"Click","DataOfCmd":"KEY_LEFT","Option":"false","TypeOfRemote":"SendRemoteKey"}}'>> /tmp/tvpipe
+"#)
+tv-right  (cmd bash -c r#"
+echo '{"method":"ms.remote.control","params":{"Cmd":"Click","DataOfCmd":"KEY_RIGHT","Option":"false","TypeOfRemote":"SendRemoteKey"}}'>> /tmp/tvpipe
+"#)
+
+tv-chdown  (cmd bash -c r#"
+echo '{"method":"ms.remote.control","params":{"Cmd":"Click","DataOfCmd":"KEY_CHDOWN","Option":"false","TypeOfRemote":"SendRemoteKey"}}'>> /tmp/tvpipe
+"#)
+tv-chup  (cmd bash -c r#"
+echo '{"method":"ms.remote.control","params":{"Cmd":"Click","DataOfCmd":"KEY_CHUP","Option":"false","TypeOfRemote":"SendRemoteKey"}}'>> /tmp/tvpipe
+"#)
+
+  ;; Playpause
+tv-enter  (cmd bash -c r#"
+echo '{"method":"ms.remote.control","params":{"Cmd":"Click","DataOfCmd":"KEY_ENTER","Option":"false","TypeOfRemote":"SendRemoteKey"}}'>> /tmp/tvpipe
+"#)
+
+  ;; Volume
+tv-volup  (cmd bash -c r#"
+echo '{"method":"ms.remote.control","params":{"Cmd":"Click","DataOfCmd":"KEY_VOLUP","Option":"false","TypeOfRemote":"SendRemoteKey"}}'>> /tmp/tvpipe
+"#)
+tv-voldown  (cmd bash -c r#"
+echo '{"method":"ms.remote.control","params":{"Cmd":"Click","DataOfCmd":"KEY_VOLDOWN","Option":"false","TypeOfRemote":"SendRemoteKey"}}'>> /tmp/tvpipe
+"#)
+
+tv-mute  (cmd bash -c r#"
+echo '{"method":"ms.remote.control","params":{"Cmd":"Click","DataOfCmd":"KEY_MUTE","Option":"false","TypeOfRemote":"SendRemoteKey"}}'>> /tmp/tvpipe
+"#)
+)
+
+(deflayer TV
+  _
+  _        _ _ _         _ _ _        _        _      _           _         _ _ _
+  _ _ _ _         _ _ _        _        _      _ _ @tv-chdown _
+  _        _ _ _         _ _ @tv-left @tv-voldown @tv-volup @tv-right   _         _ _ _
+  _        _ _ _         _ _ _        @tv-chup        @tv-mute      _           _  _ _
+  _        _ _ @tv-enter _ _ _        _
+  _        _ _
 )
 #+end_src
 
