@@ -953,8 +953,13 @@ except l which activates c-c-x-prefix layer, and d/k which pass through to allow
 *** TV
 #+begin_src kbd
 (defalias
-  ;; Samsung TV remote control via a local pipe consumer.
-  ;; Each action appends one JSON command line to /tmp/tvpipe.
+
+tv-fifo  (cmd bash -c r#"
+[ -e /tmp/tvpipe ] && { dunstify "Error" "FIFO already exists"; exit; }
+ip=$(arp-scan --localnet | awk -F$'\t' '$3=="Samsung Electronics Co.,Ltd"{print $1}') &&
+mkfifo /tmp/tvpipe &&
+tail -f /tmp/tvpipe | websocat "wss://$ip:8002/api/v2/channels/samsung.remote.control?token=12345678" --insecure
+"#)
 
 tv-left  (cmd bash -c r#"
 echo '{"method":"ms.remote.control","params":{"Cmd":"Click","DataOfCmd":"KEY_LEFT","Option":"false","TypeOfRemote":"SendRemoteKey"}}'>> /tmp/tvpipe
@@ -992,7 +997,7 @@ echo '{"method":"ms.remote.control","params":{"Cmd":"Click","DataOfCmd":"KEY_MUT
   _
   _        _ _ _         _ _ _        _        _      _           _         _ _ _
   _ _ _ _         _ _ _        _        _      _ _ @tv-chdown _
-  _        _ _ _         _ _ @tv-left @tv-voldown @tv-volup @tv-right   _         _ _ _
+  _        _ _ _         _ _ @tv-left @tv-voldown @tv-volup @tv-right   _         _ _ @tv-fifo
   _        _ _ _         _ _ _        @tv-chup        @tv-mute      _           _  _ _
   _        _ _ @tv-enter _ _ _        _
   _        _ _
