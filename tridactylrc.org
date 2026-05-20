@@ -80,10 +80,10 @@ set editorcmd emacsclient -a \"\" -c -e '(progn (find-file "%f") (forward-line (
 * BINDS
 #+begin_src tridactyl
 " bind --mode=$mode $key $excmd
-" magari C-z like emacs
-bind i mode ignore
-" metti fra le prime cosi runna subito"
-bind --mode=ignore <esc> composite mode normal
+" like evil
+bind <C-z> mode ignore
+" metti fra le prime cosi runna subito
+bind --mode=ignore <Esc> composite mode normal
 
 bind --mode=browser <f12>m jsua browser.sidebarAction.open(); tri.excmds.sidebaropen("https://mail.google.com/mail/mu")
 
@@ -94,6 +94,9 @@ bind --mode=insert <c-k> zoom 0.1 true
 " bind . zoom 0.1 true
 bind <c-j> zoom -0.1 true
 bind --mode=insert <c-j> zoom -0.1 true
+
+bind <C-o> back
+bind <C-i> forward
 
 " bind , zoom -0.1 true
 
@@ -149,6 +152,7 @@ bindurl ^https://duckduckgo.com F hint -Jbc [data-testid="result-title-a"]
 bindurl www.startpage.com f hint -Jc .w-gl__result-second-line-container > a , .pagination__num , .next, .prev
 bindurl www.startpage.com F hint -Jbc .w-gl__result-second-line-container > a , .pagination__num , .next, .prev
 bindurl ^https://en.wikipedia.org/wiki/ <f12><c-s> composite get_current_url | shellescape | exclaim_quiet ~/.config/tridactyl/scripts/save_article
+"" also <f12><c-w> for picker to show up
 #+end_src
 
 #+begin_src bash :tangle ~/.config/tridactyl/scripts/save_article :shebang "#!/usr/bin/env bash" 
@@ -308,7 +312,7 @@ curl -G -k 'https://ipa.bangla.gov.bd/post_text_bangla_ipa' \
 
 #+begin_src tridactyl
 
-bind --mode=normal <space>s composite get_current_url | shellescape | exclaim_quiet ~/.config/tridactyl/scripts/subs
+bindurl ^https://www.youtube.com/watch\? --mode=normal <space>s composite get_current_url | shellescape | exclaim_quiet ~/.config/tridactyl/scripts/subs
 
 " https://github.com/moyiz/git-dev.nvim
 # bind <space>go composite get_current_url | shellescape | js -p tri.excmds.exclaim(process.env.TERM_PROGRAM + " -e nvim -c \'GitDevOpen " + JS_ARG + "\'")
@@ -1067,6 +1071,10 @@ bind yF composite hint -qpipe a href | join | yank
 ** URL redirects
 #+begin_src tridactyl
 autocmd DocStart reddit\.com/.*[?&]tl= urlmodify -Q tl
+
+" DocStart?
+" ^https://www\.wordreference\.com/[^/]+/[^/]+$
+autocmd DocLoad ^https://www\.wordreference\.com/.* composite get_current_url | shellescape | js -p tri.excmds.exclaim("bash -c \'echo " + JS_ARG + " >> ~/vimwiki/wr\'")
 
 autocmd DocStart github\.com/.*[?&]tab=readme-ov-file urlmodify -Q tab
 " autocmd DocStart chatgpt\.com kill initiali popup
