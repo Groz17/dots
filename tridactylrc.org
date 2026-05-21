@@ -1074,7 +1074,7 @@ autocmd DocStart reddit\.com/.*[?&]tl= urlmodify -Q tl
 
 " DocStart?
 " ^https://www\.wordreference\.com/[^/]+/[^/]+$
-autocmd DocLoad ^https://www\.wordreference\.com/.* composite get_current_url | shellescape | js -p tri.excmds.exclaim("bash -c \'echo " + JS_ARG + " >> ~/vimwiki/wr\'")
+autocmd DocLoad ^https://www\.wordreference\.com/.* composite get_current_url | shellescape | exclaim_quiet bash -c 'echo $0 >> ~/vimwiki/wr'
 
 autocmd DocStart github\.com/.*[?&]tab=readme-ov-file urlmodify -Q tab
 " autocmd DocStart chatgpt\.com kill initiali popup
