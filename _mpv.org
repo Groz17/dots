@@ -266,3 +266,5 @@ Alt+x script-binding M-x
 * script-opts
 # ~/.config/mpv/script-opts/M_x.conf
 toggle_menu_binding=Alt+x
+
+* Plugins
