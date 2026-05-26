@@ -623,6 +623,8 @@ set searchurls.de  https://devdocs.io/#q=
 "set searchurls.yf https://finance.yahoo.com/quote/%s
 "set searchurls.yt https://www.youtube.com/results?search_query=%s
 
+set searchurls.ly https://genius.com/search?q=%s
+
 set searchurls.alt https://alternativeto.net/browse/search/?q=
 set searchurls.af https://www.acronymfinder.com/~/search/af.aspx?string=exact&Acronym=%s
 set searchurls.ar https://archive.is/search/?q=%s
