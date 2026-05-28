@@ -159,6 +159,11 @@ esac
 wtf  $(< "$acronyms_location" cut -f1 | shuf -n1)
 }
 
+mlorem() {
+curl -s "https://loremipsummultilang.com/" |
+  python -c "import re,sys;html=sys.stdin.read();m=re.search(r'textSamples=\\{.*?$1:\"(.*?)\"',html,re.S);print(re.sub(r'\\\\u([0-9a-fA-F]{4})',lambda x: chr(int(x.group(1),16)), m.group(1)).replace('\\\\n','\\n').replace('\\\\\"','\"') if m else '')"
+}
+
 
 # try the same w/ elisp/clojure
 # ascii_quiz
