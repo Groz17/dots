@@ -277,7 +277,75 @@ eval "$(himalaya completion $shell)"
 # lol eval "$(printf '%s\n'  'r !pay-respects bash --alias' 'v/^alias /d' 's/f/<space>' Q | ed -s)"
 
 #+begin_src bash :tangle ~/bin/mlorem :shebang "#!/bin/bash"
-curl -s "https://loremipsummultilang.com/" |
-  python -c "import re,sys;html=sys.stdin.read();m=re.search(r'textSamples=\\{.*?$1:\"(.*?)\"',html,re.S);print(re.sub(r'\\\\u([0-9a-fA-F]{4})',lambda x: chr(int(x.group(1),16)), m.group(1)).replace('\\\\n','\\n').replace('\\\\\"','\"') if m else '')"
+
+URL="https://loremipsummultilang.com/"
+
+declare -A langs
+
+# Fetch page once
+html="$(curl -s "$URL")"
+
+# Extract language keys
+while read -r lang; do
+  [[ -n "$lang" ]] && langs["$lang"]=1
+done < <(
+  echo "$html" \
+    | grep -Po 'const textSamples=\K\{[^}]+\}' \
+    | grep -oP '\w+(?=:)' 
+)
+
+# HELP
+case "${1:-}" in
+  -h|--help)
+    echo "Available languages:"
+    printf '%s\n' "${!langs[@]}" | sort
+    echo
+    echo "Usage:"
+    echo "  $0 <language>"
+    exit 0
+    ;;
+esac
+
+# ARG CHECK
+if [[ -z "${1:-}" ]]; then
+  echo "Usage: $0 <language>"
+  exit 1
+fi
+
+lang="$1"
+
+# VALIDATION
+if [[ -z "${langs[$lang]}" ]]; then
+  echo "Unknown language: $lang"
+  echo "Run $0 --help to list supported languages."
+  exit 1
+fi
+
+# EXTRACT TEXT FOR THAT LANGUAGE
+exec 3<<PY
+import re
+import sys
+
+html = sys.stdin.read()
+
+m = re.search(
+    r'textSamples=\\{.*?$1:\"(.*?)\"',
+    html,
+    re.S
+)
+
+if m:
+    result = re.sub(
+        r'\\\\u([0-9a-fA-F]{4})',
+        lambda x: chr(int(x.group(1), 16)),
+        m.group(1)
+    )
+
+    result = result.replace('\\\\n', '\n').replace('\\\\\"', '"')
+    print(result)
+else:
+    print('')
+PY
+echo "$html" | python3 /dev/fd/3
 #+end_src
 
