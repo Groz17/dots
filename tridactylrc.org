@@ -365,6 +365,7 @@ scrape() {
 }
 
 song() {
+  dunstify "Saving song..."
   yt-dlp -x -P ~/Music "${URL%&*}" && dunstify "Saved song" "$(yt-dlp -e "$URL")" || dunstify "Couldn't save song"
 }
 

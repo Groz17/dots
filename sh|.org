@@ -159,12 +159,6 @@ esac
 wtf  $(< "$acronyms_location" cut -f1 | shuf -n1)
 }
 
-mlorem() {
-curl -s "https://loremipsummultilang.com/" |
-  python -c "import re,sys;html=sys.stdin.read();m=re.search(r'textSamples=\\{.*?$1:\"(.*?)\"',html,re.S);print(re.sub(r'\\\\u([0-9a-fA-F]{4})',lambda x: chr(int(x.group(1),16)), m.group(1)).replace('\\\\n','\\n').replace('\\\\\"','\"') if m else '')"
-}
-
-
 # try the same w/ elisp/clojure
 # ascii_quiz
 aq() {
@@ -281,3 +275,9 @@ eval "$(himalaya completion $shell)"
 # eval "$(pay-respects bash --alias| sed '$s/f/fk/')"
 # eval "$(printf '%s\n'  'r !pay-respects bash --alias' 'v/^alias /d' 's/f/fk' Q | ed -s)"
 # lol eval "$(printf '%s\n'  'r !pay-respects bash --alias' 'v/^alias /d' 's/f/<space>' Q | ed -s)"
+
+#+begin_src bash :tangle ~/bin/mlorem :shebang "#!/bin/bash"
+curl -s "https://loremipsummultilang.com/" |
+  python -c "import re,sys;html=sys.stdin.read();m=re.search(r'textSamples=\\{.*?$1:\"(.*?)\"',html,re.S);print(re.sub(r'\\\\u([0-9a-fA-F]{4})',lambda x: chr(int(x.group(1),16)), m.group(1)).replace('\\\\n','\\n').replace('\\\\\"','\"') if m else '')"
+#+end_src
+
