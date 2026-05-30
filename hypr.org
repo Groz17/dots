@@ -489,11 +489,25 @@ mpv --input-ipc-server="$SOCKET" "$url"
 ** [[https://www.reddit.com/r/hyprland/comments/zxxr9w/how_do_i_dedicate_all_my_hotkeys_to_focused_window/][Passthrough]]
 For VNC, etc... Maybe Emacs/Vim as well
 #+begin_src hyprlang
-bind=$mainMod,i,submap,passthrough
+bind=$mainMod,i,exec,~/.config/hypr/scripts/passthrough_notify
 submap=passthrough
 # I in analogia con Vim
-bind = $mainMod, i, submap, reset
+bind = $mainMod, i, exec, ~/.config/hypr/scripts/passthrough_notify
 submap=reset
+#+end_src
+
+#+begin_src bash :tangle ~/.config/hypr/scripts/passthrough_notify :shebang "#!/usr/bin/env bash"
+id_file="${XDG_RUNTIME_DIR:-/run/user/1000}/passthrough_dunst_id"
+
+if [ -f "$id_file" ]; then
+  dunstify -C "$(cat "$id_file")" >/dev/null 2>&1
+  rm -f "$id_file"
+  hyprctl dispatch submap reset
+else
+  id=$(dunstify -u low -t 0 -p "Passthrough ON" "Press Win+I to exit")
+  printf "%s" "$id" > "$id_file"
+  hyprctl dispatch submap passthrough
+fi
 #+end_src
 
 *** Brightness
