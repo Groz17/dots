@@ -76,7 +76,7 @@ ConditionPathIsDirectory=%h/tmp/.archive
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/find %h/tmp -mindepth 1 -maxdepth 1 -path %h/tmp/.archive -prune -o -exec mv -t %h/tmp/.archive {} +
+ExecStart=/usr/bin/find %h/tmp -mindepth 1 -maxdepth 1 -path %h/tmp/.archive -prune -o -exec mv -b -t %h/tmp/.archive {} +
 #+end_src
 
 ** Timer
@@ -102,7 +102,8 @@ Description=Switch to light theme and wallpaper
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/gsettings set org.gnome.desktop.interface color-scheme 'prefer-light'
-ExecStart=/usr/bin/hyprctl hyprpaper wallpaper ",/home/giorgio/dots/pics/wallpapers/Mountain.jpg"
+ExecStart=/usr/bin/hyprctl hyprpaper wallpaper ",%h/dots/pics/wallpapers/Mountain.jpg"
+
 #+end_src
 
 *** Timer
@@ -127,7 +128,7 @@ Description=Switch to dark theme and wallpaper
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
-ExecStart=/usr/bin/hyprctl hyprpaper wallpaper ",/home/giorgio/dots/pics/wallpapers/kanagawa_vaporwave.jpg"
+ExecStart=/usr/bin/hyprctl hyprpaper wallpaper ",%h/dots/pics/wallpapers/kanagawa_vaporwave.jpg"
 #+end_src
 
 *** Timer
