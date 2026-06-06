@@ -1,5 +1,4 @@
-,#+property: header-args :tangle ~/.config/starship.toml
-#+property: header-args :tangle no
+#+property: header-args :tangle ~/.config/starship.toml
 #+startup: content
 
 add shell icon
@@ -21,35 +20,17 @@ toggle section/configs?
 continuation_prompt = '▶▶ '
 
 format = """
-[](color_aqua)\
 $directory\
 $direnv\
-[](fg:color_aqua bg:color_bg3)\
 $git_branch\
 $git_commit\
-$git_status\
 $git_state\
+$git_metrics\
+$git_status\
 $line_break$character"""
-
-palette = 'purple_theme'
-
-[palettes.purple_theme]
-color_white          = '#ffffff'
-color_orange          = '#ff8010'
-color_fg0          = '#2e2b3b'
-color_bg1          = '#3b3054'
-color_bg3          = '#6a5acd'
-color_blue         = '#8a2be2'
-color_aqua         = '#9370db'
-color_violet        = '#9400d3'
-color_magenta = '#8b008b'
-color_purple       = '#dda0dd'
-color_red          = '#dda0dd'
-color_plum         = '#dda0dd'
 
 [os]
 disabled = false
-style = "bg:color_purple fg:color_fg0"
 
 [hostname]
 ssh_only = true
@@ -59,12 +40,9 @@ disabled = false
 
 [username]
 show_always = true
-style_user = "bg:color_purple fg:color_fg0"
-style_root = "bg:color_red fg:color_fg0"
 format = '[ $user ]($style)'
 
 [directory]
-style = "fg:color_fg0 bg:color_aqua"
 format = '[$path]($style)[$read_only]($style)'
 # format = '[$path]($style)'
 truncation_length = 0
@@ -85,15 +63,12 @@ disabled=false
 
 [git_branch]
 symbol = ""
-style = "bg:color_purple"
 format = '[[ $symbol $branch ](fg:color_fg0 bg:color_bg3)]($style)'
 
 [git_status]
-style = "bg:color_purple"
 format = '[[($all_status$ahead_behind )](fg:color_fg0 bg:color_bg3)]($style)'
 
 [git_commit]
-style = "bg:color_purple"
 format = '[[$tag](fg:color_fg0 bg:color_bg3)]($style)'
 tag_disabled=false
 
@@ -108,5 +83,4 @@ error_symbol = '[λ](bold red)'
 [shell]
 disabled = false
 format = "[ $indicator]($style)"
-style = "bg:color_aqua fg:color_fg0"
 #+end_src
