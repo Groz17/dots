@@ -188,7 +188,7 @@ adb get-state 2>/dev/null | grep -q "device" || { dunstify -u critical -a adb "N
 
 files=$(adb shell find /sdcard/Documents/Obsidian_vault/Vault -maxdepth 1 -name '*.md')
 [[ -z "$files" ]] && return 1;
-dir=~/vimwiki/Obsidian_vault/phone
+dir=~/vimwiki/Personal/Obsidian_vault/phone
 [ -d "$dir" ] && cd "$dir" || { dunstify -u critical -a FS "Directory doesn't exist"; return 1; }
 for f in $files; do [[ -f "${f##*/}" ]] && adb pull "$f" "${f##*/}"_$(date +%s) || adb pull "$f" .;done
 # attenzione agli spazi
@@ -348,4 +348,3 @@ else:
 PY
 echo "$html" | python3 /dev/fd/3
 #+end_src
-
