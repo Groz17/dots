@@ -332,7 +332,7 @@ bind yg composite js "git clone " + document.location.href.replace(/https?:\/\//
 
 " usa exclaim_quiet per non avere output nella command line
 " usa <f12><c-{s,w}>?
-bind <space>d composite get_current_url | exclaim_quiet ~/.config/tridactyl/scripts/download
+" bind <space>d composite get_current_url | exclaim_quiet ~/.config/tridactyl/scripts/download
 #+end_src
 
 #+begin_src bash :tangle ~/.config/tridactyl/scripts/download :shebang "#!/usr/bin/env bash"
