@@ -19,6 +19,8 @@ bind -x '"\C-xp": printf "\033]52;c;%s" "$(base64<<<"${PWD/#$HOME/\~}")"'
 # ^ like in Vim
 bind -x '"\C-x^": exec zsh'
 bind -x '"\C-xs": ssh <<alternate()>>'
+# information
+bind '"\C-xi": "\C-aman \M-f\C-k\C-m"'
 #+end_src
 
 ** TODO Toggle shopts

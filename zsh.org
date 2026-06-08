@@ -403,6 +403,16 @@ bindkey '^X^' exec-bash
 zle -N ssh-<<alternate()>>; ssh-<<alternate()>>() { BUFFER='ssh <<alternate()>>'; zle accept-line }
 bindkey '^Xs' ssh-<<alternate()>>
 
+insert-man() {
+  zle beginning-of-line
+  LBUFFER="man $LBUFFER"
+  zle forward-word
+  zle kill-line
+  zle accept-line
+}
+zle -N insert-man
+bindkey '^Xi' insert-man
+
 bindkey -s '\e[24~' '^X'
 
 #+end_src
