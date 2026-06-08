@@ -76,7 +76,7 @@ ConditionPathIsDirectory=%h/tmp/.archive
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/find %h/tmp -mindepth 1 -maxdepth 1 -path %h/tmp/.archive -prune -o -exec mv -b -t %h/tmp/.archive {} +
+ExecStart=/usr/bin/find %h/tmp -mindepth 1 -maxdepth 1 -path %h/tmp/.archive -prune -o -exec mv --backup=numbered -t %h/tmp/.archive {} +
 #+end_src
 
 ** Timer
