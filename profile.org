@@ -54,6 +54,8 @@ export MANPAGER="nvim +Man!"
 # export MANWIDTH=999
 
 # export RCLONE_PASSWORD_COMMAND="pass rclone/config"
+# export RCLONE_PASSWORD_COMMAND="bw get password rclone"
+export RCLONE_PASSWORD_COMMAND="rbw get rclone"
 
 export OLLAMA_API_BASE=http://127.0.0.1:11434
 # export GPG_TTY=$(tty)
