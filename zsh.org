@@ -138,6 +138,8 @@ setopt NO_NOMATCH
 ** Plugins
 *** Bootstrap
 #+begin_src zsh
+# git clone it?
+# git clone --depth=1 https://github.com/mattmc3/antidote.git /home/giorgio/.config/zsh/.antidote
 source ${ZDOTDIR:-~}/.antidote/antidote.zsh
 antidote load
 #+end_src
