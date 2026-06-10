@@ -87,7 +87,7 @@ Generate functions from table:
      (if (string= alias "mr")
          (format "%s() { (cd ~ && if [ $# -gt 0 ]; then command %s \"$@\"; else command %s %s; fi); }"
                  alias cmd cmd default)
-       (format "%s() { if [ $# -gt 0 ]; then %s \"$@\"; else %s %s; fi; }"
+       (format "function %s() { if [ $# -gt 0 ]; then %s \"$@\"; else %s %s; fi; }"
                alias cmd cmd default))))
  funcs
  "\n")
@@ -262,14 +262,14 @@ magit () {
 eval "$(starship init $shell)"
 eval "$(atuin init $shell)"
 # Make sure it appears even after rvm, git-prompt and other shell extensions that manipulate the prompt.
-eval "$(direnv hook $shell)"
+# eval "$(direnv hook $shell)"
 # In some target folder, create an .envrc file and add some export(1) and unset(1) directives in it.
 # Type direnv allow .  and watch direnv loading your new environment. Note that direnv edit . is a handy  short‐ cut that opens the file in your $EDITOR and automatically reloads it if the file's modification time has changed.
 
 
 # Please ensure that zoxide is initialized right at the end of your shell configuration file (usually ~/.bashrc).
 eval "$(zoxide init --cmd j $shell)"
-eval "$(himalaya completion $shell)"
+# eval "$(himalaya completion $shell)"
 #+end_src
 
 # eval "$(pay-respects bash --alias| sed '$s/f/fk/')"
