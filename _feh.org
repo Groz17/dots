@@ -22,15 +22,6 @@ menu_close Escape
 ** Navigation
 
 #+begin_src conf
-# action_0 Return
-# Print
-action_0
-action_0 C-p
-
-reload_image r
-# reload_plus plus
-# reload_minus
-
 next_img n
 prev_img p
 
@@ -52,6 +43,10 @@ quit q Escape
 #+begin_src conf
 save_image s
 save_filelist L
+
+reload_image r
+# reload_plus plus
+# reload_minus
 
 # remove d
 delete D
@@ -110,6 +105,16 @@ zoom_default equal
 zoom_fit asterisk
 zoom_fill exclam
 #+end_src
+
+#+begin_src conf
+# action_0 Return
+# Print
+action_0
+action_0 C-p
+
+# action rofi org tags
+#+end_src
+
 
 
 * MOUSE BINDINGS
