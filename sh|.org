@@ -150,6 +150,11 @@ alias cleanup='sudo pacman -Rns $(pacman -Qtdq)'
 * Functions
 #+name: functions
 #+begin_src sh :results output :prologue "cat << 'EOF'" :epilogue EOF :noweb yes :var distro=(org-sbe "distro")
+b() {
+  rbw list | fzf --no-preview --prompt="Vault > " |
+  xargs -r -d\\n rbw get | tr -d '\n' | wl-copy
+}
+
 WTF() {
 case $distro in
   arch) acronyms_location=/usr/share/wtf/acronyms.comp;;
