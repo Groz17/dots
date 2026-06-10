@@ -142,17 +142,23 @@ source ${ZDOTDIR:-~}/.antidote/antidote.zsh
 antidote load
 #+end_src
 
+*** Config
+#+begin_src zsh
+MAGIC_ENTER_GIT_COMMAND='git status -u .'
+MAGIC_ENTER_OTHER_COMMAND='ls -lh .'
+#+end_src
+
 *** List
 #+begin_src text :tangle ~/.config/zsh/.zsh_plugins.txt
 
 # OMZ
 getantidote/use-omz
-ohmyzsh/ohmyzsh path:plugins/git
-ohmyzsh/ohmyzsh path:plugins/sudo
+ohmyzsh/ohmyzsh path:plugins/sudo kind:defer
 ohmyzsh/ohmyzsh path:plugins/docker
 ohmyzsh/ohmyzsh path:plugins/command-not-found
 ohmyzsh/ohmyzsh path:plugins/tmuxinator
 ohmyzsh/ohmyzsh path:plugins/extract
+ohmyzsh/ohmyzsh path:plugins/magic-enter
 
 # Completions
 mattmc3/ez-compinit
@@ -160,7 +166,7 @@ zsh-users/zsh-completions kind:fpath path:src
 Aloxaf/fzf-tab kind:defer
 
 # Completion styles
-belak/zsh-utils path:completion/functions kind:autoload post:compstyle_zshzoo_setup
+# belak/zsh-utils path:completion/functions kind:autoload post:compstyle_zshzoo_setup
 
 # Keybindings
 belak/zsh-utils path:editor
@@ -174,6 +180,7 @@ romkatv/zsh-bench kind:path
 
 # Other Fish-like features
 zdharma-continuum/fast-syntax-highlighting  # Syntax highlighting
+# TODO: https://github.com/michel-kraemer/zsh-patina
 zsh-users/zsh-autosuggestions               # Auto-suggestions
 
 MichaelAquilina/zsh-you-should-use
