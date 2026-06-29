@@ -91,6 +91,7 @@ exec-once = hypridle &
 **** Notification daemon
 #+begin_src hyprlang
 #exec-once = swaync
+# right click notification to open in editor?
 exec-once = dunst &
 #+end_src  
 
@@ -626,7 +627,6 @@ bind = $mainMod SHIFT, backslash, exec, $(hyprctl activewindow -j | jq '.floatin
     hyprctl dispatch cyclenext floating
 
 bind = $mainMod SHIFT, Q, killactive,
-bind = $mainMod, Backspace, exit,
 
 # bind = $mainMod, g, togglefloating,
 #bind = $mainMod SHIFT, F, togglefloating,
@@ -665,7 +665,7 @@ bind = $mainMod SHIFT, G, moveoutofgroup
 # maybe use mod+y (rot13 of l) (general way to remap if a letter is already remapped?)
 # bind = $mainMod, esc, shutdown,
 # bind = $mainMod shift, z, exec, shutdown now
-bind = $mainMod , delete, exec, shutdown now
+bind = $mainMod , x, exec, wlogout
 # restart binding
 # use sudo instead of wiki password? gpg?
 # bind = $mainMod,I, exec, sudo -c ''
