@@ -1103,6 +1103,9 @@ bindurl youtu((\.be)|(be\.com)) f hint -J
 command hint_focus hint -;
 
 bind yn composite js document.location.href.replace(/https?:\/\//,"git@").replace("/",":").replace(/$/,".git") | clipboard yank
+
+autocmd DocStart ^https://www.youtube.com/watch\? js const el = document.createElement("style"); el.id = "yt-hide-style"; el.textContent = "#related, #contents { display: none !important; }"; document.head.appendChild(el);
+bindurl ^https://www.youtube.com/watch\? \ js if (document.getElementById("yt-hide-style")) { document.getElementById("yt-hide-style").remove(); } else { const el = document.createElement("style"); el.id = "yt-hide-style"; el.textContent = "#related, #contents { display: none !important; }"; document.head.appendChild(el); }
 #+end_src
 
 * INTERNATIONALISATION
@@ -1166,8 +1169,9 @@ quickmark y https://www.youtube.com/playlist?list=WL
 " start in insert mode for those?
 quickmark c https://chatgpt.com
 quickmark d https://duck.ai
-quickmark m https://www.copilot.microsoft.com
-quickmark l  https://chat.mistral.ai/chat?model=codestral
+quickmark g https://gemini.google.com/app
+quickmark l https://chat.mistral.ai/chat?model=codestral
+quickmark m https://copilot.microsoft.com
 quickmark p https://www.perplexity.ai
 #+end_src
 
