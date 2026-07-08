@@ -618,6 +618,15 @@ echo '{ "command": ["get_property", "af"] }' | socat - /tmp/mpvsocket | jq -er '
     echo '{ "command": ["set_property", "af",""] }' | socat - /tmp/mpvsocket 
 #+end_src
 
+#+begin_src bash :tangle ~/.config/hypr/scripts/raise :noweb yes :shebang "#!/usr/bin/env bash"
+echo '{ "command": ["af-command", "scaletempo2", "multiply", "pitch", "1.059463"] }' | socat - /tmp/mpvsocket 
+#+end_src
+
+#+begin_src bash :tangle ~/.config/hypr/scripts/lower :noweb yes :shebang "#!/usr/bin/env bash"
+echo '{ "command": ["af-command", "scaletempo2", "multiply", "pitch", "0.943874"] }' | socat - /tmp/mpvsocket 
+#+end_src
+
+
 #+begin_src bash :tangle ~/.config/hypr/scripts/goto :noweb yes :shebang "#!/usr/bin/env bash"
 # Ensure display environment is set for GUI apps
 offset=$(WAYLAND_DISPLAY=wayland-1 zenity --text="Position (h/m/s?)" --entry --title="Jump to position")
@@ -639,7 +648,7 @@ cmd=(songrec)
 args=(recognize --json)
 
 if [[ <<chassis()>> == "desktop" ]]; then
-  cmd=(flatpak run com.github.marinm.songrec)
+  cmd=(flatpak run re.fossplant.songrec)
   args+=(-d "Webcam C270 Mono")
 fi
 
@@ -666,6 +675,8 @@ fx (cmd bash -c "~/.config/hypr/scripts/fx")
 goto (cmd bash -c "~/.config/hypr/scripts/goto")
 ;; uppercase O for playlist?
 loop (cmd bash -c "playerctl loop $( [ $(playerctl loop) = None ] && printf Track || printf None )")
+raise (cmd bash -c "~/.config/hypr/scripts/raise")
+lower (cmd bash -c "~/.config/hypr/scripts/lower")
 
 ;; needs mpv-mpris
 back (cmd playerctl position 3-)
@@ -679,7 +690,7 @@ restart (cmd playerctl position 0)
   _ _ _ _              _ _   _     _              @microphone @loop    MediaTrackPrevious _
   _ _ _ @recognize     _ @fx @goto @back          VolumeDown  VolumeUp @forward           _ _ _ _
   _ _ _ _              _ _   _     MediaTrackNext VolumeMute  _        _                  _ _
-  _ _ _ MediaPlayPause _ _   _     _             
+  _ _ @lower MediaPlayPause _ @raise   _     _             
   _ _ _
 )
 #+end_src
