@@ -72,11 +72,12 @@ WantedBy=default.target
 [Unit]
 Description=Archive temporary files
 ConditionPathIsDirectory=%h/tmp
-ConditionPathIsDirectory=%h/tmp/.archive
+ConditionPathIsDirectory=%h/.archive
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/find %h/tmp -mindepth 1 -maxdepth 1 -path %h/tmp/.archive -prune -o -exec mv --backup=numbered -t %h/tmp/.archive {} +
+ExecCondition=bash -c 'lsof +D %h/tmp | ifne true'
+ExecStart=/usr/bin/find %h/tmp -mindepth 1 -maxdepth 1 -exec mv --backup=numbered -t %h/.archive {} +
 #+end_src
 
 ** Timer

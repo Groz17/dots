@@ -77,6 +77,45 @@ set editorcmd emacsclient -a \"\" -c -e '(progn (find-file "%f") (forward-line (
 
 #+end_src
 
+* AUTOCMDS
+** URL redirects
+#+begin_src tridactyl
+autocmd DocStart reddit\.com/.*[?&]tl= urlmodify -Q tl
+
+" DocStart?
+" ^https://www\.wordreference\.com/[^/]+/[^/]+$
+autocmd DocLoad ^https://www\.wordreference\.com/.* composite get_current_url | shellescape | exclaim_quiet bash -c 'echo $0 >> ~/vimwiki/wr'
+
+autocmd DocStart github\.com/.*[?&]tab=readme-ov-file urlmodify -Q tab
+" autocmd DocStart chatgpt\.com kill initiali popup
+" autocmd DocStart chatgpt.com js document.querySelector("a .cursor-pointer").click()
+" <a href="#" class="mt-5 cursor-pointer text-sm font-semibold text-token-text-secondary underline">Stay logged out</a>
+
+"like in vim
+bind gO fillcmdline goto
+
+bind gi focusinput
+
+""autocmd DocStart ^http(s?)://www.reddit.com js tri.excmds.urlmodify("-t", "www", "old")
+"" autocmd DocLoad twitter.com urlmodify -t twitter.com nitter.net
+
+" autocmd to save current url in file/DB? for history or to use in other programs like hyprland
+
+# bindurl reddit.com <Space><Space> urlmodify -t www old
+bindurl https://github.com/.*/.*/blob f hint -c .blob-num,a
+bindurl https://github.com/notifications <Space><Space> openGithubNotifications
+bindurl youtu((\.be)|(be\.com)) f hint -J
+
+"" Stupid workaround to let hint -; be used with composite which steals semi-colons
+command hint_focus hint -;
+
+bind yn composite js document.location.href.replace(/https?:\/\//,"git@").replace("/",":").replace(/$/,".git") | clipboard yank
+
+autocmd DocStart ^https://www.youtube.com/watch\? js const el = document.createElement("style"); el.id = "yt-hide-style"; el.textContent = "#related { display: none !important; }"; document.head.appendChild(el);
+bindurl ^https://www.youtube.com/watch\? \ js if (document.getElementById("yt-hide-style")) { document.getElementById("yt-hide-style").remove(); } else { const el = document.createElement("style"); el.id = "yt-hide-style"; el.textContent = "#related { display: none !important; }"; document.head.appendChild(el); }
+bindurl ^https://www.youtube.com/watch\? <F12><c-s> composite get_current_url | exclaim_quiet ~/.config/tridactyl/scripts/download
+#+end_src
+
 * BINDS
 #+begin_src tridactyl
 " bind --mode=$mode $key $excmd
@@ -1068,44 +1107,6 @@ bind yF composite hint -qpipe a href | join | yank
 "bindurl www.google.com F hint -Jbc .rc>.r>a
 
 " bind ... hint -frk
-#+end_src
-
-* AUTOCMDS
-** URL redirects
-#+begin_src tridactyl
-autocmd DocStart reddit\.com/.*[?&]tl= urlmodify -Q tl
-
-" DocStart?
-" ^https://www\.wordreference\.com/[^/]+/[^/]+$
-autocmd DocLoad ^https://www\.wordreference\.com/.* composite get_current_url | shellescape | exclaim_quiet bash -c 'echo $0 >> ~/vimwiki/wr'
-
-autocmd DocStart github\.com/.*[?&]tab=readme-ov-file urlmodify -Q tab
-" autocmd DocStart chatgpt\.com kill initiali popup
-" autocmd DocStart chatgpt.com js document.querySelector("a .cursor-pointer").click()
-" <a href="#" class="mt-5 cursor-pointer text-sm font-semibold text-token-text-secondary underline">Stay logged out</a>
-
-"like in vim
-bind gO fillcmdline goto
-
-bind gi focusinput
-
-""autocmd DocStart ^http(s?)://www.reddit.com js tri.excmds.urlmodify("-t", "www", "old")
-"" autocmd DocLoad twitter.com urlmodify -t twitter.com nitter.net
-
-" autocmd to save current url in file/DB? for history or to use in other programs like hyprland
-
-# bindurl reddit.com <Space><Space> urlmodify -t www old
-bindurl https://github.com/.*/.*/blob f hint -c .blob-num,a
-bindurl https://github.com/notifications <Space><Space> openGithubNotifications
-bindurl youtu((\.be)|(be\.com)) f hint -J
-
-"" Stupid workaround to let hint -; be used with composite which steals semi-colons
-command hint_focus hint -;
-
-bind yn composite js document.location.href.replace(/https?:\/\//,"git@").replace("/",":").replace(/$/,".git") | clipboard yank
-
-autocmd DocStart ^https://www.youtube.com/watch\? js const el = document.createElement("style"); el.id = "yt-hide-style"; el.textContent = "#related, #contents { display: none !important; }"; document.head.appendChild(el);
-bindurl ^https://www.youtube.com/watch\? \ js if (document.getElementById("yt-hide-style")) { document.getElementById("yt-hide-style").remove(); } else { const el = document.createElement("style"); el.id = "yt-hide-style"; el.textContent = "#related, #contents { display: none !important; }"; document.head.appendChild(el); }
 #+end_src
 
 * INTERNATIONALISATION
