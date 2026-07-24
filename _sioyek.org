@@ -497,6 +497,7 @@ _dual_panelify <C-v>
 # usa Alt mappings per gli shortcut che chiamano i tuoi script
 _pg2jpg4anki <A-p>
 _screenshot2jpg4anki <A-s>
+_delete_page D
 
 # add binding to open current pdf in vi-xournalpp
 #+end_src
@@ -616,5 +617,30 @@ new_command _add_red_text ~/pip/sioyek/bin/python -m sioyek.add_text "%{sioyek_p
 new_command _pg2jpg4anki ~/.config/sioyek/myscripts/pg2jpg4anki "%{file_path}" "%{page_number}" "%{selected_text}"
 new_command _screenshot2jpg4anki ~/.config/sioyek/myscripts/screenshot2jpg4anki "%{file_path}" "%{page_number}" "%{selected_text}"
 new_command _espeak espeak "%{line_text}"
+
+new_command _delete_page ~/.config/sioyek/scripts/delete_page '%{file_path}' '%{page_number}'
 #+end_src
 
+* SCRIPTS
+#+begin_src sh :tangle ~/.config/sioyek/scripts/delete_page :shebang "#!/bin/bash"
+pdf="$1"
+page="$2"
+out=/tmp/"${pdf%.pdf}_deleted.pdf"
+
+total=$(cpdf -pages "$pdf")
+
+if [ "$page" -eq 0 ]; then
+    # remove first page: keep 2..end
+    cpdf "$pdf" 2-end -o "$out"
+
+elif [ "$page" -eq "$((total-1))" ]; then
+    # remove last page: keep 1..(end-1)
+    cpdf "$pdf" 1-$total -o "$out"
+
+else
+    # remove middle page: keep before and after
+    cpdf "$pdf" 1-$page,$((page+2))-end -o "$out"
+fi
+
+mv "$out" "$1"
+#+end_src
