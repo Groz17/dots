@@ -148,6 +148,7 @@ antidote load
 #+begin_src zsh
 # MAGIC_ENTER_GIT_COMMAND='git status -u .'
 # MAGIC_ENTER_OTHER_COMMAND='ls -lh .'
+# shift+enter->ls -l?
 MAGIC_ENTER_GIT_COMMAND='ls'
 MAGIC_ENTER_OTHER_COMMAND='ls'
 #+end_src

@@ -245,3 +245,15 @@ Type=oneshot
 ExecStartPre=/usr/bin/sh -c '$$(which kanata) --check --cfg $${HOME}/.config/kanata/config.kbd || { dunstify -a Kanata "Config Validation" "Syntax error"; exit 1; }'
 ExecStart=/usr/bin/systemctl --user restart kanata
 #+end_src
+
+* Cache
+** OCR
+
+#+begin_src conf :tangle ~/.config/systemd/user/ocr.service
+[Unit]
+Description=Set eng as default language
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/sh -c 'echo eng > $${HOME}/.cache/ocr-lang'
+#+end_src

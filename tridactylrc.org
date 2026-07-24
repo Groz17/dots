@@ -84,7 +84,7 @@ autocmd DocStart reddit\.com/.*[?&]tl= urlmodify -Q tl
 
 " DocStart?
 " ^https://www\.wordreference\.com/[^/]+/[^/]+$
-autocmd DocLoad ^https://www\.wordreference\.com/.* composite get_current_url | shellescape | exclaim_quiet bash -c 'echo $0 >> ~/vimwiki/wr'
+autocmd DocLoad ^https://www\.wordreference\.com/.* composite get_current_url | shellescape | exclaim_quiet bash -c 'echo $0 >> ~/org/wiki/wr'
 
 autocmd DocStart github\.com/.*[?&]tab=readme-ov-file urlmodify -Q tab
 " autocmd DocStart chatgpt\.com kill initiali popup
@@ -114,6 +114,12 @@ bind yn composite js document.location.href.replace(/https?:\/\//,"git@").replac
 autocmd DocStart ^https://www.youtube.com/watch\? js const el = document.createElement("style"); el.id = "yt-hide-style"; el.textContent = "#related { display: none !important; }"; document.head.appendChild(el);
 bindurl ^https://www.youtube.com/watch\? \ js if (document.getElementById("yt-hide-style")) { document.getElementById("yt-hide-style").remove(); } else { const el = document.createElement("style"); el.id = "yt-hide-style"; el.textContent = "#related { display: none !important; }"; document.head.appendChild(el); }
 bindurl ^https://www.youtube.com/watch\? <F12><c-s> composite get_current_url | exclaim_quiet ~/.config/tridactyl/scripts/download
+
+autocmd DocStart ^ composite get_current_url | exclaim_quiet ~/.config/tridactyl/scripts/if_in_wiki
+#+end_src
+
+#+begin_src sh :tangle ~/.config/tridactyl/scripts/if_in_wiki :shebang "#!/usr/bin/env bash" 
+rg -P '\Q'"$1"'\E(?:\s|$)' && dunstify "Info" "URL Already in wiki"
 #+end_src
 
 * BINDS
@@ -195,7 +201,7 @@ bindurl ^https://en.wikipedia.org/wiki/ <f12><c-s> composite get_current_url | s
 #+end_src
 
 #+begin_src bash :tangle ~/.config/tridactyl/scripts/save_article :shebang "#!/usr/bin/env bash" 
-dir=~/vimwiki/"$(fd -E '.git/' -td . ~/vimwiki| cut -f1-4 --complement -d/ | rofi -dmenu -i -sort)"resources/pdfs
+dir=~/org/wiki/"$(fd -E '.git/' -td . ~/vimwiki| cut -f1-4 --complement -d/ | rofi -dmenu -i -sort)"resources/pdfs
 page="${1##*/}"
 API="${1%/wiki/$page}/api/rest_v1/page/pdf/$page"
 wget -O "$dir"/"$page".pdf "$API" && dunstify -a tridactyl "Saved $dir" "$API" || dunstify -a tridactyl -u critical "Error" "Article couldn't be downloaded"
@@ -331,7 +337,7 @@ bind --mode=normal <space>a composite get_current_url | shellescape | exclaim_qu
 bind --mode=normal <space>A composite get_current_url | shellescape | exclaim_quiet ~/.config/tridactyl/append NO_NL
 #+end_src
 
-#+begin_src bash :shebang "#!/usr/bin/env bash" :tangle ~/.config/tridactyl/append
+#+begin_src bash :shebang "#!/usr/bin/env bash" :tangle no
 [ $# -eq 1 ] && echo >> ~/vimwiki/Personal/diary/$(date +%F).md
 echo "${@: -1}" >> ~/vimwiki/Personal/diary/$(date +%F).md
 # dunstify -a "$(xdg-settings get default-web-browser|cut -f1 -d.)" "URL saved in diary" "$1"
@@ -361,6 +367,7 @@ bind <space>go composite get_current_url | shellescape | js -p tri.excmds.exclai
 
 " add another mapping that prepends the url (source)
 " would be cool to send the selection to todo and the title (with # prefixed) + selection to tips
+" add one for wiki citations
 bind --mode=visual <a-w> composite js -s ~/.config/tridactyl/scripts/selection_html.js ; exclaim_quiet  ~/.config/tridactyl/scripts/to-markdown
 bind --mode=insert <a-w> composite js -s ~/.config/tridactyl/scripts/selection_html.js ; exclaim_quiet  ~/.config/tridactyl/scripts/to-markdown
 bind >2 composite get_current_url | exclaim ~/scripts/browser/2pdf
@@ -374,7 +381,7 @@ bind yg composite js "git clone " + document.location.href.replace(/https?:\/\//
 " bind <space>d composite get_current_url | exclaim_quiet ~/.config/tridactyl/scripts/download
 #+end_src
 
-#+begin_src bash :tangle ~/.config/tridactyl/scripts/download :shebang "#!/usr/bin/env bash"
+#+begin_src bash :tangle no :shebang "#!/usr/bin/env bash"
 URL="$1"
 
 dir_exists() {
@@ -527,7 +534,8 @@ printf -- '%s\n' "$URL" >> ~/vimwiki/downloaded.txt
 " bug mozilla newtab bind <space><space> jsb tri.native.run(`echo '${document.location.href}' | wl-copy && hyprctl dispatch exec '[float;size 30% 30%] ghostty -e nvim -c "norm 1 Qd"'`)
 bind <space><space> js tri.excmds.yank(document.location.href); tri.native.run(`hyprctl dispatch exec '[float;size 30% 30%] ghostty -e nvim -c "norm 1 Qd"'`)
 
-bind <space><S-space> composite js "# [" + document.title + "](" + document.URL + ")" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
+"bind <space><S-space> composite js "# [" + document.title + "](" + document.URL + ")" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
+bind <space><S-space> composite js "* [[" + document.URL + "][" + document.title + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
 
 #+end_src
 
@@ -543,8 +551,9 @@ hyprctl dispatch exec '[float;size 30% 30%] ghostty -e nvim -c "norm 1 Qy"'
 wl-paste |
 xidel --html -e 'x:replace-nodes(/,//a/(@* except @href),())' |
 xidel --html -e 'x:replace-nodes(/,//img/(@* except @src),())' |
-pandoc --wrap=preserve --from html --to commonmark-raw_html+pipe_tables  | wl-copy && dunstify -a tridactyl "Selection copied to clipboard" "$(wl-paste)"
+pandoc --wrap=preserve --from html --to org | wl-copy && dunstify -a tridactyl "Selection copied to clipboard" "$(wl-paste)"
 # except (@(href|src))???
+# pandoc --wrap=preserve --from html --to commonmark-raw_html+pipe_tables  | wl-copy && dunstify -a tridactyl "Selection copied to clipboard" "$(wl-paste)"
 #+end_src
 
 #+begin_src bash :tangle ~/.config/tridactyl/scripts/selection_html.js
@@ -1116,7 +1125,7 @@ set keyboardlayoutforce true
 
 #+end_src
 
-* Commands
+* COMMANDS
 #+begin_src tridactyl
 
 
@@ -1136,7 +1145,6 @@ command translate js let googleTranslateCallback = document.createElement('scrip
 " Isolate Facebook in its own container
 set auconcreatecontainer true
 autocontain facebook\.com facebook
-
 
 * BOOKMARKS
 #+begin_src tridactyl
@@ -1174,6 +1182,7 @@ quickmark g https://gemini.google.com/app
 quickmark l https://chat.mistral.ai/chat?model=codestral
 quickmark m https://copilot.microsoft.com
 quickmark p https://www.perplexity.ai
+quickmark z https://chat.z.ai
 #+end_src
 
 * [[https://github.com/tridactyl/tridactyl/wiki/Video-mode][Video Mode]]
@@ -1297,7 +1306,7 @@ set videomaps.f fullscreen
 " set videomaps.🕷🕷INHERITS🕷🕷 nmaps
 #+end_src
 
-* Blacklist
+* BLACKLIST
 #+begin_src tridactyl
 "" Blacklisting figma and others
 "" side note: Shift+Esc will toogle ignore mode
@@ -1305,11 +1314,9 @@ blacklistadd figma.com
 blacklistadd gmail.com
 blacklistadd docs.google.com
 blacklistadd sheets.google.com
-
-
 #+end_src
 
-* Alias
+* ALIAS
 #+begin_src tridactyl
 
 "" Suspend / "discard" all tabs - handy for stretching out battery life
