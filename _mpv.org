@@ -28,6 +28,11 @@ ytdl=no
 # How to do this only for videos but not audio?
 save-position-on-quit
 reset-on-next-file=pause
+# Primary subtitle at the very bottom
+sub-pos=100
+
+# Secondary subtitle stacked just above the primary subtitle
+secondary-sub-pos=85
 
 af=scaletempo2
 
