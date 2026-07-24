@@ -628,6 +628,12 @@ bind = $mainMod SHIFT, backslash, exec, $(hyprctl activewindow -j | jq '.floatin
 
 bind = $mainMod SHIFT, Q, killactive,
 
+bind = $mainMod, semicolon, exec, handy --toggle-transcription
+# Push to talk (Starts recording on press, transcribes on release)
+# Can u use bindr w/ kanata?
+# bind = $mainMod, comma, exec, handy --toggle-transcription
+# bindr = $mainMod, comma, exec, handy --toggle-transcription
+
 # bind = $mainMod, g, togglefloating,
 #bind = $mainMod SHIFT, F, togglefloating,
 bind = $mainMod SHIFT, F, fullscreen, 
@@ -727,18 +733,56 @@ bind = $mainMod shift, equal, exec, cliphist list |\
 #+begin_src hyprlang
 # also works when using transparent window
 # Use $univArg per listare picker come universal argument in emacs
-bind = $mainMod, o, exec, sh -c 'grimblast --freeze save area - | tesseract - - | wl-copy'
+bind = $mainMod, o, exec, sh -c 'grimblast --freeze save area - | tesseract -l $(cat ${XDG_CACHE_HOME}/ocr-lang) - - | wl-copy'
 bind = $mainMod SHIFT, o, exec, sh -c 'grimblast --freeze save area - | tesseract - - | tr \\n \  | wl-copy'
 
 bind = $mainMod, u, submap, univArg
 # submap = univArg, reset
 submap = univArg
 
-bind = $mainMod, o, exec, sh -c 'lang=`tesseract --list-langs | tail -n +2 | rofi -dmenu -multi-select | paste -sd+`; [ -n "$lang" ] &&\
-  grimblast --freeze save area - | tesseract -l $lang - - | wl-copy'
+bind = $mainMod, o, exec, ~/.config/hypr/scripts/ocr 
 bind = $mainMod, o, submap, reset
 
 submap = reset
+
+#+end_src
+
+#+begin_src sh :tangle ~/.config/hypr/scripts/ocr :shebang "#!/usr/bin/env bash"
+CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/ocr-lang"
+
+menu=$(
+    tesseract --list-langs | tail -n +2 |
+    rofi \
+    -dmenu \
+    -i \
+    -p "OCR language" \
+    -kb-custom-1 "Shift+Return" \
+    -mesg "Enter: use once   Shift+Enter: save as default"
+)
+
+
+ret=$?
+
+[[ -z "${menu:-}" ]] && exit 0
+
+lang="$menu"
+
+case "$ret" in
+    0)
+    grimblast save area - |
+    tesseract --psm 6 -l "$lang" - - 2>/dev/null |
+    wl-copy
+    notify-send "OCR" "Copied text using: $lang"
+    ;;
+    10)
+        # Shift+Enter
+        printf '%s\n' "$lang" > "$CACHE"
+        notify-send "OCR" "Default language set to: $lang"
+        ;;
+    *)
+        exit 0
+        ;;
+esac
 
 #+end_src
 
@@ -906,13 +950,14 @@ bind = $mainMod , slash, exec, [float] $terminal
 
 # open neovim in file w/ keymaps? like pressing <super>n<space>fp to go plugins or smth?
 # substitute with org-capture?
-bind = $mainMod , w, exec, [float] $terminal -e nvim ~/vimwiki/Personal/diary/`date +%F`.md -c 'set ft=' -c 'norm! G2o' -cstartinsert -c 'norm! zt'
-bind = $mainMod shift, w, exec, [float] $terminal -e nvim ~/vimwiki/Personal/diary/`date +%F`.md -c 'set ft=' -c 'norm! Go' -cstartinsert -c 'norm! zt'
+# bind = $mainMod , w, exec, [float] $terminal -e nvim ~/vimwiki/Personal/diary/`date +%F`.md -c 'set ft=' -c 'norm! G2o' -cstartinsert -c 'norm! zt'
+# bind = $mainMod shift, w, exec, [float] $terminal -e nvim ~/vimwiki/Personal/diary/`date +%F`.md -c 'set ft=' -c 'norm! Go' -cstartinsert -c 'norm! zt'
 # FIX: per neovim unnamed register
 bind = SUPER, p, exec, ~/.config/hypr/scripts/send_to_diary
 #+end_src
 
-#+begin_src bash :tangle ~/.config/hypr/scripts/send_to_diary :shebang "#!/usr/bin/env bash"
+#+begin_src bash :tangle no :shebang "#!/usr/bin/env bash"
+# ~/.config/hypr/scripts/send_to_diary
 # waiting for ghostty scripting API...
 if hyprctl activewindow -j | jq -e 'select(.title | endswith (" - Nvim"))'; then
   socket=$(find $XDG_RUNTIME_DIR -maxdepth 1 -name 'nvim.*.0' -type s -printf '%A@ %p\n' | sort -rn | head -1 | cut -d' ' -f2-)
