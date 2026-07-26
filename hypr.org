@@ -139,7 +139,7 @@ exec-once = emacs --daemon
 # not sure if good idea
 # exec-once = /opt/docker-desktop/bin/docker-desktop
 
-** [[https://wiki.hyprland.org/Configuring/Environment-variables/][ENVIRONMENT VARIABLES]]
+** [[https://wiki.hyprland.org/Configuring/Environment-variables/][ENVIRONMENTS]]
 
 #+begin_src hyprlang
 env = XCURSOR_SIZE,24
@@ -361,7 +361,7 @@ bind=super ctrl,r,exec, wtype -k Space
 bind=super shift ctrl,r,exec, wtype -k Escape
 #+end_src
 
-** KEYBINDINGS
+** BINDS
 #+begin_src hyprlang
 
 # See https://wiki.hyprland.org/Configuring/Keywords/
@@ -487,7 +487,7 @@ url=$(yt-dlp -f bestaudio --get-url "ytsearch:$search"|head -n1)
 mpv --input-ipc-server="$SOCKET" "$url"
 #+end_src
 
-** [[https://www.reddit.com/r/hyprland/comments/zxxr9w/how_do_i_dedicate_all_my_hotkeys_to_focused_window/][Passthrough]]
+*** [[https://www.reddit.com/r/hyprland/comments/zxxr9w/how_do_i_dedicate_all_my_hotkeys_to_focused_window/][Passthrough]]
 For VNC, etc... Maybe Emacs/Vim as well
 #+begin_src hyprlang
 bind=$mainMod,i,exec,~/.config/hypr/scripts/passthrough_notify
@@ -706,8 +706,6 @@ hyprctl keyword monitor '<<monitor()>>,preferred,auto,auto, transform, '$counter
 #+end_src
 
 #+begin_src hyprlang
-
-
 # Move focus with mainMod + arrow keys
 bind = $mainMod, h, movefocus, l
 bind = $mainMod, j, movefocus, d

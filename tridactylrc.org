@@ -115,11 +115,11 @@ autocmd DocStart ^https://www.youtube.com/watch\? js const el = document.createE
 bindurl ^https://www.youtube.com/watch\? \ js if (document.getElementById("yt-hide-style")) { document.getElementById("yt-hide-style").remove(); } else { const el = document.createElement("style"); el.id = "yt-hide-style"; el.textContent = "#related { display: none !important; }"; document.head.appendChild(el); }
 bindurl ^https://www.youtube.com/watch\? <F12><c-s> composite get_current_url | exclaim_quiet ~/.config/tridactyl/scripts/download
 
-autocmd DocStart ^ composite get_current_url | exclaim_quiet ~/.config/tridactyl/scripts/if_in_wiki
+autocmd DocStart ^http composite get_current_url | exclaim_quiet ~/.config/tridactyl/scripts/if_in_wiki
 #+end_src
 
 #+begin_src sh :tangle ~/.config/tridactyl/scripts/if_in_wiki :shebang "#!/usr/bin/env bash" 
-rg -P '\Q'"$1"'\E(?:\s|$)' && dunstify "Info" "URL Already in wiki"
+rg -P '\Q'"$1"'\E(?:\s|$)' ~/org && dunstify "Info" "URL Already in wiki"
 #+end_src
 
 * BINDS
@@ -534,6 +534,7 @@ printf -- '%s\n' "$URL" >> ~/vimwiki/downloaded.txt
 " bug mozilla newtab bind <space><space> jsb tri.native.run(`echo '${document.location.href}' | wl-copy && hyprctl dispatch exec '[float;size 30% 30%] ghostty -e nvim -c "norm 1 Qd"'`)
 bind <space><space> js tri.excmds.yank(document.location.href); tri.native.run(`hyprctl dispatch exec '[float;size 30% 30%] ghostty -e nvim -c "norm 1 Qd"'`)
 
+"fix per reddit  :r/ ... e -wikipedia
 "bind <space><S-space> composite js "# [" + document.title + "](" + document.URL + ")" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
 bind <space><S-space> composite js "* [[" + document.URL + "][" + document.title + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
 
