@@ -329,7 +329,7 @@ bindurl google\..*/search\?(?!.*[&?]udm=) <Space><Space> js navigator.clipboard.
     }, { keys: new Set(), result: [] }) \
     .result] \
     .join('\n')) \
-  .then(() => tri.native.run("hyprctl dispatch exec '[float;size 30% 30%] ghostty -e nvim -c \"norm 1 Qd\"'"))
+  .then(() => tri.native.run(`hyprctl eval 'hl.dispatch(hl.dsp.exec_cmd("[float;size 30% 30%] ghostty -e nvim -c \\"norm 1 Qd\\""))'`))
 #+end_src
 
 #+begin_src tridactyl
@@ -529,28 +529,32 @@ esac
 printf -- '%s\n' "$URL" >> ~/vimwiki/downloaded.txt
 #+end_src
 
-#+begin_src tridactly
-"bind <space><space> composite get_current_url | yank ; exclaim_quiet hyprctl dispatch exec '[float\;size 30% 30%] ghostty -e nvim -c "norm 1 Qd"'
+#+begin_src tridactyl
 " bug mozilla newtab bind <space><space> jsb tri.native.run(`echo '${document.location.href}' | wl-copy && hyprctl dispatch exec '[float;size 30% 30%] ghostty -e nvim -c "norm 1 Qd"'`)
-bind <space><space> js tri.excmds.yank(document.location.href); tri.native.run(`hyprctl dispatch exec '[float;size 30% 30%] ghostty -e nvim -c "norm 1 Qd"'`)
+bind <space><space> js tri.excmds.yank(document.location.href); tri.native.run(`hyprctl eval 'hl.dispatch(hl.dsp.exec_cmd("[float;size 30% 30%] ghostty -e nvim -c \\"norm 1 Qd\\""))'`)
 
 "fix per reddit  :r/ ... e -wikipedia
 "bind <space><S-space> composite js "# [" + document.title + "](" + document.URL + ")" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
 bind <space><S-space> composite js "* [[" + document.URL + "][" + document.title + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
+bindurl ^https://[^.]+\.wikipedia\.org <space><S-space> composite js "* [[" + document.URL + "][" + document.title.replace(/\s*-\s*Wikipedia$/,"") + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
+bindurl ^https://www\.reddit\.com <space><S-space> composite js "* [[" + document.URL + "][" + document.title.replace(/\s*:\s*r\/\S+$/,"") + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
+bindurl <space><S-space> composite js "* [[" + document.URL + "][" + document.title + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
 
 #+end_src
 
 #+begin_src bash :tangle ~/.config/tridactyl/scripts/data :shebang "#!/usr/bin/env bash"
 for id in $(cliphist list|head -2|cut -f1); do cliphist decode $id;echo; done | wl-copy
-hyprctl dispatch exec '[float;size 30% 30%] ghostty -e nvim -c "norm 1 Qy"'
+hyprctl eval 'hl.dispatch(hl.dsp.exec_cmd("[float;size 30% 30%] ghostty -e nvim -c \"norm 1 Qy\""))'
 #+end_src
 
 #+begin_src bash :tangle ~/.config/tridactyl/scripts/to-markdown :shebang "#!/usr/bin/env bash"
 # wl-paste | pandoc --wrap=preserve --from html-native_divs-native_spans --to commonmark-raw_html+pipe_tables | xclip -selection clipboard && dunstify -i ~/Pictures/icons/dunstify/check.png "Selection copied to clipboard"
 # wl-paste | pandoc --wrap=preserve --from html --to commonmark | wl-copy && dunstify "Selection copied to clipboard"
 # cb |
+ 
 wl-paste |
 xidel --html -e 'x:replace-nodes(/,//a/(@* except @href),())' |
+xidel --html -e 'x:replace-nodes(/,//sup[starts-with(@id,"cite_ref-")],())' |
 xidel --html -e 'x:replace-nodes(/,//img/(@* except @src),())' |
 pandoc --wrap=preserve --from html --to org | wl-copy && dunstify -a tridactyl "Selection copied to clipboard" "$(wl-paste)"
 # except (@(href|src))???

@@ -367,10 +367,9 @@ hl.config({
         movefocus_cycles_fullscreen = true,
     },
     -- https://wiki.hyprland.org/Configuring/Variables/#animations
-    -- animations = {
-        -- enabled = "yes, please :)",
-        -- Default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
-    -- },
+    animations = {
+        enabled = true,
+    },
     -- Ref https://wiki.hyprland.org/Configuring/Workspace-Rules/
     -- "Smart gaps" / "No gaps when only"
     -- uncomment all if you wish to use that.
@@ -731,7 +730,7 @@ hl.bind(mainMod .. " + SHIFT + backslash", hl.dsp.exec_cmd("$(hyprctl activewind
 
 hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.window.close())
 
-hl.bind(mainMod .. " + semicolon", hl.dsp.exec_cmd("handy --toggle-transcription"))
+-- hl.bind(mainMod .. " + semicolon", hl.dsp.exec_cmd("handy --toggle-transcription"))
 -- Push to talk (Starts recording on press, transcribes on release)
 -- Can u use bindr w/ kanata?
 -- bind = $mainMod, comma, exec, handy --toggle-transcription
@@ -1019,6 +1018,17 @@ hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize())
 -- binds = Control_R&Super_R&Alt_L, J&K&L, exec, kitty
 #+end_src
 
+#+begin_src lua
+local function gather_windows()
+    local curWS = (hl.get_active_workspace() or {}).id or 1
+    for _, win in ipairs(hl.get_windows()) do
+        hl.dispatch(hl.dsp.window.move({ workspace = curWS, window = "address:" .. win.address }))
+    end
+end
+
+-- hl.bind(mainMod .. " + semicolon", gather_windows())
+#+end_src
+
 *** Notes
 #+begin_src lua
 -- TODO:
@@ -1090,10 +1100,10 @@ emacs emms
 -- bind = $mainMod, m, exec, $terminal --class=pulsemixer -e sh -c 'pulsemixer' 
 
 
--- hl.workspace_rule({
---     workspace = "1",
---     class = "^(emacs)$",
--- })
+hl.window_rule({
+    workspace = "1 silent",
+    match = { class = "^(floorp)$"},
+})
 
 -- windowrulev2 = idleinhibit fullscreen, class:.* # if a window is fullscreen, don't idle
 -- windowrulev2 = opacity 0.8, class:($terminal) # set opacity to 0.8 for terminal, a variable we defined in hyprland.conf
