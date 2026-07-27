@@ -537,12 +537,13 @@ bind <space><space> js tri.excmds.yank(document.location.href); tri.native.run(`
 "bind <space><S-space> composite js "# [" + document.title + "](" + document.URL + ")" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
 bind <space><S-space> composite js "* [[" + document.URL + "][" + document.title + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
 bindurl ^https://[^.]+\.wikipedia\.org <space><S-space> composite js "* [[" + document.URL + "][" + document.title.replace(/\s*-\s*Wikipedia$/,"") + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
-bindurl ^https://www\.reddit\.com <space><S-space> composite js "* [[" + document.URL + "][" + document.title.replace(/\s*:\s*r\/\S+$/,"") + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
+bindurl ^https://www\.reddit\.com/r/ <space><S-space> composite js "* [[" + document.URL + "][" + document.title.replace(/\s*:\s*r\/\S+$/,"") + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
 bindurl <space><S-space> composite js "* [[" + document.URL + "][" + document.title + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
 
 #+end_src
 
 #+begin_src bash :tangle ~/.config/tridactyl/scripts/data :shebang "#!/usr/bin/env bash"
+rg -P -g 'data.org' '\Q'"$(wl-paste -n)"'\E' ~/org && { dunstify "Already in wiki"; exit 1; }
 for id in $(cliphist list|head -2|cut -f1); do cliphist decode $id;echo; done | wl-copy
 hyprctl eval 'hl.dispatch(hl.dsp.exec_cmd("[float;size 30% 30%] ghostty -e nvim -c \"norm 1 Qy\""))'
 #+end_src
