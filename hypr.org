@@ -753,8 +753,8 @@ hl.bind(mainMod .. " + tab", hl.dsp.exec_cmd("rofi -show window"))
 hl.bind(mainMod .. " + backslash", hl.dsp.layout("togglesplit"))
 -- bind = $mainMod, w, togglesplit
 
-hl.bind("SUPER + comma", hl.dsp.layout("cyclenext"))
-hl.bind("SUPER + period", hl.dsp.layout("cycleprev"))
+-- hl.bind("SUPER + comma", hl.dsp.layout("cyclenext"))
+-- hl.bind("SUPER + period", hl.dsp.layout("cycleprev"))
 -- bind=SUPER,comma,layoutmsg,orientationleft
 -- bind=SUPER,g,togglegaps
 -- bind=SUPER,Shift,g,gap,-5

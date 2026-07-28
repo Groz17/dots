@@ -537,7 +537,9 @@ bind <space><space> js tri.excmds.yank(document.location.href); tri.native.run(`
 "bind <space><S-space> composite js "# [" + document.title + "](" + document.URL + ")" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
 bind <space><S-space> composite js "* [[" + document.URL + "][" + document.title + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
 bindurl ^https://[^.]+\.wikipedia\.org <space><S-space> composite js "* [[" + document.URL + "][" + document.title.replace(/\s*-\s*Wikipedia$/,"") + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
+bindurl ^https://[^.]+\.wiktionary\.org <space><S-space> composite js "* [[" + document.URL + "][" + document.title.replace(/\s*-\s*Wiktionary, the free dictionary$/,"") + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
 bindurl ^https://www\.reddit\.com/r/ <space><S-space> composite js "* [[" + document.URL + "][" + document.title.replace(/\s*:\s*r\/\S+$/,"") + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
+
 bindurl <space><S-space> composite js "* [[" + document.URL + "][" + document.title + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
 
 #+end_src
@@ -555,9 +557,12 @@ hyprctl eval 'hl.dispatch(hl.dsp.exec_cmd("[float;size 30% 30%] ghostty -e nvim 
  
 wl-paste |
 xidel --html -e 'x:replace-nodes(/,//a/(@* except @href),())' |
+xidel --html -e 'x:replace-nodes(/,//a/@href, function($a){ attribute href { resolve-uri($a)=>replace("^file:","https") } })' |
 xidel --html -e 'x:replace-nodes(/,//sup[starts-with(@id,"cite_ref-")],())' |
+xidel --html -e 'x:replace-nodes(/,//img/@src, function($a){ attribute src { resolve-uri($a)=>replace("^file:","https") } })' |
 xidel --html -e 'x:replace-nodes(/,//img/(@* except @src),())' |
-pandoc --wrap=preserve --from html --to org | wl-copy && dunstify -a tridactyl "Selection copied to clipboard" "$(wl-paste)"
+pandoc --wrap=preserve --from html --to org |
+wl-copy && dunstify -a tridactyl "Selection copied to clipboard" "$(wl-paste)"
 # except (@(href|src))???
 # pandoc --wrap=preserve --from html --to commonmark-raw_html+pipe_tables  | wl-copy && dunstify -a tridactyl "Selection copied to clipboard" "$(wl-paste)"
 #+end_src
