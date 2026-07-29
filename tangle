@@ -12,5 +12,5 @@ emacs --batch \
             (message \"Tangling %s...\" file)
             (with-current-buffer (find-file-noselect file)
               (org-babel-tangle)))" \
-  -- "$@"
+  "$@"
 

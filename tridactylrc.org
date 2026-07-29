@@ -84,7 +84,7 @@ autocmd DocStart reddit\.com/.*[?&]tl= urlmodify -Q tl
 
 " DocStart?
 " ^https://www\.wordreference\.com/[^/]+/[^/]+$
-autocmd DocLoad ^https://www\.wordreference\.com/.* composite get_current_url | shellescape | exclaim_quiet bash -c 'echo $0 >> ~/org/wiki/wr'
+autocmd DocLoad ^https://www\.wordreference\.com/.* composite get_current_url | shellescape | exclaim_quiet bash -c 'echo $0 >> ~/org/wiki/cache/wr'
 
 autocmd DocStart github\.com/.*[?&]tab=readme-ov-file urlmodify -Q tab
 " autocmd DocStart chatgpt\.com kill initiali popup
@@ -539,8 +539,10 @@ bind <space><S-space> composite js "* [[" + document.URL + "][" + document.title
 bindurl ^https://[^.]+\.wikipedia\.org <space><S-space> composite js "* [[" + document.URL + "][" + document.title.replace(/\s*-\s*Wikipedia$/,"") + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
 bindurl ^https://[^.]+\.wiktionary\.org <space><S-space> composite js "* [[" + document.URL + "][" + document.title.replace(/\s*-\s*Wiktionary, the free dictionary$/,"") + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
 bindurl ^https://www\.reddit\.com/r/ <space><S-space> composite js "* [[" + document.URL + "][" + document.title.replace(/\s*:\s*r\/\S+$/,"") + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
-
-bindurl <space><S-space> composite js "* [[" + document.URL + "][" + document.title + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
+bindurl ^https://www\.treccani\.it <space><S-space> composite js "* [[" + document.URL + "][" + document.title.replace(/ - Significato ed etimologia - Vocabolario - Treccani$/,"") + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
+bindurl ^https://www\.wordreference\.com/enit <space><S-space> composite js "* [[" + document.URL + "][" + document.title.replace(/ - Dizionario inglese-italiano WordReference$/,"") + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
+bindurl ^https://www\.youtube\.com/watch\?v= <space><S-space> composite js "* [[" + document.URL + "][" + document.title.replace(/ - YouTube$/,"") + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
+bindurl ^https://www\.google\.com/search\?q <space><S-space> composite js "* [[" + document.URL + "][" + document.title.replace(/ - Cerca con Google$/,"") + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
 
 #+end_src
 
@@ -559,12 +561,10 @@ wl-paste |
 xidel --html -e 'x:replace-nodes(/,//a/(@* except @href),())' |
 xidel --html -e 'x:replace-nodes(/,//a/@href, function($a){ attribute href { resolve-uri($a)=>replace("^file:","https") } })' |
 xidel --html -e 'x:replace-nodes(/,//sup[starts-with(@id,"cite_ref-")],())' |
-xidel --html -e 'x:replace-nodes(/,//img/@src, function($a){ attribute src { resolve-uri($a)=>replace("^file:","https") } })' |
 xidel --html -e 'x:replace-nodes(/,//img/(@* except @src),())' |
+xidel --html -e 'x:replace-nodes(/,//img/@src, function($a){ attribute src { resolve-uri($a)=>replace("^file:","https") } })' |
 pandoc --wrap=preserve --from html --to org |
 wl-copy && dunstify -a tridactyl "Selection copied to clipboard" "$(wl-paste)"
-# except (@(href|src))???
-# pandoc --wrap=preserve --from html --to commonmark-raw_html+pipe_tables  | wl-copy && dunstify -a tridactyl "Selection copied to clipboard" "$(wl-paste)"
 #+end_src
 
 #+begin_src bash :tangle ~/.config/tridactyl/scripts/selection_html.js
@@ -1101,7 +1101,8 @@ bind --mode=input   <c-l>  ex.accept_line
 
 #+end_src
 
-* HINTS
+* TODO HINTS
+add orgmode link hints
 
 #+begin_src tridactyl
 "JavaScript hints (grey ones) 
