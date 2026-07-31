@@ -676,7 +676,8 @@ hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
 -- prefix bind for opening files like in vim/emacs? use $EDITOR (magari con nvim -c or smth)
 -- how to quickly switch between emacs and neovim?
 hl.bind(mainMod .. " + e", hl.dsp.exec_cmd("emacsclient -c  -a ''"))
--- bind = $mainMod SHIFT, E, exec, emacsclient --eval "(emacs-everywhere)"
+-- hl.bind(mainMod .. " + SHIFT + e", hl.dsp.exec_cmd([[emacsclient --eval "(emacs-everywhere)"]]))
+hl.bind(mainMod .. " + SHIFT + e", hl.dsp.exec_cmd([[emacsclient --eval "(emacs-everywhere)"]]))
 
 -- bind = $mainMod, P, exec, emacsclient -n -e '(progn (select-frame-set-input-focus (selected-frame)) (pass))'
 

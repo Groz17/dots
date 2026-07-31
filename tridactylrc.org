@@ -93,6 +93,7 @@ autocmd DocStart github\.com/.*[?&]tab=readme-ov-file urlmodify -Q tab
 
 "like in vim
 bind gO fillcmdline goto
+bind <A-g>i fillcmdline goto
 
 bind gi focusinput
 
@@ -307,7 +308,7 @@ Magari migliora
 #+begin_src js
 // TODO: Estrai solo url di risultati ricerca
 bindurl google\..*/search\?(?!.*[&?]udm=) <Space><Space> js navigator.clipboard.writeText( \
-  [window.location.href, ...[...document.querySelectorAll('a')] \
+[`[[${window.location.href}][${document.title.replace(/ - Cerca con Google$/,"")}]]`, ...[...document.querySelectorAll('a')] \
     .map(a => a.href) \
     .filter(href => \
       href.startsWith('http') && \
@@ -368,8 +369,8 @@ bind <space>go composite get_current_url | shellescape | js -p tri.excmds.exclai
 " add another mapping that prepends the url (source)
 " would be cool to send the selection to todo and the title (with # prefixed) + selection to tips
 " add one for wiki citations
-bind --mode=visual <a-w> composite js -s ~/.config/tridactyl/scripts/selection_html.js ; exclaim_quiet  ~/.config/tridactyl/scripts/to-markdown
-bind --mode=insert <a-w> composite js -s ~/.config/tridactyl/scripts/selection_html.js ; exclaim_quiet  ~/.config/tridactyl/scripts/to-markdown
+bind --mode=insert <a-w> composite js -s ~/.config/tridactyl/scripts/selection_html.js ; get_current_url | exclaim_quiet  ~/.config/tridactyl/scripts/to-markdown
+bind --mode=visual <a-w> composite js -s ~/.config/tridactyl/scripts/selection_html.js ; get_current_url | exclaim_quiet  ~/.config/tridactyl/scripts/to-markdown
 bind >2 composite get_current_url | exclaim ~/scripts/browser/2pdf
 
 " Git{Hub,Lab} git clone via SSH yank
@@ -529,6 +530,17 @@ esac
 printf -- '%s\n' "$URL" >> ~/vimwiki/downloaded.txt
 #+end_src
 
+#+begin_src elisp
+bind <space>o composite get_current_url | exclaim_quiet ~/.config/tridactyl/scripts/open_emacs
+#+end_src
+
+#+begin_src bash :shebang "#!/usr/bin/env bash" :tangle ~/.config/tridactyl/scripts/open_emacs
+url="$1"
+
+emacsclient -c -a '' --eval \
+"(rgrep (regexp-quote \"$url\") \"data.org\" \"~/org\")"
+#+end_src
+
 #+begin_src tridactyl
 " bug mozilla newtab bind <space><space> jsb tri.native.run(`echo '${document.location.href}' | wl-copy && hyprctl dispatch exec '[float;size 30% 30%] ghostty -e nvim -c "norm 1 Qd"'`)
 bind <space><space> js tri.excmds.yank(document.location.href); tri.native.run(`hyprctl eval 'hl.dispatch(hl.dsp.exec_cmd("[float;size 30% 30%] ghostty -e nvim -c \\"norm 1 Qd\\""))'`)
@@ -556,13 +568,14 @@ hyprctl eval 'hl.dispatch(hl.dsp.exec_cmd("[float;size 30% 30%] ghostty -e nvim 
 # wl-paste | pandoc --wrap=preserve --from html-native_divs-native_spans --to commonmark-raw_html+pipe_tables | xclip -selection clipboard && dunstify -i ~/Pictures/icons/dunstify/check.png "Selection copied to clipboard"
 # wl-paste | pandoc --wrap=preserve --from html --to commonmark | wl-copy && dunstify "Selection copied to clipboard"
 # cb |
+base_url=$(python3 -c "from urllib.parse import urlparse; u=urlparse("\"$1\""); print(f'{u.scheme}://{u.netloc}')")
  
 wl-paste |
 xidel --html -e 'x:replace-nodes(/,//a/(@* except @href),())' |
-xidel --html -e 'x:replace-nodes(/,//a/@href, function($a){ attribute href { resolve-uri($a)=>replace("^file:","https") } })' |
+xidel --html -e 'x:replace-nodes(/,//a/@href, function($a){ attribute href { resolve-uri($a,'"\"$base_url\""') } })' |
 xidel --html -e 'x:replace-nodes(/,//sup[starts-with(@id,"cite_ref-")],())' |
 xidel --html -e 'x:replace-nodes(/,//img/(@* except @src),())' |
-xidel --html -e 'x:replace-nodes(/,//img/@src, function($a){ attribute src { resolve-uri($a)=>replace("^file:","https") } })' |
+xidel --html -e 'x:replace-nodes(/,//img/@src, function($a){ attribute src { resolve-uri($a,'"\"$base_url\""') } })' |
 pandoc --wrap=preserve --from html --to org |
 wl-copy && dunstify -a tridactyl "Selection copied to clipboard" "$(wl-paste)"
 #+end_src
@@ -821,7 +834,6 @@ set searchurls.qwant https://www.qwant.com/?q=
 bind % scrollto 50
 bind 0 scrollto 0 x
 
-bind e fillcmdline goto
 
 #+end_src
 
