@@ -116,11 +116,11 @@ autocmd DocStart ^https://www.youtube.com/watch\? js const el = document.createE
 bindurl ^https://www.youtube.com/watch\? \ js if (document.getElementById("yt-hide-style")) { document.getElementById("yt-hide-style").remove(); } else { const el = document.createElement("style"); el.id = "yt-hide-style"; el.textContent = "#related { display: none !important; }"; document.head.appendChild(el); }
 bindurl ^https://www.youtube.com/watch\? <F12><c-s> composite get_current_url | exclaim_quiet ~/.config/tridactyl/scripts/download
 
-autocmd DocStart ^http composite get_current_url | exclaim_quiet ~/.config/tridactyl/scripts/if_in_wiki
+autocmd DocStart ^http composite get_current_url | shellescape| exclaim_quiet ~/.config/tridactyl/scripts/if_in_wiki
 #+end_src
 
 #+begin_src sh :tangle ~/.config/tridactyl/scripts/if_in_wiki :shebang "#!/usr/bin/env bash" 
-rg -P '\Q'"$1"'\E(?:\s|$)' ~/org && dunstify "Info" "URL Already in wiki"
+rg -P '\Q'"${1%#*}"'\E(?:\s|$)' ~/org && dunstify "Info" "URL Already in wiki"
 #+end_src
 
 * BINDS
@@ -369,8 +369,8 @@ bind <space>go composite get_current_url | shellescape | js -p tri.excmds.exclai
 " add another mapping that prepends the url (source)
 " would be cool to send the selection to todo and the title (with # prefixed) + selection to tips
 " add one for wiki citations
-bind --mode=insert <a-w> composite js -s ~/.config/tridactyl/scripts/selection_html.js ; get_current_url | exclaim_quiet  ~/.config/tridactyl/scripts/to-markdown
-bind --mode=visual <a-w> composite js -s ~/.config/tridactyl/scripts/selection_html.js ; get_current_url | exclaim_quiet  ~/.config/tridactyl/scripts/to-markdown
+bind --mode=insert <a-w> composite js -s ~/.config/tridactyl/scripts/selection_html.js ; get_current_url | shellescape | exclaim_quiet  ~/.config/tridactyl/scripts/to-markdown
+bind --mode=visual <a-w> composite js -s ~/.config/tridactyl/scripts/selection_html.js ; get_current_url | shellescape | exclaim_quiet  ~/.config/tridactyl/scripts/to-markdown
 bind >2 composite get_current_url | exclaim ~/scripts/browser/2pdf
 
 " Git{Hub,Lab} git clone via SSH yank
@@ -531,11 +531,11 @@ printf -- '%s\n' "$URL" >> ~/vimwiki/downloaded.txt
 #+end_src
 
 #+begin_src elisp
-bind <space>o composite get_current_url | exclaim_quiet ~/.config/tridactyl/scripts/open_emacs
+bind <space>o composite get_current_url | shellescape | exclaim_quiet ~/.config/tridactyl/scripts/open_emacs
 #+end_src
 
 #+begin_src bash :shebang "#!/usr/bin/env bash" :tangle ~/.config/tridactyl/scripts/open_emacs
-url="$1"
+url="${1%#*}"
 
 emacsclient -c -a '' --eval \
 "(rgrep (regexp-quote \"$url\") \"data.org\" \"~/org\")"
@@ -543,7 +543,14 @@ emacsclient -c -a '' --eval \
 
 #+begin_src tridactyl
 " bug mozilla newtab bind <space><space> jsb tri.native.run(`echo '${document.location.href}' | wl-copy && hyprctl dispatch exec '[float;size 30% 30%] ghostty -e nvim -c "norm 1 Qd"'`)
-bind <space><space> js tri.excmds.yank(document.location.href); tri.native.run(`hyprctl eval 'hl.dispatch(hl.dsp.exec_cmd("[float;size 30% 30%] ghostty -e nvim -c \\"norm 1 Qd\\""))'`)
+" fix - Youtube,Wikipedia, etc...
+bind <space><space> js tri.excmds.yank(`[[${window.location.href}][${document.title}]]`); tri.native.run(`hyprctl eval 'hl.dispatch(hl.dsp.exec_cmd("[float;size 30% 30%] ghostty -e nvim -c \\"norm 1 Qd\\""))'`)
+bindurl ^https://[^.]+\.wikipedia\.org <space><space> js tri.excmds.yank(`[[${window.location.href}][${document.title.replace(/\s*-\s*Wikipedia$/,"")}]]`); tri.native.run(`hyprctl eval 'hl.dispatch(hl.dsp.exec_cmd("[float;size 30% 30%] ghostty -e nvim -c \\"norm 1 Qd\\""))'`)
+bindurl ^https://[^.]+\.wiktionary\.org <space><space> js tri.excmds.yank(`[[${window.location.href}][${document.title.replace(/\s*-\s*Wiktionary, the free dictionary$/,"")}]]`); tri.native.run(`hyprctl eval 'hl.dispatch(hl.dsp.exec_cmd("[float;size 30% 30%] ghostty -e nvim -c \\"norm 1 Qd\\""))'`)
+bindurl ^https://www\.reddit\.com/r/ <space><space> js tri.excmds.yank(`[[${window.location.href}][${document.title.replace(/\s*:\s*r\/\S+$/,"")}]]`); tri.native.run(`hyprctl eval 'hl.dispatch(hl.dsp.exec_cmd("[float;size 30% 30%] ghostty -e nvim -c \\"norm 1 Qd\\""))'`)
+bindurl ^https://www\.treccani\.it <space><space> js tri.excmds.yank(`[[${window.location.href}][${document.title.replace(/ - Significato ed etimologia - Vocabolario - Treccani$/,"")}]]`); tri.native.run(`hyprctl eval 'hl.dispatch(hl.dsp.exec_cmd("[float;size 30% 30%] ghostty -e nvim -c \\"norm 1 Qd\\""))'`)
+bindurl ^https://www\.wordreference\.com/enit <space><space> js tri.excmds.yank(`[[${window.location.href}][${document.title.replace(/ - Dizionario inglese-italiano WordReference$/,"")}]]`); tri.native.run(`hyprctl eval 'hl.dispatch(hl.dsp.exec_cmd("[float;size 30% 30%] ghostty -e nvim -c \\"norm 1 Qd\\""))'`)
+bindurl ^https://www\.youtube\.com/watch\?v= <space><space> js tri.excmds.yank(`[[${window.location.href}][${document.title.replace(/ - YouTube$/,"")}]]`); tri.native.run(`hyprctl eval 'hl.dispatch(hl.dsp.exec_cmd("[float;size 30% 30%] ghostty -e nvim -c \\"norm 1 Qd\\""))'`)
 
 "fix per reddit  :r/ ... e -wikipedia
 "bind <space><S-space> composite js "# [" + document.title + "](" + document.URL + ")" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
@@ -1121,6 +1128,7 @@ add orgmode link hints
 
 bind <a-r> fillcmdline hint -fr 
 
+" save title as well?
 bind yf hint -y
 
 "bind ,/ fillcmdline hint -fr 

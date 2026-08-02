@@ -257,3 +257,18 @@ Description=Set eng as default language
 Type=oneshot
 ExecStart=/usr/bin/sh -c 'echo eng > $${HOME}/.cache/ocr-lang'
 #+end_src
+
+* Gitwatch
+
+#+begin_src conf :tangle ~/.config/systemd/user/gitwatch@.service
+[Unit]
+Description=Watch file or directory and git commit all changes. run with: systemctl --user --now enable gitwatch@$(systemd-escape -- "'-r url/to/repository' /path/to/folder").service
+
+[Service]
+Environment="SCRIPT_ARGS=%I"
+ExecStart=/usr/bin/bash -c "/usr/local/bin/gitwatch ${SCRIPT_ARGS}"
+ExecStop=/bin/true
+
+[Install]
+WantedBy=default.target
+#+end_src
