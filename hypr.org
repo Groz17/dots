@@ -822,6 +822,13 @@ hl.bind(mainMod .. " + SHIFT + l", hl.dsp.window.move({ direction = "r" }))
 hl.bind(mainMod .. " + SHIFT + k", hl.dsp.window.move({ direction = "u" }))
 #+end_src
 
+
+*** Notifications
+#+begin_src lua
+-- copy notification to clipboard binding?
+hl.bind(mainMod .. " + SHIFT + n", hl.dsp.exec_cmd([[dunstctl history | jq -r '.data[][].message.data'  | xidel --input-format=html -e //span |  awk 'NF&&(!x[$0]++){print gensub("^\\s+","","")}' | rofi -dmenu -p "Select Notification to copy" -lines 30 -width 75 | wl-copy -n]]))
+#+end_src
+
 *** Clipboard
 #+begin_src lua
 -- lines and width don't work
@@ -1110,8 +1117,6 @@ hl.window_rule({
 -- windowrulev2 = opacity 0.8, class:($terminal) # set opacity to 0.8 for terminal, a variable we defined in hyprland.conf
 #+end_src
 
-*** Notifications
-# copy notification to clipboard binding?
 #+begin_src lua
 -- https://www.reddit.com/r/hyprland/comments/1gbbgt8/no_gaps_when_only/
 -- "Smart gaps" / "No gaps when only"
