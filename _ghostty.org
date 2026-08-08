@@ -34,6 +34,7 @@ window-padding-y = 0
 # https://github.com/anhsirk0/ghostty-themes
 theme = light:<<theme(color_scheme="light")>>,dark:<<theme(color_scheme="dark")>>
 
+scrollback-limit=200000000
 notify-on-command-finish = unfocused
 notify-on-command-finish-action = no-bell,notify
 notify-on-command-finish-after = 30s

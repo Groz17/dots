@@ -334,15 +334,15 @@ bindurl google\..*/search\?(?!.*[&?]udm=) <C-c>c js navigator.clipboard.writeTex
 #+end_src
 
 #+begin_src tridactyl
-bind --mode=normal <space>a composite get_current_url | shellescape | exclaim_quiet ~/.config/tridactyl/append
-bind --mode=normal <space>A composite get_current_url | shellescape | exclaim_quiet ~/.config/tridactyl/append NO_NL
+bind --mode=normal <F12>rm composite get_current_url | shellescape | exclaim_quiet ~/.config/tridactyl/bookmark
 #+end_src
 
-#+begin_src bash :shebang "#!/usr/bin/env bash" :tangle no
-[ $# -eq 1 ] && echo >> ~/vimwiki/Personal/diary/$(date +%F).md
-echo "${@: -1}" >> ~/vimwiki/Personal/diary/$(date +%F).md
-# dunstify -a "$(xdg-settings get default-web-browser|cut -f1 -d.)" "URL saved in diary" "$1"
-dunstify -a "Browser" "URL saved in diary" "$1"
+#+begin_src bash :shebang "#!/usr/bin/env bash" :tangle ~/.config/tridactyl/bookmark
+# TODO: emacs w/ consult: M-RET for new tag and TAB/S-TAB to add/delete one
+tags="$(rofi -dmenu -l 0 -p 'Add tags...')"
+[ -z "$tags" ] && exit 1;
+printf '* %s :%s:\n' "$1" "$tags" >> ~/org/bookmarks.org
+dunstify -a "Browser" "$1" "saved in bookmarks" 
 #+end_src
 
 #+begin_src tridactyl
@@ -413,7 +413,7 @@ scrape() {
 
 song() {
   dunstify "Saving song..."
-  yt-dlp -x -P ~/Music "${URL%&*}" && dunstify "Saved song" "$(yt-dlp -e "$URL")" || dunstify "Couldn't save song"
+  yt-dlp --no-playlist -x -P ~/Music "${URL%&*}" && dunstify "Saved song" "$(yt-dlp -e "$URL")" || dunstify "Couldn't save song"
 }
 
 clone() {
@@ -556,7 +556,8 @@ bindurl ^https://www\.youtube\.com/watch\?v= <C-c>c js tri.excmds.yank(`[[${wind
 "bind <space><S-space> composite js "# [" + document.title + "](" + document.URL + ")" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
 bind <space><S-space> composite js "* [[" + document.URL + "][" + document.title + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
 bindurl ^https://[^.]+\.wikipedia\.org <space><S-space> composite js "* [[" + document.URL + "][" + document.title.replace(/\s*-\s*Wikipedia$/,"") + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
-bindurl ^https://[^.]+\.wiktionary\.org <space><S-space> composite js "* [[" + document.URL + "][" + document.title.replace(/\s*-\s*Wiktionary, the free dictionary$/,"") + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
+bindurl ^https://[^.]+\.wiktionary\.org/wiki/[^?] <space><S-space> composite js "* [[" + document.URL + "][" + document.title.replace(/\s*-\s*Wiktionary, the free dictionary$/,"") + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
+bindurl ^https://[^.]+\.wiktionary\.org/wiki/\?search= <space><S-space> composite js "* [[" + document.URL + "][" + document.title.replace(/^Search results for "(.*)"/,"$1") + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
 bindurl ^https://www\.reddit\.com/r/ <space><S-space> composite js "* [[" + document.URL + "][" + document.title.replace(/\s*:\s*r\/\S+$/,"") + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
 bindurl ^https://www\.treccani\.it <space><S-space> composite js "* [[" + document.URL + "][" + document.title.replace(/ - Significato ed etimologia - Vocabolario - Treccani$/,"") + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
 bindurl ^https://www\.wordreference\.com/enit <space><S-space> composite js "* [[" + document.URL + "][" + document.title.replace(/ - Dizionario inglese-italiano WordReference$/,"") + "]]" | yank ; exclaim_quiet ~/.config/tridactyl/scripts/data
@@ -583,7 +584,7 @@ xidel --html -e 'x:replace-nodes(/,//a/@href, function($a){ attribute href { res
 xidel --html -e 'x:replace-nodes(/,//sup[starts-with(@id,"cite_ref-")],())' |
 xidel --html -e 'x:replace-nodes(/,//img/(@* except @src),())' |
 xidel --html -e 'x:replace-nodes(/,//img/@src, function($a){ attribute src { resolve-uri($a,'"\"$base_url\""') } })' |
-pandoc --wrap=preserve --from html --to org |
+pandoc --wrap=preserve --from html -t org --lua-filter=<(printf '%s\n' 'function Header(h) h.identifier="" return h end') |
 wl-copy && dunstify -a tridactyl "Selection copied to clipboard" "$(wl-paste)"
 #+end_src
 
