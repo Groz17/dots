@@ -616,49 +616,58 @@ fi
 #+begin_src lua
 -- hl.bind(mainMod .. " + BACKSPACE", hl.dsp.exec_cmd("~/.config/hypr/scripts/vocab_mining"))
 -- like Emacs M-x
-hl.bind(mainMod .. " + X", hl.dsp.exec_cmd("sh -c 'find ~/.config/hypr/scripts/ -type f |rofi -dmenu -display-column-separator '/' -display-columns 7'"))
+-- hl.bind(    mainMod .. " + X",    hl.dsp.exec_cmd(        [[sh -c 'find ~/.config/hypr/scripts/ -type f | rofi -dmenu -display-column-separator "/" -display-columns 7 | xargs -r -n1']]    ))
+hl.bind(    mainMod .. " + X",    hl.dsp.exec_cmd(        [[`find ~/.config/hypr/scripts/ -executable -type f | rofi -dmenu -display-column-separator "/" -display-columns 7`]]    ))
 #+end_src
 
 #+begin_src bash :tangle ~/.config/hypr/scripts/vocab_mining :shebang "#!/usr/bin/env bash"
-wl-paste | grep -Po '\p{Bengali}+' |
-grep -v '[০-৯]' |
-grep -v '^.$' |
-sed 's/[[:punct:]]//g' |
-sort -u | ifne python3 -c '
-import sys
+KAIKI="$HOME/org/anki/kaikki.org-dictionary-Bengali.jsonl"
+
+cards=$(
+    wl-paste |
+    grep -Po '\p{Bengali}+' |
+    grep -v '[০-৯]' |
+    grep -v '^.$' |
+    sed 's/[[:punct:]]//g' |
+    sort -u |
+    ifne python3 -c '
+import sys, json
 import BnLemma as lm
 
-l = lm.Lemmatizer()
+dictionary = set()
 
-for word in sys.stdin.read().split():
-    result = l.lemma(word.strip())
+with open(sys.argv[1], encoding="utf-8") as f:
+    for line in f:
+        word = json.loads(line).get("word")
+        if word:
+            dictionary.add(word)
+
+lemmatizer = lm.Lemmatizer()
+
+for word in sys.stdin:
+    word = word.strip()
+    result = lemmatizer.lemma(word)
+
     if isinstance(result, (list, tuple)):
-        print(result[0] if result else word)
+        lemma = result[0] if result else word
     else:
-        print(result)
-' |
-while mapfile -t -n 50 words && ((${#words[@]})); do
-    titles=$(IFS='|'; echo "${words[*]}")
+        lemma = result
 
-    curl -fsSG 'https://en.wiktionary.org/w/api.php' \
-        --compressed \
-        --retry 5 \
-        --retry-delay 5 \
-        --retry-all-errors \
-        -A 'BanglaLemmaChecker/1.0 (contact: bangla@example.com)' \
-        --data-urlencode 'action=query' \
-        --data-urlencode 'format=json' \
-        --data-urlencode 'formatversion=2' \
-        --data-urlencode 'redirects=1' \
-        --data-urlencode "titles=$titles" \
-        --data-urlencode 'maxlag=5' |
-    jq -r '
-        .query.pages[]
-        | select(.missing != true)
-  | "* \(.title)"
-    '
-done |
-ifne grep -vFx -f <(grep '^* ' ~/org/anki/bn.org | sed 's/ :ignore:$//') - | ifne sh -c 'printf "\n" >> ~/org/anki/bn.org && cat >> ~/org/anki/bn.org' && dunstify 'Bengali vocab' 'Added cards'
+    if lemma in dictionary:
+        print("* " + word)
+' "$KAIKI" |
+    grep -vFx -f <(
+        grep '^\* ' ~/org/anki/bn.org |
+        sed 's/ :ignore:$//'
+    ) -
+)
+
+if [[ -n "$cards" ]]; then
+    printf '\n%s\n' "$cards" >> ~/org/anki/bn.org
+    dunstify 'Bengali vocab' 'Added cards'
+else
+    dunstify 'Bengali vocab' 'No added cards'
+fi
 #+end_src
 *** Brightness
 #+begin_src lua
