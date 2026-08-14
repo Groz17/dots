@@ -643,6 +643,7 @@ with open(sys.argv[1], encoding="utf-8") as f:
             dictionary.add(word)
 
 lemmatizer = lm.Lemmatizer()
+seen = set()
 
 for word in sys.stdin:
     word = word.strip()
@@ -653,8 +654,9 @@ for word in sys.stdin:
     else:
         lemma = result
 
-    if lemma in dictionary:
-        print("* " + word)
+    if lemma in dictionary and lemma not in seen:
+        seen.add(lemma)
+        print("* " + lemma)
 ' "$KAIKI" |
     grep -vFx -f <(
         grep '^\* ' ~/org/anki/bn.org |
@@ -663,7 +665,8 @@ for word in sys.stdin:
 )
 
 if [[ -n "$cards" ]]; then
-    printf '\n%s\n' "$cards" >> ~/org/anki/bn.org
+    [[ -n "$(tail -n 1 ~/org/anki/bn.org)" ]] && printf '\n' >> ~/org/anki/bn.org
+    printf '%s\n' "$cards" >> ~/org/anki/bn.org
     dunstify 'Bengali vocab' 'Added cards'
 else
     dunstify 'Bengali vocab' 'No added cards'
