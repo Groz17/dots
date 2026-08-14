@@ -665,7 +665,7 @@ for word in sys.stdin:
 )
 
 if [[ -n "$cards" ]]; then
-    [[ -n "$(tail -n 1 ~/org/anki/bn.org)" ]] && printf '\n' >> ~/org/anki/bn.org
+    [[ "$(tail -c 1 ~/org/anki/bn.org | od -An -t x1)" != " 0a" ]] && printf '\n' >> ~/org/anki/bn.org
     printf '%s\n' "$cards" >> ~/org/anki/bn.org
     dunstify 'Bengali vocab' 'Added cards'
 else
