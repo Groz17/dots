@@ -590,7 +590,7 @@ wl-copy && dunstify -a tridactyl "Selection copied to clipboard" "$(wl-paste)"
 
 #+begin_src tridactyl
 " bindurl ^https://en\.wiktionary\.org/wiki/[%-] <C-c><C-c> js tri.native.run(`dunstify "* " + document.title.replace(/\s*-\s*Wiktionary, the free dictionary$/,"")`)
-bindurl ^https://en\.wiktionary\.org/wiki/[%-] <C-c><C-c> js tri.native.run("vocab=\"* \""+document.title.replace(/\s*-\s*Wiktionary, the free dictionary$/, "")+"&& grep -qxF \"$vocab\" ~/org/anki/bn.org || printf '\n%s' \"$vocab\" >> ~/org/anki/bn.org")
+bindurl ^https://en\.wiktionary\.org/wiki/[%-] <C-c><C-c> js tri.native.run("vocab=\"* \""+document.title.replace(/\s*-\s*Wiktionary, the free dictionary$/, "")+"&& grep -qxF \"$vocab\" ~/org/anki/bn.org || { printf '\n%s' \"$vocab\" >> ~/org/anki/bn.org && dunstify \"bn file\" \"Added ${vocab#* }\" ;}")
 #+end_src
 
 #+begin_src bash :tangle ~/.config/tridactyl/scripts/selection_html.js

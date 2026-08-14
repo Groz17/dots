@@ -5,6 +5,8 @@ You can split this configuration into multiple files
 Create your files separately and then link them to this file like this:
 source = ~/.config/hypr/myColors.conf
 
+hyprland notifications->route them to dunstify?
+
 * Hyprland
 :PROPERTIES:
 :header-args: :tangle ~/.config/hypr/hyprland.lua
@@ -611,6 +613,53 @@ else
 fi
 #+end_src
 
+#+begin_src lua
+-- hl.bind(mainMod .. " + BACKSPACE", hl.dsp.exec_cmd("~/.config/hypr/scripts/vocab_mining"))
+-- like Emacs M-x
+hl.bind(mainMod .. " + X", hl.dsp.exec_cmd("sh -c 'find ~/.config/hypr/scripts/ -type f |rofi -dmenu -display-column-separator '/' -display-columns 7'"))
+#+end_src
+
+#+begin_src bash :tangle ~/.config/hypr/scripts/vocab_mining :shebang "#!/usr/bin/env bash"
+wl-paste | grep -Po '\p{Bengali}+' |
+grep -v '[০-৯]' |
+grep -v '^.$' |
+sed 's/[[:punct:]]//g' |
+sort -u | ifne python3 -c '
+import sys
+import BnLemma as lm
+
+l = lm.Lemmatizer()
+
+for word in sys.stdin.read().split():
+    result = l.lemma(word.strip())
+    if isinstance(result, (list, tuple)):
+        print(result[0] if result else word)
+    else:
+        print(result)
+' |
+while mapfile -t -n 50 words && ((${#words[@]})); do
+    titles=$(IFS='|'; echo "${words[*]}")
+
+    curl -fsSG 'https://en.wiktionary.org/w/api.php' \
+        --compressed \
+        --retry 5 \
+        --retry-delay 5 \
+        --retry-all-errors \
+        -A 'BanglaLemmaChecker/1.0 (contact: bangla@example.com)' \
+        --data-urlencode 'action=query' \
+        --data-urlencode 'format=json' \
+        --data-urlencode 'formatversion=2' \
+        --data-urlencode 'redirects=1' \
+        --data-urlencode "titles=$titles" \
+        --data-urlencode 'maxlag=5' |
+    jq -r '
+        .query.pages[]
+        | select(.missing != true)
+  | "* \(.title)"
+    '
+done |
+ifne grep -vFx -f <(grep '^* ' ~/org/anki/bn.org | sed 's/ :ignore:$//') - | ifne sh -c 'printf "\n" >> ~/org/anki/bn.org && cat >> ~/org/anki/bn.org' && dunstify 'Bengali vocab' 'Added cards'
+#+end_src
 *** Brightness
 #+begin_src lua
 
@@ -722,7 +771,7 @@ hl.bind(mainMod .. " + z", hl.dsp.exec_cmd("hyprlock"))
 #+begin_src lua :noweb yes
 -- bind = $mainMod, W, layoutmsg, swapwithmaster master
 
-hl.bind(mainMod .. " + W", hl.dsp.layout("layoutmsg, cyclenext"))
+-- hl.bind(mainMod .. " + W", hl.dsp.layout("layoutmsg, cyclenext"))
 -- maybe use mainmod e to start programs?
 
 -- https://www.reddit.com/r/hyprland/comments/17nhidq/comment/mrovcx0/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
@@ -774,7 +823,7 @@ hl.bind(mainMod .. " + SHIFT + G", hl.dsp.window.move({ out_of_group = true }))
 -- maybe use mod+y (rot13 of l) (general way to remap if a letter is already remapped?)
 -- bind = $mainMod, esc, shutdown,
 -- bind = $mainMod shift, z, exec, shutdown now
-hl.bind(mainMod .. " + x", hl.dsp.exec_cmd("wlogout"))
+hl.bind(mainMod .. " + SHIFT + z", hl.dsp.exec_cmd("wlogout"))
 -- restart binding
 -- use sudo instead of wiki password? gpg?
 -- bind = $mainMod,I, exec, sudo -c ''
