@@ -51,5 +51,7 @@
 #+end_src
 
 ** COMMENT Skills
+- [[https://github.com/AminBlg/SimpleEnglish][GitHub - AminBlg/SimpleEnglish: Agent skill: make LLMs write docs in ASD-STE100 Simplified Technical · GitHub]]
+- [[https://github.com/firecrawl/anydoc][firecrawl/anydoc: Convert Word, PowerPoint, Excel, OpenDocument, RTF, EPUB, CSV, and PDF to clean Markdown. Built in Rust, with Node.js and Python bindings.]]
 #+begin_src yaml :tangle ~/.config/opencode/skills/sample/SKILL.md
 #+end_src
