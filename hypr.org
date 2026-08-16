@@ -627,8 +627,7 @@ cards=$(
     wl-paste |
     grep -Po '\p{Bengali}+' |
     grep -v '[০-৯]' |
-    grep -v '^.$' |
-    sed 's/[[:punct:]]//g' |
+    grep -Po '\p{Bengali}{2,}' |
     sort -u |
     ifne python3 -c '
 import sys, json
@@ -835,6 +834,7 @@ hl.bind(mainMod .. " + SHIFT + G", hl.dsp.window.move({ out_of_group = true }))
 -- maybe use mod+y (rot13 of l) (general way to remap if a letter is already remapped?)
 -- bind = $mainMod, esc, shutdown,
 -- bind = $mainMod shift, z, exec, shutdown now
+-- versione potenziata di z minuscola...
 hl.bind(mainMod .. " + SHIFT + z", hl.dsp.exec_cmd("wlogout"))
 -- restart binding
 -- use sudo instead of wiki password? gpg?
@@ -1235,7 +1235,7 @@ hl.workspace_rule({
 
 #+name: font-size
 #+begin_src bash :tangle no :noweb yes
-[[ <<chassis()>> = "desktop" ]] && echo '57' || echo '50'
+[[ <<chassis()>> = "desktop" ]] && echo '27' || echo '20'
 #+end_src
 
 #+begin_src hyprlang :noweb yes
@@ -1305,7 +1305,7 @@ label {
 # Proverbs
 label {
     monitor =
-    text = cmd[update:3600000] echo "<span background='##0f2222' foreground='##00ff70'>$(fortune ~/dots/txt/nessi)</span>"
+    text = cmd[update:3600000] echo "<span background='##0f2222' foreground='##00ff70'>$(jq -r --arg word "$(grep -oP '^\* \K.*[^:]$' ~/org/anki/bn.org | shuf -n1)" 'select(.word == $word) | .word, (.senses[]?.glosses[]?)' ~/org/anki/kaikki.org-dictionary-Bengali.jsonl | fold -s -w 70)</span>"
     color = rgba(255, 153, 28, 1.0)
     font_size = <<font-size()>>
     font_family = JetBrains Mono Nerd Font Mono ExtraBold
