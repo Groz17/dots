@@ -311,12 +311,14 @@ Magari migliora
 bindurl google\..*/search\?(?!.*[&?]udm=) <C-c>c js navigator.clipboard.writeText( \
 [`[[${window.location.href}][${document.title.replace(/ - Cerca con Google$/,"")}]]`, ...[...document.querySelectorAll('a')] \
     .map(a => a.href) \
-    .filter(href => \
-      href.startsWith('http') && \
-      !/google\.[a-z]+/i.test(new URL(href).hostname) && \
-      !href.includes('/search?') && \
-      !href.includes('webcache.googleusercontent.com') \
-    ) \
+ .filter(href => { \
+  let u; try { u = new URL(href); } catch { return false; } \
+   return href.startsWith('http') && \
+     (!/google\.[a-z]+/i.test(u.hostname) || \
+       (u.pathname === '/goto' && u.searchParams.has('url'))) && \
+     !href.includes('/search?') && \
+     !href.includes('webcache.googleusercontent.com'); \
+ }) \
     .reduce((seen, url) => { \
       let key = url.split('#')[0]; \
       if (key.includes('youtube.com/watch')) { \
