@@ -1305,7 +1305,7 @@ label {
 # Proverbs
 label {
     monitor =
-    text = cmd[update:3600000] echo "<span background='##0f2222' foreground='##00ff70'>$(jq -r --arg word "$(grep -oP '^\* \K.*[^:]$' ~/org/anki/bn.org | shuf -n1)" 'select(.word == $word) | .word, (.senses[]?.glosses[]?)' ~/org/anki/kaikki.org-dictionary-Bengali.jsonl | fold -s -w 70)</span>"
+    text = cmd[update:3600000] echo "<span background='##0f2222' foreground='##00ff70'>$(jq -r --arg word "$(grep -oP '^\* \K.*[^:]$' ~/org/anki/bn.org | head -500 | shuf -n1)" 'select(.word == $word) | .word, (.senses[]?.glosses[]?)' ~/org/anki/kaikki.org-dictionary-Bengali.jsonl | fold -s -w 70)</span>"
     color = rgba(255, 153, 28, 1.0)
     font_size = <<font-size()>>
     font_family = JetBrains Mono Nerd Font Mono ExtraBold
