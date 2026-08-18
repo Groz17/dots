@@ -580,11 +580,13 @@ hyprctl eval 'hl.dispatch(hl.dsp.exec_cmd("[float;size 30% 30%] ghostty -e nvim 
 base_url=$(python3 -c "from urllib.parse import urlparse; u=urlparse("\"$1\""); print(f'{u.scheme}://{u.netloc}')")
  
 wl-paste |
+xidel --html -e 'x:replace-nodes(/,//a[starts-with(@aria-label, "Permalink:")], ())' |
 xidel --html -e 'x:replace-nodes(/,//a/(@* except @href),())' |
 xidel --html -e 'x:replace-nodes(/,//a/@href, function($a){ attribute href { resolve-uri($a,'"\"$base_url\""') } })' |
 xidel --html -e 'x:replace-nodes(/,//sup[starts-with(@id,"cite_ref-")],())' |
 xidel --html -e 'x:replace-nodes(/,//img/(@* except @src),())' |
 xidel --html -e 'x:replace-nodes(/,//img/@src, function($a){ attribute src { resolve-uri($a,'"\"$base_url\""') } })' |
+xidel --html -e 'x:replace-nodes(/,//*[matches(name(), "^h[1-6]$")]/@*,())' |
 pandoc --wrap=preserve --from html -t org --lua-filter=<(printf '%s\n' 'function Header(h) h.identifier="" return h end') |
 wl-copy && dunstify -a tridactyl "Selection copied to clipboard" "$(wl-paste)"
 #+end_src
