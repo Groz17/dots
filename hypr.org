@@ -748,7 +748,7 @@ hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
 -- how to quickly switch between emacs and neovim?
 hl.bind(mainMod .. " + e", hl.dsp.exec_cmd("emacsclient -c  -a ''"))
 -- hl.bind(mainMod .. " + SHIFT + e", hl.dsp.exec_cmd([[emacsclient --eval "(emacs-everywhere)"]]))
-hl.bind(mainMod .. " + SHIFT + e", hl.dsp.exec_cmd([[emacsclient --eval "(emacs-everywhere)"]]))
+-- hl.bind(mainMod .. " + SHIFT + e", hl.dsp.exec_cmd([[emacsclient --eval "(emacs-everywhere)"]]))
 
 -- bind = $mainMod, P, exec, emacsclient -n -e '(progn (select-frame-set-input-focus (selected-frame)) (pass))'
 
@@ -791,10 +791,13 @@ hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(menu))
 #+begin_src lua
 -- query screen for color
 
+-- use kanata cursor layer and exit it w/ esc
 hl.bind(mainMod .. " + c", hl.dsp.exec_cmd("hyprpicker -a"))
 -- zzz mnemonic
 -- maybe shift? so u don't accidentaly type? test!
 hl.bind(mainMod .. " + z", hl.dsp.exec_cmd("hyprlock"))
+-- versione potenziata di z minuscola...
+hl.bind(mainMod .. " + SHIFT + z", hl.dsp.exec_cmd("wlogout"))
 #+end_src
 
 *** WM
@@ -846,15 +849,13 @@ hl.bind(mainMod .. " + backslash", hl.dsp.layout("togglesplit"))
 
 -- bind = $mainMod, G, centerwindow
 hl.bind(mainMod .. " + G", hl.dsp.group.toggle())
-hl.bind(mainMod .. " + tab", hl.dsp.group.next())
-hl.bind(mainMod .. " + SHIFT + tab", hl.dsp.group.prev())
+-- hl.bind(mainMod .. " + tab", hl.dsp.group.next())
+-- hl.bind(mainMod .. " + SHIFT + tab", hl.dsp.group.prev())
 hl.bind(mainMod .. " + SHIFT + G", hl.dsp.window.move({ out_of_group = true }))
 -- bind = $mainMod SHIFT, Tab, bringactivetotop
 -- maybe use mod+y (rot13 of l) (general way to remap if a letter is already remapped?)
 -- bind = $mainMod, esc, shutdown,
 -- bind = $mainMod shift, z, exec, shutdown now
--- versione potenziata di z minuscola...
-hl.bind(mainMod .. " + SHIFT + z", hl.dsp.exec_cmd("wlogout"))
 -- restart binding
 -- use sudo instead of wiki password? gpg?
 -- bind = $mainMod,I, exec, sudo -c ''
@@ -1113,38 +1114,17 @@ end
 *** Notes
 #+begin_src lua
 -- TODO:
--- bind = $mainMod shift, return, exec, [float] $terminal
-
-hl.bind(mainMod .. " + slash", hl.dsp.exec_cmd("[float] " .. terminal))
+hl.bind(mainMod .. " + slash", hl.dsp.exec_cmd(terminal, {
+    float = true
+}))
 
 -- like vim/noice binding but for your shell
 -- how to hide prompt? or just put the shell as a title...
 -- bind = $mainMod , y, exec, [float;size 10% 10;center]$terminal
 -- close after successfull command? dunstify?
 -- bind = $mainMod shift,semicolon, exec, [float;size 50% 10%;center]STARSHIP_CONFIG= $terminal -e bash -c 'read -ep "Run: " cmd; eval "$cmd"; sleep 5; exit'
--- windowrulev2 = float,class:^(ex)$
 
--- open neovim in file w/ keymaps? like pressing <super>n<space>fp to go plugins or smth?
 -- substitute with org-capture?
--- bind = $mainMod , w, exec, [float] $terminal -e nvim ~/vimwiki/Personal/diary/`date +%F`.md -c 'set ft=' -c 'norm! G2o' -cstartinsert -c 'norm! zt'
--- bind = $mainMod shift, w, exec, [float] $terminal -e nvim ~/vimwiki/Personal/diary/`date +%F`.md -c 'set ft=' -c 'norm! Go' -cstartinsert -c 'norm! zt'
--- FIX: per neovim unnamed register
--- hl.bind("SUPER + p", hl.dsp.exec_cmd("~/.config/hypr/scripts/send_to_diary"))
-#+end_src
-
-#+begin_src bash :tangle no :shebang "#!/usr/bin/env bash"
-# ~/.config/hypr/scripts/send_to_diary
-# waiting for ghostty scripting API...
-if hyprctl activewindow -j | jq -e 'select(.title | endswith (" - Nvim"))'; then
-  socket=$(find $XDG_RUNTIME_DIR -maxdepth 1 -name 'nvim.*.0' -type s -printf '%A@ %p\n' | sort -rn | head -1 | cut -d' ' -f2-)
-  data="$(nvim -u NONE --headless --server "$socket" --remote-expr "getreg('\"')")"
-elif hyprctl activewindow -j | jq -e 'select(.class == "emacs" or (.title | endswith (" - Emacs")))'; then
-  data="$(emacsclient -e '(substring-no-properties (current-kill 0))' | sed 's/^"\(.*\)"$/\1/')"
-else
-  data="$(wl-paste)"
-fi
-printf "\n%s\n" "$data" >> ~/vimwiki/Personal/diary/$(date +%F).md && dunstify -a clipboard "Clipboard in diary" "$data"
-cliphist list | head -1 | cliphist delete
 #+end_src
 
 #+begin_src lua
@@ -1156,9 +1136,8 @@ cliphist list | head -1 | cliphist delete
 -- metti in kanata?
 
 hl.bind(mainMod .. " + n", hl.dsp.exec_cmd("[float;size 30% 30%] " .. terminal .." -e nvim -c 'norm 1 Qd'"))
-hl.bind(mainMod .. " + SHIFT + n", hl.dsp.exec_cmd("[float] $terminal -e nvim -c 'let @+=\\\""))
 -- resize terminal for input?
-hl.bind(mainMod .. " + period", hl.dsp.exec_cmd("[float;size 30% 30%] " .. terminal .. " -e nvim -c 'let @+=input(\">\")|norm 1 Qd'"))
+hl.bind(mainMod .. " + p", hl.dsp.exec_cmd("[float;size 30% 30%] " .. terminal .. " -e nvim -c 'let @+=input(\">\")|norm 1 Qd'"))
 #+end_src
 
 
