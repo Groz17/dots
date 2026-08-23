@@ -1219,6 +1219,34 @@ hl.workspace_rule({
 -- layerrule = order, rofi
 #+end_src
 
+** Plugins
+#+begin_src lua
+hl.config({
+    plugin = {
+        hyprbars = {
+            bar_height = 20,
+            on_double_click = "hyprctl dispatch fullscreen 1",
+        },
+    },
+})
+
+hl.window_rule({
+    name = "hide-hyprbars-except-anki",
+    match = {
+        class = "negative:^(anki)$",
+    },
+    ["hyprbars:no_bar"] = true,
+})
+
+hl.window_rule({
+    name = "anki-hyprbars",
+    match = {
+        class = "^(anki)$",
+    },
+    ["hyprbars:bar_color"] = "rgb(ADD8E6)",
+    ["hyprbars:title_color"] = "rgb(003f0f)",
+})
+#+end_src
 * Hyprlock
 :PROPERTIES:
 :header-args: :tangle ~/.config/hypr/hyprlock.conf
