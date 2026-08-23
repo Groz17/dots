@@ -272,3 +272,17 @@ ExecStop=/bin/true
 [Install]
 WantedBy=default.target
 #+end_src
+
+* Anki
+#+begin_src conf :tangle (if (string= (string-trim (org-babel-ref-resolve "chassis")) "desktop") "~/.config/systemd/user/anki.service" "no")
+[Unit]
+Description=Anki Sync Server
+After=network.target
+
+[Service]
+EnvironmentFile=%h/.config/anki-sync-server
+ExecStart=/usr/local/bin/anki --syncserver
+
+[Install]
+WantedBy=default.target
+#+end_src
