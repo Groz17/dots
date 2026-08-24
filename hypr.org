@@ -85,6 +85,7 @@ search for others w/ llm or configs
 
 hl.on("hyprland.start", function()
     hl.exec_cmd("hyprctl setcursor Bibata-Modern-Classic 24")
+    hl.exec_cmd("hyprpm reload -n")
 end)
 #+end_src
 
