@@ -118,10 +118,53 @@ bindurl ^https://www.youtube.com/watch\? \ js if (document.getElementById("yt-hi
 bindurl ^https://www.youtube.com/watch\? <F12><c-s> composite get_current_url | exclaim_quiet ~/.config/tridactyl/scripts/download
 
 autocmd DocStart ^http composite get_current_url | shellescape| exclaim_quiet ~/.config/tridactyl/scripts/if_in_wiki
+
+" One day #highlights=0
+# ogni mese or smth apy list-notes -- 'is:new' | mdq '##{2} Word' | grep -P '^-?[\p{Bengali} ]+-?$' > new
+autocmd DocStart ^https://bn\.wikipedia\.org/wiki/ js -r scripts/highlight_unlearnt_words.js
 #+end_src
 
 #+begin_src sh :tangle ~/.config/tridactyl/scripts/if_in_wiki :shebang "#!/usr/bin/env bash" 
-rg -P '\Q'"${1%#*}"'\E(?:\s|$)' ~/org && dunstify "Info" "URL Already in wiki"
+rg -P '\Q'"${1%#*}"'\E(?:\s|\]|$)' ~/org && dunstify "Info" "URL Already in wiki"
+#+end_src
+
+#+name: NEW_WORDS
+#+begin_src bash :tangle no :results output
+paste -sd'|' ~/org/anki/new | tr -d '\n'
+#+end_src
+
+
+#+begin_src js :tangle ~/.config/tridactyl/scripts/highlight_unlearnt_words.js :noweb yes
+const regex = new RegExp("(?<![\\p{L}\\p{M}])(<<NEW_WORDS()>>)(?![\\p{L}\\p{M}])", "giu");
+function highlight(node) {
+  if (node.nodeType === Node.TEXT_NODE) {
+    const text = node.nodeValue;
+    if (!regex.test(text)) return;
+
+    const frag = document.createDocumentFragment();
+    let last = 0;
+    regex.lastIndex = 0;
+
+    for (const match of text.matchAll(regex)) {
+      frag.append(text.slice(last, match.index));
+
+      const mark = document.createElement("mark");
+      mark.textContent = match[0];
+      frag.append(mark);
+
+      last = match.index + match[0].length;
+    }
+
+    frag.append(text.slice(last));
+    node.replaceWith(frag);
+  } else if (node.nodeType === Node.ELEMENT_NODE &&
+             node.tagName !== "SCRIPT" &&
+             node.tagName !== "STYLE") {
+    [...node.childNodes].forEach(highlight);
+  }
+}
+
+highlight(document.body);
 #+end_src
 
 * BINDS
@@ -341,7 +384,7 @@ bindurl google\..*/search\?(?!.*[&?]udm=) <C-c>c js Promise.all( \
     } \
   }) \
 ).then(urls => navigator.clipboard.writeText( \
-  [`[[${window.location.href}][${document.title.replace(/ - Cerca con Google$/,"")}]]`, ...urls].join('\n') \
+  [`[[${window.location.href}][${document.title.replace(/ - Cerca con Google$/,"")}]]`, ...new Set(urls)].join('\n') \
 )).then(() => tri.native.run(`hyprctl eval 'hl.dispatch(hl.dsp.exec_cmd("[float;size 30% 30%] ghostty -e nvim -c \\"norm 1 Qd\\""))'`))
 #+end_src
 
@@ -984,7 +1027,7 @@ bind gD composite tabduplicate ; tabdetach
 " go private
 " bind gp current_url winopen -popup -private
 " go incognito (vimium mapping)
-bind gI current_url winopen -popup -private
+" bind gI current_url winopen -popup -private
 
 " bind ;t ttsread -c title
 bind <space>t fillcmdline ttsread -t
