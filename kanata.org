@@ -221,7 +221,8 @@ you could inoremap/abbrev them tbh
   ;;ralt (tap-hold 175 150 (multi lsft \) (tap-hold-press-timeout 0 100 (multi lsft \) \ (macro S-d)))
   ;;ralt (tap-hold 175 175 = (tap-hold-press-timeout 0 100 = \ (macro S-=)))
   ;; - and = similar to j and k to zoom in pdfs, etc...
-  ralt (tap-hold 175 175 - (tap-hold-press-timeout 0 100 - \ (macro S--)))
+   ralt (tap-hold 175 175 - (tap-hold-press-timeout 0 100 - \ (macro S--)))
+  ;; ralt (tap-hold-press-timeout 175 175 \ \ (macro S-\))
   ;; ralt esc
 
   ;;lctl (macro S-3)
