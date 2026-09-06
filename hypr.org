@@ -850,6 +850,7 @@ hl.bind(mainMod .. " + backslash", hl.dsp.layout("togglesplit"))
 
 -- bind = $mainMod, G, centerwindow
 hl.bind(mainMod .. " + G", hl.dsp.group.toggle())
+hl.bind(mainMod .. " + SHIFT + p", hl.dsp.exec_cmd("rofi-rbw"))
 -- hl.bind(mainMod .. " + tab", hl.dsp.group.next())
 -- hl.bind(mainMod .. " + SHIFT + tab", hl.dsp.group.prev())
 hl.bind(mainMod .. " + SHIFT + G", hl.dsp.window.move({ out_of_group = true }))
