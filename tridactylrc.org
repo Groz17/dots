@@ -120,8 +120,11 @@ bindurl ^https://www.youtube.com/watch\? <F12><c-s> composite get_current_url | 
 autocmd DocStart ^http composite get_current_url | shellescape| exclaim_quiet ~/.config/tridactyl/scripts/if_in_wiki
 
 " One day #highlights=0
-# ogni mese or smth apy list-notes -- 'is:new' | mdq '##{2} Word' | grep -P '^-?[\p{Bengali} ]+-?$' > new
+" ogni mese or smth apy list-notes -- is:new tag:bn | mdq '##{2} Word' | grep -P '^-?[\p{Bengali} ]+-?$' > bn
+" make this for every wikipedia (fa, bn, hi, ...) w/ orgmode substituion
 autocmd DocStart ^https://bn\.wikipedia\.org/wiki/ js -r scripts/highlight_unlearnt_words.js
+
+bind t js -r scripts/highlight_unlearnt_words.js
 #+end_src
 
 #+begin_src sh :tangle ~/.config/tridactyl/scripts/if_in_wiki :shebang "#!/usr/bin/env bash" 
@@ -130,7 +133,7 @@ rg -P '\Q'"${1%#*}"'\E(?:\s|\]|$)' ~/org && dunstify "Info" "URL Already in wiki
 
 #+name: NEW_WORDS
 #+begin_src bash :tangle no :results output
-paste -sd'|' ~/org/anki/new | tr -d '\n'
+paste -sd'|' ~/org/anki/todo/bn | tr -d '\n'
 #+end_src
 
 
