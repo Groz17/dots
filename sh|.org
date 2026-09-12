@@ -33,6 +33,7 @@ alias tb='nc termbin.com 9999'
 alias helpme='cht.sh --shell'
 
 # Get the error messages from journalctl
+alias wk="wiki"
 alias n="notmuch"
 alias m="man "
 alias sudo="sudo "
@@ -61,7 +62,6 @@ alias h="help"
 alias stui="systemctl-tui"
 alias sctl="systemctl"
 alias jctl="journalctl"
-
 alias f="fd"
 #+end_src
 

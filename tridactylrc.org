@@ -12,6 +12,7 @@
 - [ ] Make Tridactyl work on addons.mozilla.org (:h fixamo).
 - [ ] userscript?
 - gv to reselect?
+- edit addon settings from tridactyl config?
 
 * OPTIONS
 #+begin_src tridactyl
@@ -124,6 +125,7 @@ autocmd DocStart ^http composite get_current_url | shellescape| exclaim_quiet ~/
 " make this for every wikipedia (fa, bn, hi, ...) w/ orgmode substituion
 autocmd DocStart ^https://bn\.wikipedia\.org/wiki/ js -r scripts/highlight_unlearnt_words.js
 
+" useful to save only unknown words outside wiktionary
 bind t js -r scripts/highlight_unlearnt_words.js
 #+end_src
 
@@ -646,10 +648,6 @@ xidel --html -e 'x:replace-nodes(/,//img/@src, function($a){ attribute src { res
 xidel --html -e 'x:replace-nodes(/,//*[matches(name(), "^h[1-6]$")]/@*,())' |
 pandoc --wrap=preserve --from html -t org --lua-filter=<(printf '%s\n' 'function Header(h) h.identifier="" return h end') |
 wl-copy && dunstify -a tridactyl "Selection copied to clipboard" "$(wl-paste)"
-#+end_src
-
-#+begin_src tridactyl
-bindurl ^https://en\.wiktionary\.org/wiki/[%-] <C-c><C-c> js tri.excmds.shellescape(document.title.replace(/\s*-\s*Wiktionary, the free dictionary$/, "")).then(title => tri.native.run(`vocab="${title.replace(/'/g,"")}" && grep -qxF "$vocab" ~/org/anki/bn_words && dunstify "bn file" "Word already present" || { printf '\\n%s' "$vocab" >> ~/org/anki/bn_not_wkt && dunstify "bn file" "Added $vocab"; }`))
 #+end_src
 
 #+begin_src bash :tangle ~/.config/tridactyl/scripts/selection_html.js
