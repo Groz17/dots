@@ -304,6 +304,7 @@ mlft mlft
 #+end_src
 
 ** Macros
+create mapping for bindings? like specify source and target like in vim (trigger_bind, lhs, lhs_end, rhs, rhs_end)
 add sleep w/ key -> cmd sleep 2?
 ;; rmet-q(dynamic-macro-record 0)
 ;; rmet-@(dynamic-macro-play   0)
