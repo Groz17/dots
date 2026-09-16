@@ -688,6 +688,8 @@ bind <a-l> js -s ~/scripts/to_markdown/browser/urls_linux.js
 #+end_src
 
 * SEARCHURLS
+Search shortcurts
+
 #+begin_src tridactyl
 " use ai to categorize
 " set searchengine g
@@ -1133,9 +1135,12 @@ bind --mode=input       <C-u>   text.backward_kill_line
 # bind --mode=ex          <Tab>   text.tab_insert
 # bind --mode=insert      <Tab>   text.tab_insert
 # bind --mode=input       <Tab>   text.tab_insert
-bind --mode=ex          <C-y>   composite getclip selection | text.insert_text
-bind --mode=insert      <C-y>   composite getclip selection | text.insert_text
-bind --mode=input       <C-y>   composite getclip selection | text.insert_text
+" bind --mode=ex          <C-y>   composite getclip selection | text.insert_text
+" bind --mode=insert      <C-y>   composite getclip selection | text.insert_text
+" bind --mode=input       <C-y>   composite getclip selection | text.insert_text
+bind --mode=ex          <C-y>   keyfeed <C-S-v>
+bind --mode=insert      <C-y>   keyfeed <C-S-v>
+bind --mode=input       <C-y>   keyfeed <C-S-v>
 bind --mode=ex          <A-c>   text.capitalize_word
 bind --mode=insert      <A-c>   text.capitalize_word
 bind --mode=input       <A-c>   text.capitalize_word
