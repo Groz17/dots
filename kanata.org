@@ -615,7 +615,7 @@ Hold to pick temporary layout; tap to reset to default (kanata+kb).
 
 ** Audio
 #+begin_src bash :tangle ~/.config/hypr/scripts/fx :noweb yes :shebang "#!/usr/bin/env bash"
-echo '{ "command": ["get_property", "af"] }' | socat - /tmp/mpvsocket | jq -er '.data[]?' ||\
+echo '{ "command": ["get_property", "af"] }' | socat - /tmp/mpvsocket | jq -er '.data[]?.name == "lowpass"' ||\
     { echo '{ "command": ["set_property", "af","lowpass=f=400"] }' | socat - /tmp/mpvsocket ; false ;}  &&\
     echo '{ "command": ["set_property", "af",""] }' | socat - /tmp/mpvsocket 
 #+end_src
