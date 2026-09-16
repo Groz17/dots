@@ -231,7 +231,7 @@ you could inoremap/abbrev them tbh
    ;; layout picker via left ctrl hold; tap repeats last key (keeps rpt-any)
    ;;lctl (tap-hold-press-timeout 175 175 rpt-any (layer-while-held layout) rpt-any)
    lctl (layer-while-held layout)
-  rctl (macro S-8)
+  rctl (layer-switch layout)
   ;; facile usare |-tab in orgmode (also nice for pipelines near -)
   ;; so i can easily do |- in org mode for tables ; also near - for bash commands
   lmet (macro S-\)
@@ -567,7 +567,7 @@ _ _ _ _     _ _ _ _    _    _  _    _ _ _
 _ _ _ _     _ _ _ _    _    _  @mwu _
 _ _ _ _     mlft _ _ @mal @mad @mau @mar _ _ _ _
 _ _ _ _     _ _ _ _ mlft mmid mrgt @mwd _
-_ _ _ _     _ _ _ _
+_ _ _ _     _ _ _ (layer-switch base)
 _ _ _
 )
 #+end_src
@@ -582,7 +582,7 @@ _ _ _ _     _ _ _ _    _    _  _    _ _ _
 _ _ _ _     _ _ _ _    _    _  _    _
 _ _ _ _     _ _ _ left down up rght _ _ _ _
 _ _ _ _     _ _ _ _    ret  _  _    _ _
-_ _ _ _     _ _ _ _
+_ _ _ _     _ _ _ (layer-switch base)
 _ _ _
 )
 #+end_src
@@ -604,7 +604,7 @@ Hold to pick temporary layout; tap to reset to default (kanata+kb).
 
 (deflayer layout
   _
-  _  _  _  _  _  _  _  _  _  _  _  _  _  _
+  _  _  (layer-switch audio)  (layer-switch mouse)  (layer-switch nav)  (layer-switch TV)  _  _  _  _  _  _  _  _
   _  _  _  _  @kbd-ru  _  _  @kbd-reset  _  _  _  _  _
   _  @kbd-ar  _  _  _  _  _  _  _  _  _  _  _  _
   _  _  _  _  _  _  _  _  _  _  _  _  _
@@ -692,7 +692,7 @@ restart (cmd playerctl position 0)
   _ _ _ _              _ _   _     _              @microphone @loop    MediaTrackPrevious _
   _ _ _ @recognize     _ @fx @goto @back          VolumeDown  VolumeUp @forward           _ _ _ _
   _ _ _ _              _ _   _     MediaTrackNext VolumeMute  _        _                  _ _
-  _ _ @lower MediaPlayPause _ @raise   _     _             
+  _ _ @lower MediaPlayPause _ @raise   _     (layer-switch base)
   _ _ _
 )
 #+end_src
@@ -1013,7 +1013,7 @@ echo '{"method":"ms.remote.control","params":{"Cmd":"Click","DataOfCmd":"KEY_MUT
   _ _ _ _         _ _ _        _        _      _ _ @tv-chdown _
   _        _ _ _         _ _ @tv-left @tv-voldown @tv-volup @tv-right   _         _ _ @tv-fifo
   _        _ _ _         _ _ _        @tv-chup        @tv-mute      _           _  _ _
-  _        _ _ @tv-enter _ _ _        _
+  _        _ _ @tv-enter _ _ _        (layer-switch base)
   _        _ _
 )
 #+end_src
