@@ -1279,8 +1279,8 @@ quickmark y https://www.youtube.com/playlist?list=WL
 quickmark c https://chatgpt.com
 quickmark d https://duck.ai
 quickmark g https://gemini.google.com/app
-quickmark l https://chat.mistral.ai/chat?model=codestral
-quickmark m https://copilot.microsoft.com
+quickmark m https://chat.mistral.ai/chat?model=codestral
+" quickmark m https://copilot.microsoft.com
 quickmark p https://www.perplexity.ai
 quickmark z https://chat.z.ai
 #+end_src
