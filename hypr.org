@@ -482,7 +482,15 @@ local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 Kanata mouse layer shines here
 *** Emacs-related
 #+begin_src lua
-hl.bind("SUPER + c", hl.dsp.exec_cmd("emacsclient -n -e '(progn (select-frame-set-input-focus (selected-frame)) (org-capture))'"))
+hl.window_rule({
+    name = "org-capture",
+    match = { title = "^org-capture$" },
+    float = true,
+    size = { "50%", "50%" },
+    center = true,
+})
+
+hl.bind("SUPER + c", hl.dsp.exec_cmd([[emacsclient -c -n -F '((name . "org-capture"))' -e "(org-capture)"]]))
 #+end_src
 *** [[https://www.youtube.com/watch?v=sz6rMLIjSbU][Zoom]]
 #+begin_src lua
