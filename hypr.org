@@ -480,6 +480,10 @@ hl.bind("SUPER + SHIFT + CTRL + r", hl.dsp.exec_cmd("wtype -k Escape"))
 local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 #+end_src
 Kanata mouse layer shines here
+*** Emacs-related
+#+begin_src lua
+hl.bind("SUPER + c", hl.dsp.exec_cmd("emacsclient -n -e '(progn (select-frame-set-input-focus (selected-frame)) (org-capture))'"))
+#+end_src
 *** [[https://www.youtube.com/watch?v=sz6rMLIjSbU][Zoom]]
 #+begin_src lua
 local zoom = 1.0
@@ -829,7 +833,7 @@ hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(menu))
 -- query screen for color
 
 -- use kanata cursor layer and exit it w/ esc
-hl.bind(mainMod .. " + c", hl.dsp.exec_cmd("hyprpicker -a"))
+hl.bind(mainMod .. " + SHIFT + c", hl.dsp.exec_cmd("hyprpicker -a"))
 -- zzz mnemonic
 -- maybe shift? so u don't accidentaly type? test!
 hl.bind(mainMod .. " + z", hl.dsp.exec_cmd("hyprlock"))
