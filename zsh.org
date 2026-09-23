@@ -523,4 +523,9 @@ ZDOTDIR=$HOME/.config/zsh
 YSU_MESSAGE_FORMAT="$(tput setaf 1)Hey! I found this %alias_type for %command: %alias$(tput sgr0)"
 YSU_MESSAGE_POSITION="after"
 # . $ZDOTDIR/.zshenv
+
+# Fedora's global profile hook starts keychain for login shells. Keep it
+# disabled and do not inherit its agent socket.
+KEYCHAIN_DONE=1
+# unset SSH_AUTH_SOCK SSH_AGENT_PID
 #+end_src
