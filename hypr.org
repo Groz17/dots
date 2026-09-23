@@ -486,10 +486,11 @@ hl.window_rule({
     name = "org-capture",
     match = { title = "^org-capture$" },
     float = true,
-    size = { "50%", "50%" },
+    size = { "monitor_w*0.5", "monitor_h*0.5" },
     center = true,
 })
 
+-- make buffer occupy entire window?
 hl.bind("SUPER + c", hl.dsp.exec_cmd([[emacsclient -c -n -F '((name . "org-capture"))' -e "(org-capture)"]]))
 #+end_src
 *** [[https://www.youtube.com/watch?v=sz6rMLIjSbU][Zoom]]
@@ -626,8 +627,8 @@ SOCKET=/tmp/mpvsocket
 music_dir=~/Music
 
 # TODO: show album art? (preview)
-find "$music_dir" -type f -regextype posix-extended -regex '.*\.[a-zA-Z0-9]{3,4}$' -exec stat --printf="%w\t%n\n" {} +  | sort -nr | cut -f 2- |
-rofi -sort -i -normalize-match -multi-select -dmenu -p "Search Song" -display-columns 5,6 -display-column-separator / |
+find "$music_dir" -path "$music_dir"/Recordings -prune -o -type f -regextype posix-extended -regex '.*\.[a-zA-Z0-9]{3,4}$' -exec stat --printf="%w\t%n\n" {} +  | sort -nr | cut -f 2- |
+rofi -sort -i -normalize-match -multi-select -dmenu -p "Search Song" -display-columns 6,7 -display-column-separator / |
 ifne mpv --playlist=/dev/stdin --no-video --no-terminal --input-ipc-server="$SOCKET"
 #+end_src
 
