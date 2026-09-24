@@ -1532,6 +1532,7 @@ curl --fail --silent --show-error --location --retry 3 --connect-timeout 15 \
   --output "$source" "$page_url"
 python3 - "$source" "$document" <<'PY'
 from pathlib import Path
+import re
 import sys
 from bs4 import BeautifulSoup
 
@@ -1540,8 +1541,23 @@ soup = BeautifulSoup(source.read_text(), "html.parser")
 article = soup.select_one(".post-body.entry-content")
 if article is None:
     raise SystemExit("Could not extract the Bengali current-affairs article")
+for element in article.select(".current-affairs-nav"):
+    element.decompose()
 for element in article.select("img, script, style, iframe, meta, table, h1"):
     element.decompose()
+for heading in article.find_all("b"):
+    text = " ".join(heading.get_text(" ", strip=True).split())
+    if re.fullmatch(
+        r"\d{1,2}(?:st|nd|rd|th)?\s+[A-Za-z]+\s+\d{4}\s+Current Affairs in Bengali",
+        text,
+    ):
+        parent = heading.parent
+        heading.decompose()
+        if parent.name == "span" and not parent.get_text(" ", strip=True):
+            parent.decompose()
+for text_node in article.find_all(string=True):
+    if "উত্তর::" in text_node:
+        text_node.replace_with(text_node.replace("উত্তর::", ""))
 def compact_short_lines(group):
     for heading in group.find_all("b"):
         next_sibling = heading.next_sibling
@@ -1554,10 +1570,17 @@ def compact_short_lines(group):
 
 blocks = []
 for element in list(article.find_all(recursive=False)):
+    text = " ".join(element.get_text(" ", strip=True).split())
     if (
-        "Previous" in element.get_text()
-        and "Next" in element.get_text()
-        and not any(char.isdigit() for char in element.get_text())
+        element.name == "b"
+        and text.endswith("Current Affairs in Bengali")
+        and any(char.isdigit() for char in text)
+    ):
+        continue
+    if (
+        "Previous" in text
+        and "Current" in text
+        and "Next" in text
     ):
         continue
     if element.name != "div" or not element.find("hr"):
