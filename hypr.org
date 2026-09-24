@@ -496,12 +496,14 @@ hl.bind("SUPER + c", hl.dsp.exec_cmd([[emacsclient -c -n -F '((name . "org-captu
 *** [[https://www.youtube.com/watch?v=sz6rMLIjSbU][Zoom]]
 #+begin_src lua
 local zoom = 1.0
+local zoom_step = 1.15
+local max_zoom = 1.5
 
 local function adjust_zoom(action)
     if action == "in" then
-        zoom = math.min(zoom * 1.5, 5.0)
+        zoom = math.min(zoom * zoom_step, max_zoom)
     elseif action == "out" then
-        zoom = math.max(zoom / 1.5, 1.0)
+        zoom = math.max(zoom / zoom_step, 1.0)
     elseif action == "reset" then
         zoom = 1.0
     end
@@ -1353,7 +1355,7 @@ end
 
 #+name: font-size
 #+begin_src bash :tangle no :noweb yes
-[[ <<chassis()>> = "desktop" ]] && echo '27' || echo '20'
+[[ desktop = "desktop" ]] && echo '27' || echo '20'
 #+end_src
 
 #+begin_src hyprlang :noweb yes
@@ -1499,10 +1501,143 @@ can u use source code (maybe elisp) to pick random image?
 # ipc = on
 wallpaper {
     monitor =
-    path = ~/dots/pics/wallpapers/urdu.png
+    path = ~/.cache/hyprpaper/daily-bengali-current-affairs.png
     fit_mode = cover
 }
 splash = false
+#+end_src
+
+** Daily Bengali current affairs
+#+begin_src bash :tangle ~/.config/hypr/scripts/daily-bengali-current-affairs :shebang "#!/usr/bin/env bash"
+set -euo pipefail
+
+cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/hyprpaper"
+wallpaper="$cache_dir/daily-bengali-current-affairs.png"
+mkdir -p "$cache_dir"
+listing="$(mktemp)"
+source="$(mktemp)"
+document="$(mktemp --suffix=.html)"
+style="$(mktemp)"
+trap 'rm -f "$listing" "$source" "$document" "$style"' EXIT
+curl --fail --silent --show-error --location --retry 3 --connect-timeout 15 \
+  --output "$listing" \
+  "https://www.kolom.in/search/label/Daily%20Current%20Affairs?max-results=10"
+page_urls="$(grep -oE 'https://www\.kolom\.in/[0-9]{4}/[0-9]{2}/[^"]+-current-affairs-in-bengali\.html' "$listing" || true)"
+page_url="${page_urls%%$'\n'*}"
+if [[ -z "$page_url" ]]; then
+  printf 'Could not find the latest Bengali current-affairs page\n' >&2
+  exit 1
+fi
+curl --fail --silent --show-error --location --retry 3 --connect-timeout 15 \
+  --output "$source" "$page_url"
+python3 - "$source" "$document" <<'PY'
+from pathlib import Path
+import sys
+from bs4 import BeautifulSoup
+
+source, document = map(Path, sys.argv[1:])
+soup = BeautifulSoup(source.read_text(), "html.parser")
+article = soup.select_one(".post-body.entry-content")
+if article is None:
+    raise SystemExit("Could not extract the Bengali current-affairs article")
+for element in article.select("img, script, style, iframe, meta, table, h1"):
+    element.decompose()
+def compact_short_lines(group):
+    for heading in group.find_all("b"):
+        next_sibling = heading.next_sibling
+        if next_sibling is None or getattr(next_sibling, "name", None) != "br":
+            heading.insert_after(soup.new_tag("br"))
+    for line_break in group.find_all("br"):
+        separator = soup.new_tag("span", attrs={"class": "compact-separator"})
+        separator.string = "  ·  "
+        line_break.replace_with(separator)
+
+blocks = []
+for element in list(article.find_all(recursive=False)):
+    if (
+        "Previous" in element.get_text()
+        and "Next" in element.get_text()
+        and not any(char.isdigit() for char in element.get_text())
+    ):
+        continue
+    if element.name != "div" or not element.find("hr"):
+        if element.get_text(" ", strip=True):
+            blocks.append(element)
+        continue
+    group = soup.new_tag("div", attrs={"class": "question-group"})
+    for child in list(element.contents):
+        if getattr(child, "name", None) == "button":
+            continue
+        if getattr(child, "name", None) == "hr":
+            if group.get_text(" ", strip=True):
+                blocks.append(group)
+            group = soup.new_tag("div", attrs={"class": "question-group"})
+            continue
+        if getattr(child, "name", None) == "div" and child.get("id", "").startswith("spoiler"):
+            child["style"] = "display: block"
+        group.append(child.extract())
+    compact_short_lines(group)
+    if group.get_text(" ", strip=True):
+        blocks.append(group)
+midpoint = (len(blocks) + 1) // 2
+left = "".join(str(block) for block in blocks[:midpoint])
+right = "".join(str(block) for block in blocks[midpoint:])
+document.write_text(
+    "<!doctype html><meta charset='utf-8'>"
+    "<main><h1>দৈনিক কারেন্ট অ্যাফেয়ার্স</h1><div class='columns'>"
+    f"<section>{left}</section><section>{right}</section>"
+    "</div></main>"
+)
+PY
+cat > "$style" <<'CSS'
+html, body { background: #101820 !important; color: #e8f1f2 !important;
+  margin: 0 !important; padding: 70px 0 0 !important; }
+header, nav, footer, aside, .sidebar, .blog-pager, .comments, .post-footer,
+.post-share-buttons, .post-feeds, .PopularPosts, .widget, .Header,
+.BlogArchive, .post-image, .post-thumbnail, img { display: none !important; }
+.content-outer, .main-outer, .content-inner, .main-inner, .column-center-outer,
+.column-center-inner, .Blog, .blog-posts, .date-outer, .date-posts,
+.post-outer, .post, .post-body { width: auto !important; max-width: none !important;
+  margin: 0 !important; padding: 0 !important; }
+main { box-sizing: border-box !important; padding: 0 70px 70px !important; }
+h1 { font-size: 40px !important; line-height: 1.1 !important;
+  color: #7de2c5 !important; margin: 0 0 12px !important; }
+.columns { display: flex !important; gap: 70px !important; }
+section { width: 50% !important; }
+section > div { font-size: 21px !important; line-height: 1.25 !important;
+  margin: 0 0 10px !important; }
+section b { color: #ffd166 !important; }
+section hr { border: 0 !important; border-top: 1px dashed #667 !important; }
+.compact-separator { color: #56c7b0 !important; white-space: pre !important; }
+.question-group br { display: none !important; }
+.question-group b + br { display: block !important; }
+CSS
+wkhtmltoimage --quiet --width 1920 --height 1080 \
+ --user-style-sheet "$style" \
+ "$document" "$wallpaper"
+hyprctl hyprpaper wallpaper ",$wallpaper"
+#+end_src
+
+#+begin_src conf :tangle ~/.config/systemd/user/daily-bengali-current-affairs.service
+[Unit]
+Description=Render and display daily Bengali current affairs
+After=graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.config/hypr/scripts/daily-bengali-current-affairs
+#+end_src
+
+#+begin_src conf :tangle ~/.config/systemd/user/daily-bengali-current-affairs.timer
+[Unit]
+Description=Update the daily Bengali current-affairs wallpaper
+
+[Timer]
+OnCalendar=*-*-* 07:15:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
 #+end_src
 
 * Hyprsunset
