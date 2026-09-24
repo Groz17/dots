@@ -1559,14 +1559,7 @@ for text_node in article.find_all(string=True):
     if "উত্তর::" in text_node:
         text_node.replace_with(text_node.replace("উত্তর::", ""))
 def compact_short_lines(group):
-    for heading in group.find_all("b"):
-        next_sibling = heading.next_sibling
-        if next_sibling is None or getattr(next_sibling, "name", None) != "br":
-            heading.insert_after(soup.new_tag("br"))
-    for line_break in group.find_all("br"):
-        separator = soup.new_tag("span", attrs={"class": "compact-separator"})
-        separator.string = "  ·  "
-        line_break.replace_with(separator)
+    return group
 
 blocks = []
 for element in list(article.find_all(recursive=False)):
@@ -1584,8 +1577,6 @@ for element in list(article.find_all(recursive=False)):
     ):
         continue
     if element.name != "div" or not element.find("hr"):
-        if element.get_text(" ", strip=True):
-            blocks.append(element)
         continue
     group = soup.new_tag("div", attrs={"class": "question-group"})
     for child in list(element.contents):
@@ -1593,13 +1584,13 @@ for element in list(article.find_all(recursive=False)):
             continue
         if getattr(child, "name", None) == "hr":
             if group.get_text(" ", strip=True):
-                blocks.append(group)
+                blocks.append(compact_short_lines(group))
             group = soup.new_tag("div", attrs={"class": "question-group"})
             continue
         if getattr(child, "name", None) == "div" and child.get("id", "").startswith("spoiler"):
             child["style"] = "display: block"
         group.append(child.extract())
-    compact_short_lines(group)
+    group = compact_short_lines(group)
     if group.get_text(" ", strip=True):
         blocks.append(group)
 midpoint = (len(blocks) + 1) // 2
@@ -1607,7 +1598,7 @@ left = "".join(str(block) for block in blocks[:midpoint])
 right = "".join(str(block) for block in blocks[midpoint:])
 document.write_text(
     "<!doctype html><meta charset='utf-8'>"
-    "<main><h1>দৈনিক কারেন্ট অ্যাফেয়ার্স</h1><div class='columns'>"
+    "<main><div class='columns'>"
     f"<section>{left}</section><section>{right}</section>"
     "</div></main>"
 )
@@ -1631,9 +1622,7 @@ section > div { font-size: 21px !important; line-height: 1.25 !important;
   margin: 0 0 10px !important; }
 section b { color: #ffd166 !important; }
 section hr { border: 0 !important; border-top: 1px dashed #667 !important; }
-.compact-separator { color: #56c7b0 !important; white-space: pre !important; }
-.question-group br { display: none !important; }
-.question-group b + br { display: block !important; }
+.question-group br { display: block !important; }
 CSS
 wkhtmltoimage --quiet --width 1920 --height 1080 \
  --user-style-sheet "$style" \
