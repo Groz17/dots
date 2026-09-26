@@ -94,7 +94,7 @@ end)
   
 **** Status bar
 #+begin_src lua
-
+-- Would be great to focus it like Windows' Win+Ctrl+T and copy currently focused module text etc...
 hl.on("hyprland.start", function()
     hl.exec_cmd("waybar &")
 end)
@@ -496,12 +496,11 @@ hl.bind("SUPER + c", hl.dsp.exec_cmd([[emacsclient -c -n -F '((name . "org-captu
 *** [[https://www.youtube.com/watch?v=sz6rMLIjSbU][Zoom]]
 #+begin_src lua
 local zoom = 1.0
-local zoom_step = 1.15
-local max_zoom = 1.5
+local zoom_step = 1.5
 
 local function adjust_zoom(action)
     if action == "in" then
-        zoom = math.min(zoom * zoom_step, max_zoom)
+        zoom = zoom * zoom_step
     elseif action == "out" then
         zoom = math.max(zoom / zoom_step, 1.0)
     elseif action == "reset" then
@@ -757,8 +756,7 @@ dunstctl history | jq -r '.data[][].message.data'  | xidel --input-format=html -
 *** Remote desktop w/ VNC
 # TODO: toggle
 #+begin_src lua :noweb yes
-
-hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("ssh <<alternate()>> 'WAYLAND_DISPLAY=wayland-1 XDG_RUNTIME_DIR=/run/user/1000 wayvnc 0.0.0.0' & vncviewer <<alternate()>>:0 && hyprctl keyword monitor \"eDP-1, 320x200@60, 0x0, 1\" && hyprctl dispatch submap passthrough"))
+-- hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("ssh <<alternate()>> 'WAYLAND_DISPLAY=wayland-1 XDG_RUNTIME_DIR=/run/user/1000 wayvnc 0.0.0.0' & vncviewer <<alternate()>>:0 && hyprctl keyword monitor \"eDP-1, 320x200@60, 0x0, 1\" && hyprctl dispatch submap passthrough"))
 #+end_src
 
 *** Theme
@@ -960,7 +958,7 @@ hl.bind(mainMod .. " + SHIFT + k", hl.dsp.window.move({ direction = "u" }))
 #+begin_src lua
 -- lines and width don't work
 
-hl.bind(mainMod .. " + SHIFT + equal", hl.dsp.exec_cmd("cliphist list |    rofi -dmenu -display-columns 2 -p \"Select item to copy\" -lines 30 -width 75 | cut -f1 | xargs cliphist decode | wl-copy"))
+hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("cliphist list |    rofi -dmenu -display-columns 2 -p \"Select item to copy\" -lines 30 -width 75 | cut -f1 | xargs cliphist decode | wl-copy"))
 -- cliphist but for primary selection?
 #+end_src
 
@@ -1027,6 +1025,7 @@ esac
 -- --openfile
 -- Use $univArg per listare picker come universal argument in emacs
 
+-- grimblast record video with same keybinding?
 hl.bind("SUPER + s", hl.dsp.exec_cmd("grimblast --freeze --notify save area"))
 hl.bind("SUPER + SHIFT + s", hl.dsp.exec_cmd("grimblast --freeze --notify save screen"))
 -- nice dicotomy/mnemonic w y (copy) and p (paste)
@@ -1605,7 +1604,7 @@ document.write_text(
 PY
 cat > "$style" <<'CSS'
 html, body { background: #101820 !important; color: #e8f1f2 !important;
-  margin: 0 !important; padding: 70px 0 0 !important; }
+  margin: 0 !important; padding: 40px 0 0 !important; }
 header, nav, footer, aside, .sidebar, .blog-pager, .comments, .post-footer,
 .post-share-buttons, .post-feeds, .PopularPosts, .widget, .Header,
 .BlogArchive, .post-image, .post-thumbnail, img { display: none !important; }
