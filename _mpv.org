@@ -290,7 +290,7 @@ find out repetable bit functioning
 https://github.com/PlutonianPassenger/mpv2srs/
 #+begin_src lua :tangle ~/.config/mpv/scripts/mpv2srs.lua
 -- miner.lua — word picker + capture: JPG screenshot (no subs), audio from selected track, TSV with basenames
--- Keys: F9 to open picker, ←/→ to choose word, Enter to capture
+-- Keys: s to open picker, ←/→ to choose word, F9 to capture
 -- Requires: ffmpeg in PATH (set FFMPEG below if needed)
 
 local utils = require 'mp.utils'
@@ -653,7 +653,7 @@ local function install_bindings()
     mp.add_forced_key_binding("s",    "miner_toggle",  safe(toggle_picker))
     mp.add_forced_key_binding("j",  "miner_left",    safe(step_left),  { repeatable = true })
     mp.add_forced_key_binding("k", "miner_right",   safe(step_right), { repeatable = true })
-    mp.add_forced_key_binding("l", "miner_capture", safe(capture_current))
+    mp.add_forced_key_binding("F9", "miner_capture", safe(capture_current))
 end
 
 -- make sure bindings exist now and after every file load (some setups reset them)

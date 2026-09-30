@@ -98,6 +98,10 @@ export PATH="$PATH:$HOME/.hunk/bin:"$PATH"
 * SSH_AGENT
 
 #+begin_src sh
+# Don't want GUI SSH passhprase prompts (keychain)
+export SSH_ASKPASS_REQUIRE=never
+unset SSH_ASKPASS
+
 if [ -z "$SSH_AUTH_SOCK" ]; then
    # Check for a currently running instance of the agent
    RUNNING_AGENT="`ps -ax | grep 'ssh-agent -s' | grep -v grep | wc -l | tr -d '[:space:]'`"

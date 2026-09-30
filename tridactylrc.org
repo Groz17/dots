@@ -418,7 +418,7 @@ curl -G -k 'https://ipa.bangla.gov.bd/post_text_bangla_ipa' \
 
 #+begin_src tridactyl
 
-bindurl ^https://www.youtube.com/watch\? --mode=normal <space>s composite get_current_url | shellescape | exclaim_quiet ~/.config/tridactyl/scripts/subs
+bindurl ^https://www.youtube.com/(watch\?v=|shorts/) --mode=normal <space>s composite get_current_url | shellescape | exclaim_quiet ~/.config/tridactyl/scripts/subs
 
 " https://github.com/moyiz/git-dev.nvim
 # bind <space>go composite get_current_url | shellescape | js -p tri.excmds.exclaim(process.env.TERM_PROGRAM + " -e nvim -c \'GitDevOpen " + JS_ARG + "\'")
@@ -439,7 +439,7 @@ bind yg composite js "git clone " + document.location.href.replace(/https?:\/\//
 
 " usa exclaim_quiet per non avere output nella command line
 " usa <f12><c-{s,w}>?
-bind <space>d composite get_current_url | exclaim_quiet ~/.config/tridactyl/scripts/download_songs
+bindurl ^https://www.youtube.com/watch\? <space>d composite get_current_url | exclaim_quiet ~/.config/tridactyl/scripts/download_songs
 #+end_src
 
 #+begin_src bash :tangle ~/.config/tridactyl/scripts/download_songs :shebang "#!/usr/bin/env bash"
@@ -451,7 +451,7 @@ dir="$HOME"/Music/Songs
 }
 
 dunstify "Saving song..."
-yt-dlp --no-playlist -x -P "$dir" "$1" && dunstify "Saved song" "$(yt-dlp -e "$1")" || dunstify "Couldn't save song"
+yt-dlp --sponsorblock-remove all --no-playlist -x -P "$dir" "$1" && dunstify "Saved song" "$(yt-dlp -e "$1")" || dunstify "Couldn't save song"
 
 
 #+end_src
@@ -533,24 +533,6 @@ if (typeof window.getSelection != "undefined") {
     }
 }
 navigator.clipboard.writeText(html);
-#+end_src
-
-#+begin_src tridactyl
-
-" crea mapping per inserire plugin in lazy e copiare la configurazione in <plugin_name>lua così da poter usare il plugin subito...
-
-bind yp composite get_current_url | exclaim_quiet ~/.config/nvim/scripts/clone_from_browser
-
-" magari usa un unico binding per copiare url da website e filtrarli...
-bind <a-x> exclaim_quiet ~/scripts/filtra_tabs.sh
-
-" get all urls in page (<a-z> the ones filtered by regex [copylinks++]; create another script with those regex and delete the add-on)
-" bind <a-a> js -s ~/Projects/src/JavaScript/urls.js
-bind <a-a> js -s ~/scripts/to_markdown/browser/urls_all.js
-bind <a-l> js -s ~/scripts/to_markdown/browser/urls_linux.js
-" bind <a-z> js -s ~/Projects/src/JavaScript/urls_regex.js
-
-
 #+end_src
 
 * SEARCHURLS
