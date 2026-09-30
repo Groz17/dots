@@ -6,8 +6,6 @@
 * TODO TASK LIST
 - [ ] add c-r c-{a/l} for current webpage url?
 - [ ] clear cache for current site and all (uppercase)?
-- [ ] configure website keybindings, so u can remove tweaks for yt addon
-- [ ] implement youtube keybindings, like h in insert mode=arrow? so u can get rid of  extensions (what about values though?) maybe playerctl?
 - [ ] automatically select first option?
 - [ ] Make Tridactyl work on addons.mozilla.org (:h fixamo).
 - [ ] userscript?
@@ -206,12 +204,6 @@ unbind <space>
 " i use C-i
 unbind <Backspace>
 
-" VISUAL
-" bind --mode=visual c composite js.document.getSelection().toString() | send to todo
-" bind --mode=visual C composite js.document.getSelection().toString() | send to todo no newline
-" bind --mode=visual q composite js.document.getSelection().toString() | send to qr code
-
-" bind --mode=visual Y composite js.document.getSelection().toString() | yank markdown?
 bind yH composite hint -pipe * innerHTML | yank
 
 " 3gt to the third most recently used tab
