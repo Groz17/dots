@@ -1036,16 +1036,15 @@ bind --mode=input   <c-l>  ex.accept_line
 
 #+end_src
 
-* TODO HINTS
-add orgmode link hints
+* HINTS
 
 #+begin_src tridactyl
 "JavaScript hints (grey ones) 
 
 bind <a-r> fillcmdline hint -fr 
 
-" save title as well?
-bind yf hint -y
+alias orglink js -p (Array.isArray(JS_ARG) ? JS_ARG : JS_ARG.split("\n")).map(html => { const anchor = new DOMParser().parseFromString(html, "text/html").querySelector("a"); return `[[${anchor.href}][${anchor.textContent.trim()}]]`; }).join("\n")
+bind yf composite hint -pipe a outerHTML | orglink | yank
 
 "bind ,/ fillcmdline hint -fr 
 
@@ -1057,7 +1056,7 @@ bind ;/ fillcmdline hint -bfr
 
 alias join js -p JS_ARG.join("\n")
 " Make it so that if you press a key twice, it clears that entry from the clipboard
-bind yF composite hint -qpipe a href | join | yank
+bind yF composite hint -qpipe a outerHTML | orglink | yank
 
 " Only hint search results on Google and DDG
 "bindurl www.google.com f hint -Jc .rc > .r > a
@@ -1272,4 +1271,3 @@ alias discardall jsb browser.tabs.query({}).then(ts => browser.tabs.discard(ts.m
 
 
 #+end_src
-
