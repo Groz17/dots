@@ -1542,7 +1542,9 @@ if article is None:
     raise SystemExit("Could not extract the Bengali current-affairs article")
 for element in article.select(".current-affairs-nav"):
     element.decompose()
-for element in article.select("img, script, style, iframe, meta, table, h1"):
+for element in article.select(
+    "img, script, style, iframe, meta, table, h1, button"
+):
     element.decompose()
 for heading in article.find_all("b"):
     text = " ".join(heading.get_text(" ", strip=True).split())
@@ -1620,6 +1622,7 @@ section { width: 50% !important; }
 section > div { font-size: 21px !important; line-height: 1.25 !important;
   margin: 0 0 10px !important; }
 section b { color: #ffd166 !important; }
+.question-group > div[id^="spoiler"] { color: blue !important; }
 section hr { border: 0 !important; border-top: 1px dashed #667 !important; }
 .question-group br { display: block !important; }
 CSS
