@@ -267,7 +267,7 @@ magit () {
 eval "$(starship init $shell)"
 eval "$(atuin init $shell)"
 
-eval $(keychain --eval --quiet id_rsa)
+# eval $(keychain --eval --quiet id_rsa)
 
 # Make sure it appears even after rvm, git-prompt and other shell extensions that manipulate the prompt.
 # eval "$(direnv hook $shell)"
