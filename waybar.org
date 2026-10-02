@@ -5,6 +5,7 @@
 
 disk percentage?
 notifiche ricevute?
+toggle bar?
 
 ** Bar
  #+begin_src jsonc :prologue "{"
