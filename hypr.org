@@ -1549,7 +1549,8 @@ for element in article.select(
 for heading in article.find_all("b"):
     text = " ".join(heading.get_text(" ", strip=True).split())
     if re.fullmatch(
-        r"\d{1,2}(?:st|nd|rd|th)?\s+[A-Za-z]+\s+\d{4}\s+Current Affairs in Bengali",
+        r"\d{1,2}(?:st|nd|rd|th)?(?:\s*[-–]\s*\d{1,2}(?:st|nd|rd|th)?)?"
+        r"\s+[A-Za-z]+\s+(?:\d{4}\s+)?Current Affairs in Bengali",
         text,
     ):
         parent = heading.parent
