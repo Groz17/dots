@@ -49,7 +49,7 @@ reload_image r
 # reload_minus
 
 # remove d
-delete D
+delete C-Delete
 
 flip underscore
 mirror bar
