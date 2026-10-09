@@ -106,6 +106,7 @@ bind gi focusinput
 bindurl https://github.com/.*/.*/blob f hint -c .blob-num,a
 bindurl https://github.com/notifications <Space><Space> openGithubNotifications
 bindurl youtu((\.be)|(be\.com)) f hint -J
+bindurl youtu((\.be)|(be\.com)) yf composite hint -pipe a,[role="link"] outerHTML | orglink | yank
 
 "" Stupid workaround to let hint -; be used with composite which steals semi-colons
 command hint_focus hint -;
@@ -431,7 +432,7 @@ bind yg composite js "git clone " + document.location.href.replace(/https?:\/\//
 
 " usa exclaim_quiet per non avere output nella command line
 " usa <f12><c-{s,w}>?
-bindurl ^https://www.youtube.com/watch\? <space>d composite get_current_url | exclaim_quiet ~/.config/tridactyl/scripts/download_songs
+bindurl ^https://www.youtube.com/watch\? <space>d composite get_current_url | shellescape | exclaim_quiet ~/.config/tridactyl/scripts/download_songs
 #+end_src
 
 #+begin_src bash :tangle ~/.config/tridactyl/scripts/download_songs :shebang "#!/usr/bin/env bash"
@@ -1036,7 +1037,7 @@ bind --mode=input   <c-l>  ex.accept_line
 
 bind <a-r> fillcmdline hint -fr 
 
-alias orglink js -p (Array.isArray(JS_ARG) ? JS_ARG : JS_ARG.split("\n")).map(html => { const anchor = new DOMParser().parseFromString(html, "text/html").querySelector("a"); return `[[${anchor.href}][${anchor.textContent.trim()}]]`; }).join("\n")
+alias orglink js -p (Array.isArray(JS_ARG) ? JS_ARG : JS_ARG.split("\n")).map(html => { const root = new DOMParser().parseFromString(html, "text/html").body; const anchor = root.querySelector("a[href], [role='link'][href], [href]") || (root.firstElementChild?.matches("a[href], [role='link'][href], [href]") ? root.firstElementChild : null); if (!anchor) return ""; const text = anchor.textContent.trim() || anchor.getAttribute("aria-label") || anchor.getAttribute("title") || anchor.href; return `[[${anchor.href}][${text}]]`; }).filter(Boolean).join("\n")
 bind yf composite hint -pipe a outerHTML | orglink | yank
 
 "bind ,/ fillcmdline hint -fr 
