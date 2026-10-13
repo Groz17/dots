@@ -126,23 +126,15 @@ autocmd DocStart ^http composite get_current_url | shellescape| exclaim_quiet ~/
 autocmd DocStart ^https://bn\.wikipedia\.org/wiki/ js -r scripts/highlight_unlearnt_words.js
 
 " useful to save only unknown words outside wiktionary
-bind t js -r scripts/highlight_unlearnt_words.js
+bind <space>l js -r scripts/highlight_unlearnt_words.js
 #+end_src
 
 #+begin_src sh :tangle ~/.config/tridactyl/scripts/if_in_wiki :shebang "#!/usr/bin/env bash" 
 rg -P '\Q'"${1%#*}"'\E(?:\s|\]|$)' ~/org && dunstify "Info" "URL Already in wiki"
 #+end_src
 
-#+name: NEW_WORDS
-#+begin_src bash :tangle no :results output
-# paste -sd'|' ~/org/anki/todo/bn | tr -d '\n'
-# make this dynamic (use lang code as $1)
-jq -r .word  ~/org/anki/kaikki.org-dictionary-Bengali.jsonl | paste -sd'|' | tr -d '\n'
-#+end_src
-
-
 #+begin_src js :tangle ~/.config/tridactyl/scripts/highlight_unlearnt_words.js :noweb yes
-const regex = new RegExp("(?<![\\p{L}\\p{M}])(<<NEW_WORDS()>>)(?![\\p{L}\\p{M}])", "giu");
+const regex = new RegExp("(?<![\\p{Script=Bengali}\\p{M}])((?!(?:<<~/dots/_lib|.org:NEW_WORDS()>>)(?![\\p{Script=Bengali}\\p{M}]))[\\p{Script=Bengali}\\p{M}]+)(?![\\p{Script=Bengali}\\p{M}])", "giu");
 function highlight(node) {
   if (node.nodeType === Node.TEXT_NODE) {
     const text = node.nodeValue;

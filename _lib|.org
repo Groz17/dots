@@ -26,3 +26,7 @@ case $color_scheme in
 esac
 #+end_src
 
+#+name: NEW_WORDS
+#+begin_src bash :results output
+jq -r .word ~/org/anki/kaikki.org-dictionary-Bengali.jsonl | paste -sd'|' | tr -d '\n'
+#+end_src
