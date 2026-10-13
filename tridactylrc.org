@@ -9,6 +9,7 @@
 - [ ] automatically select first option?
 - [ ] Make Tridactyl work on addons.mozilla.org (:h fixamo).
 - [ ] userscript?
+- [ ] select tabs (also by regex) and apply command like reload?
 - gv to reselect?
 - edit addon settings from tridactyl config?
 
@@ -134,7 +135,9 @@ rg -P '\Q'"${1%#*}"'\E(?:\s|\]|$)' ~/org && dunstify "Info" "URL Already in wiki
 
 #+name: NEW_WORDS
 #+begin_src bash :tangle no :results output
-paste -sd'|' ~/org/anki/todo/bn | tr -d '\n'
+# paste -sd'|' ~/org/anki/todo/bn | tr -d '\n'
+jq -r .word  ~/org/anki/kaikki.org-dictionary-Bengali.jsonl | paste -sd'|' | tr -d '\n'
+
 #+end_src
 
 
@@ -504,7 +507,7 @@ xidel --html -e 'x:replace-nodes(/,//a/@href, function($a){ attribute href { res
 xidel --html -e 'x:replace-nodes(/,//sup[starts-with(@id,"cite_ref-")],())' |
 xidel --html -e 'x:replace-nodes(/,//img/(@* except @src),())' |
 xidel --html -e 'x:replace-nodes(/,//img/@src, function($a){ attribute src { resolve-uri($a,'"\"$base_url\""') } })' |
-xidel --html -e 'x:replace-nodes(/,//section/@id,())' |
+xidel --html -e 'x:replace-nodes(/,//(div|section)/@id,())' |
 xidel --html -e 'x:replace-nodes(/,//*[matches(name(), "^h[1-6]$")]/@*,())' |
 pandoc --wrap=preserve --from html -t org --lua-filter=<(printf '%s\n' 'function Header(h) h.identifier="" return h end') |
 wl-copy && dunstify -a tridactyl "Selection copied to clipboard" "$(wl-paste)"
@@ -720,6 +723,11 @@ set searchurls.im  http://www.google.com/search?tbm=isch&q=%s
 #+end_src
 
 ** Search engines
+List langs (w/ rofi?):
+curl -s 'https://commons.wikimedia.org/w/api.php?action=sitematrix&smtype=language&smlangprop=code&format=json' \
+  | jq -r '.sitematrix[] | .. | objects | .code? // empty' \
+  | sort -u
+
 #+begin_src tridactyl
 set searchurls.googleuk https://www.google.co.uk/search?q=
 set searchurls.yahoo https://search.yahoo.com/search?p=
@@ -755,8 +763,8 @@ bind 0 scrollto 0 x
 #+begin_src tridactyl
 bind U tabuniq
 
-bind / fillcmdline find
-bind ? fillcmdline find -reverse
+bind / fillcmdline find -r
+bind ? fillcmdline find -r -reverse
 bind n findnext --search-from-view
 bind N findnext --reverse --search-from-view
 
