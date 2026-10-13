@@ -136,8 +136,8 @@ rg -P '\Q'"${1%#*}"'\E(?:\s|\]|$)' ~/org && dunstify "Info" "URL Already in wiki
 #+name: NEW_WORDS
 #+begin_src bash :tangle no :results output
 # paste -sd'|' ~/org/anki/todo/bn | tr -d '\n'
+# make this dynamic (use lang code as $1)
 jq -r .word  ~/org/anki/kaikki.org-dictionary-Bengali.jsonl | paste -sd'|' | tr -d '\n'
-
 #+end_src
 
 
