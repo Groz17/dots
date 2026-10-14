@@ -13,6 +13,7 @@ hyprland notifications->route them to dunstify?
 :END:
 
 ** TODO TASK LIST
+* https://github.com/hyprwm/Hyprland/pull/16493
 - [ ] bindsym $mod+s sticky toggle
 - [ ] add search image in clipboard? after using grim...
 - [ ] keybinding to go running emacs instance(s)
