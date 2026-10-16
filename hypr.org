@@ -593,8 +593,7 @@ fi
 #+end_src
 
 #+begin_src lua
-
-hl.bind(mainMod .. " + t", hl.dsp.exec_cmd("[float;size 50% 50%] ~/.config/hypr/scripts/theme-picker"))
+-- hl.bind(mainMod .. " + t", hl.dsp.exec_cmd("[float;size 50% 50%] ~/.config/hypr/scripts/theme-picker"))
 #+end_src
 
 *** [[https://wiki.hypr.land/Configuring/Binds/#media][Media]]
@@ -884,6 +883,7 @@ hl.bind(mainMod .. " + tab", hl.dsp.exec_cmd("rofi -show window"))
 -- bind = $mainMod, P, pseudo,
 -- toggle like vim-unimpaired
 -- kinda looks like vertical and horizontal but mixed
+-- swapsplit
 hl.bind(mainMod .. " + backslash", hl.dsp.layout("togglesplit"))
 -- bind = $mainMod, w, togglesplit
 
