@@ -382,7 +382,7 @@ bindurl google\..*/search\?(?!.*[&?]udm=) <C-c>c js Promise.all( \
 #+end_src
 
 #+begin_src tridactyl
-bind --mode=normal <F12>rm composite get_current_url | shellescape | exclaim_quiet ~/.config/tridactyl/bookmark
+bind --mode=normal <F12>rm composite js "[[" + document.URL + "][" + document.title + "]]" | shellescape | exclaim_quiet ~/.config/tridactyl/bookmark
 #+end_src
 
 #+begin_src bash :shebang "#!/usr/bin/env bash" :tangle ~/.config/tridactyl/bookmark
