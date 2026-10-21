@@ -930,14 +930,15 @@ hl.bind(mainMod .. " + SHIFT + backslash", hl.dsp.exec_cmd("~/.config/hypr/scrip
 #+begin_src bash :tangle ~/.config/hypr/scripts/monitor_rotate :shebang "#!/usr/bin/env bash" :noweb yes
 counter=$(hyprctl -j monitors | jq '.[].transform')
 counter=$(( (counter+3) %4 + (counter&4) ))
-hyprctl keyword input:touchdevice:transform $counter
-hyprctl keyword monitor '<<monitor()>>,preferred,auto,auto, transform, '$counter
+hyprctl eval "hl.config({ input = { touchdevice = { transform = $counter } } })"
+hyprctl eval "hl.monitor({ output = 'HDMI-A-2', mode = 'preferred', position = 'auto', scale = 'auto', transform = $counter })"
 #+end_src
 
 #+begin_src bash :tangle ~/.config/hypr/scripts/monitor_flip :shebang "#!/usr/bin/env bash" :noweb yes
 counter=$(((4 + $(hyprctl -j monitors | jq '.[].transform'))%8))
-hyprctl keyword input:touchdevice:transform $counter
+hyprctl eval "hl.config({ input = { touchdevice = { transform = $counter } } })"
 hyprctl keyword monitor '<<monitor()>>,preferred,auto,auto, transform, '$counter
+hyprctl eval "hl.monitor({ output = '<<monitor()>>', mode = 'preferred', position = 'auto', scale = 'auto', transform = $counter })"
 #+end_src
 
 #+begin_src lua
